@@ -1,6 +1,7 @@
 
 CREATE TABLE Driver_Certification (
     Driver_ID VARCHAR(10) NOT NULL,
+    Driver_Name VARCHAR(100),
     Certification_Name VARCHAR(50) NOT NULL,
     Expiry_Date DATE NOT NULL,
 
