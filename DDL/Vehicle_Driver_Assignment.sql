@@ -1,6 +1,6 @@
 CREATE TABLE Vehicle_Driver_Assignment (
     Assignment_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Driver_ID INT NOT NULL,
+    Driver_ID VARCHAR(100) NOT NULL,
     VIN VARCHAR(17) NOT NULL,
     Start_Date DATETIME NOT NULL,
     End_Date DATETIME,
