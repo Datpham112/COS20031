@@ -1,7 +1,7 @@
 CREATE TABLE Activity_Mechanic_Assignment (
     Activity_ID INT NOT NULL,
     Mechanic_ID INT NOT NULL,
-    Labour_Hours DECIMAL(5,2) NOT NULL,
+    Labour_Hours DECIMAL(4,2) NOT NULL,
 
     PRIMARY KEY (Activity_ID, Mechanic_ID),
 
