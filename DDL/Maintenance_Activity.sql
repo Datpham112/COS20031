@@ -6,7 +6,18 @@ CREATE TABLE Maintenance_Activity (
     Repeat_Fault_Indicator BOOLEAN DEFAULT FALSE,
     Warranty_Indicator BOOLEAN DEFAULT FALSE,
 
-    CONSTRAINT fk_activity_job
-        FOREIGN KEY (Job_ID)
-        REFERENCES Maintenance_Job(Job_ID)
+    FOREIGN KEY (Job_ID)
+        REFERENCES Maintenance_Job(Job_ID),
+
+    CHECK (
+        Activity_Type IN (
+            'Brake Inspection',
+            'Tyre Replacement',
+            'Battery Replacement',
+            'Oil Change',
+            'Cooling System Repair',
+            'Electrical Repair',
+            'General Inspection'
+        )
+    )
 );
