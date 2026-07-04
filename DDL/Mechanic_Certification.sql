@@ -15,7 +15,7 @@ CREATE TABLE Mechanic_Certification (
             Certification_Name IN (
                 'Standard Automotive Mechanic',
                 'EV Technician',
-                'Refrigeration System Certification'
+                'Refrigeration System Technician'
             )
         ),
 
