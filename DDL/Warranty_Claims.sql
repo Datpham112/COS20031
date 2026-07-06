@@ -1,19 +1,16 @@
-create table warranty_claims (
-	Claim_ID int not null auto_increment,
-	Activity_ID int default null,
-	Part_ID int default null,
-	Claim_Status varchar(50) default null,
-	Claim_Date date not null,
-	Claim_Type varchar(50) default null,
+CREATE TABLE Warranty_Claims (
+    Claim_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Activity_ID INT,
+    Part_ID INT,
+    Claim_Status VARCHAR(50) CHECK (Claim_Status IN ('Pending', 'Approved', 'Rejected')),
+    Claim_Date DATE NOT NULL,
+    Claim_Type VARCHAR(50) NULL,
 
-	primary key (Claim_ID),
+    CONSTRAINT fk_warranty_claims_activity
+        FOREIGN KEY (Activity_ID)
+        REFERENCES Maintenance_Activity(Activity_ID),
 
-	key Part_ID (Part_ID),
-
-	constraint fk_warranty_claims_part
-		foreign key (Part_ID)
-		references part(Part_ID),
-
-	constraint chk_claim_status
-		check (Claim_Status in ('Pending', 'Approved', 'Rejected'))
+    CONSTRAINT fk_warranty_claims_part
+        FOREIGN KEY (Part_ID)
+        REFERENCES Part(Part_ID)
 );

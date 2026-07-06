@@ -1,25 +1,17 @@
-create table part_supplier (
-	Part_ID int not null,
-	Supplier_ID int not null,
-	Supplier_Type varchar(50) default null,
-	Unit_Cost decimal(10,2) default null,
-	Lead_Time_Days int default null,
+CREATE TABLE Part_Supplier (
+    Part_ID INT,
+    Supplier_ID INT,
+    Supplier_Type VARCHAR(50) NULL,
+    Unit_Cost DECIMAL(10,2) CHECK (Unit_Cost >= 0),
+    Lead_Time_Days INT CHECK (Lead_Time_Days >= 0),
 
-	primary key (Part_ID, Supplier_ID),
+    PRIMARY KEY (Part_ID, Supplier_ID),
 
-	key Supplier_ID (Supplier_ID),
+    CONSTRAINT fk_part_supplier_part
+        FOREIGN KEY (Part_ID)
+        REFERENCES Part(Part_ID),
 
-	constraint fk_part_supplier_part
-		foreign key (Part_ID)
-		references part(Part_ID),
-
-	constraint fk_part_supplier_supplier
-		foreign key (Supplier_ID)
-		references supplier(Supplier_ID),
-
-	constraint chk_unit_cost
-		check (Unit_Cost >= 0),
-
-	constraint chk_lead_time_days
-		check (Lead_Time_Days >= 0)
+    CONSTRAINT fk_part_supplier_supplier
+        FOREIGN KEY (Supplier_ID)
+        REFERENCES Supplier(Supplier_ID)
 );

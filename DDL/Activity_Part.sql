@@ -1,24 +1,13 @@
-create table activity_part (
-	Activity_ID int not null,
-	Part_ID int not null,
-	Quantity_Used int default null,
-	Unit_Cost decimal(10,2) default null,
-	Total_Cost decimal(10,2) default null,
+CREATE TABLE Activity_Part (
+    Activity_ID INT,
+    Part_ID INT,
+    Quantity_Used INT CHECK (Quantity_Used > 0),
+    Unit_Cost DECIMAL(10,2) CHECK (Unit_Cost >= 0),
+    Total_Cost DECIMAL(10,2) CHECK (Total_Cost >= 0),
 
-	primary key (Activity_ID, Part_ID),
+    PRIMARY KEY (Activity_ID, Part_ID),
 
-	key Part_ID (Part_ID),
-
-	constraint fk_activity_part_part
-		foreign key (Part_ID)
-		references part(Part_ID),
-
-	constraint chk_quantity_used
-		check (Quantity_Used > 0),
-
-	constraint chk_unit_cost
-		check (Unit_Cost >= 0),
-
-	constraint chk_total_cost
-		check (Total_Cost >= 0)
+    CONSTRAINT fk_activity_part_part
+        FOREIGN KEY (Part_ID)
+        REFERENCES Part(Part_ID)
 );

@@ -1,13 +1,11 @@
-create table mechanic_cert_history (
-	Cert_ID int not null,
-	Mechanic_ID int not null,
-	Certificate_Name varchar(255) default null,
-	issue_Date date default null,
-	Expiry_Date date default null,
+CREATE TABLE Mechanic_Cert_History (
+    Cert_ID INT PRIMARY KEY,
+    Mechanic_ID INT NOT NULL,
+    Certificate_Name VARCHAR(255),
+    issue_Date DATE,
+    Expiry_Date DATE,
 
-	primary key (Cert_ID),
-
-	constraint fk_mechanic_cert_history_mechanic
-		foreign key (Mechanic_ID)
-		references Mechanic(Mechanic_ID)
+    CONSTRAINT fk_mechanic_cert_history_mechanic
+        FOREIGN KEY (Mechanic_ID)
+        REFERENCES Mechanic(Mechanic_ID)
 );

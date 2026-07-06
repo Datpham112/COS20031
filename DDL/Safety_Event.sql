@@ -1,13 +1,11 @@
-create table safety_event (
-	Event_ID int not null,
-	Driver_ID int default null,
-	VIN varchar(17) default null,
-	Depot_ID int default null,
-	Timestamp datetime default null,
-	Event_Type varchar(50) default null,
-	Severity_Level varchar(20) default null,
-	Odometer_At_Event decimal(10,2) default null,
-	Review_Comments text,
-
-	primary key (Event_ID)
+CREATE TABLE Safety_Event (
+    Event_ID INT PRIMARY KEY,
+    Driver_ID INT,
+    VIN VARCHAR(17),
+    Depot_ID INT,
+    Timestamp DATETIME,
+    Event_Type VARCHAR(50),
+    Severity_Level VARCHAR(20),
+    Odometer_At_Event DECIMAL(10,2),
+    Review_Comments TEXT
 );
