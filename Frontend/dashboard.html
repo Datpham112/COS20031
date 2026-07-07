@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetOps — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">F</div>
+      <div>
+        <div class="brand-name">FleetOps</div>
+        <div class="brand-sub">SMART FLEET SYSTEM</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item active" href="dashboard.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </a>
+
+    <div class="nav-section-label">Workshop</div>
+    <a class="nav-item" href="workshop.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/></svg>
+      Workshop Hub
+      <span class="dot"></span>
+    </a>
+    <a class="nav-item" href="workload.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+      Workload
+    </a>
+
+    <div class="nav-section-label">Fleet Safety</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/></svg>
+      Safety Command Center
+    </a>
+
+    <div class="nav-section-label">Admin</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
+      Manager Console
+    </a>
+
+    <div class="sidebar-foot">
+      <div class="avatar">NT</div>
+      <div>
+        <div class="who-name">Nguyen Tung</div>
+        <div class="who-role">Fleet Manager · Hanoi</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">Dashboard</div>
+        <div class="page-crumb">FLEETOPS / OVERVIEW</div>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">🔍 Search vehicle, driver, job...</div>
+        <select class="depot-select">
+          <option>All depots</option>
+          <option>Hanoi</option>
+          <option>Da Nang</option>
+          <option>HCMC</option>
+          <option>Can Tho</option>
+        </select>
+        <span class="role-pill">MANAGER</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="hero-band">
+        <div>
+          <div class="hero-title">Fleet status today</div>
+          <div class="hero-sub">Updated 08:42, Jul 02 2026 · 4 depots online</div>
+          <div class="pulse-strip" id="pulseStrip"></div>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-val">128</div>
+            <div class="hero-stat-label">Vehicles ready</div>
+          </div>
+          <div>
+            <div class="hero-stat-val" style="color:var(--amber)">9</div>
+            <div class="hero-stat-label">In maintenance</div>
+          </div>
+          <div>
+            <div class="hero-stat-val" style="color:var(--red)">3</div>
+            <div class="hero-stat-label">Critical alerts</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="card kpi-card">
+          <div class="kpi-top"><span class="kpi-label">Total vehicles</span></div>
+          <div class="kpi-val">146</div>
+          <div class="kpi-delta up">▲ 4 new this month</div>
+        </div>
+        <div class="card kpi-card">
+          <div class="kpi-top"><span class="kpi-label">Avg. safety score</span></div>
+          <div class="kpi-val">86.4</div>
+          <div class="kpi-delta up">▲ 1.2 vs last month</div>
+        </div>
+        <div class="card kpi-card">
+          <div class="kpi-top"><span class="kpi-label">Drivers needing training</span></div>
+          <div class="kpi-val" style="color:var(--amber)">7</div>
+          <div class="kpi-delta down">▼ score ≤ 75</div>
+        </div>
+        <div class="card kpi-card">
+          <div class="kpi-top"><span class="kpi-label">Maintenance cost (month)</span></div>
+          <div class="kpi-val">$12.6k</div>
+          <div class="kpi-delta down">▲ 8% vs last month</div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div>
+          <div class="card panel">
+            <div class="panel-head">
+              <div class="panel-title">Key alerts</div>
+              <a class="link-btn" href="workshop.html">View all →</a>
+            </div>
+            <div class="alert-row">
+              <div class="alert-icon crit">⚠</div>
+              <div class="alert-body">
+                <div class="alert-title">Engine overheat risk — 29H-556.12</div>
+                <div class="alert-meta">Refrigerated Truck · Hanoi Depot · Critical</div>
+              </div>
+              <div class="alert-time">12 min ago</div>
+            </div>
+            <div class="alert-row">
+              <div class="alert-icon crit">⚠</div>
+              <div class="alert-body">
+                <div class="alert-title">Critical driving event — Driver Le Van Hoa</div>
+                <div class="alert-meta">Repeated hard braking · Da Nang Depot</div>
+              </div>
+              <div class="alert-time">40 min ago</div>
+            </div>
+            <div class="alert-row">
+              <div class="alert-icon warn">●</div>
+              <div class="alert-body">
+                <div class="alert-title">Brake wear at 82% — 51C-889.04</div>
+                <div class="alert-meta">Heavy Transport Truck · HCMC Depot · Medium</div>
+              </div>
+              <div class="alert-time">1 hour ago</div>
+            </div>
+            <div class="alert-row">
+              <div class="alert-icon warn">●</div>
+              <div class="alert-body">
+                <div class="alert-title">Battery degradation 15% — 30E-104.77 (EV)</div>
+                <div class="alert-meta">Electric Van · Can Tho Depot · Low</div>
+              </div>
+              <div class="alert-time">3 hours ago</div>
+            </div>
+          </div>
+
+          <div class="card panel">
+            <div class="panel-head">
+              <div class="panel-title">High-risk drivers</div>
+              <a class="link-btn" href="#">View Safety Center →</a>
+            </div>
+            <table class="mini-table">
+              <thead><tr><th>Driver</th><th>Depot</th><th>Score</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="driver-cell"><div class="driver-avatar">LH</div>Le Van Hoa</div></td>
+                  <td>Da Nang</td>
+                  <td class="score-bad">42</td>
+                  <td><span class="pill crit">Suspended</span></td>
+                </tr>
+                <tr>
+                  <td><div class="driver-cell"><div class="driver-avatar">TM</div>Tran Minh</div></td>
+                  <td>Hanoi</td>
+                  <td class="score-warn">68</td>
+                  <td><span class="pill warn">Needs training</span></td>
+                </tr>
+                <tr>
+                  <td><div class="driver-cell"><div class="driver-avatar">PQ</div>Pham Quoc</div></td>
+                  <td>HCMC</td>
+                  <td class="score-warn">73</td>
+                  <td><span class="pill warn">Needs training</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <div class="card panel">
+            <div class="panel-head"><div class="panel-title">Vehicles by depot</div></div>
+            <div class="depot-row">
+              <div class="depot-name">Hanoi</div>
+              <div class="bar-track"><div class="bar-fill" style="width:78%"></div></div>
+              <div class="depot-count">42/48</div>
+            </div>
+            <div class="depot-row">
+              <div class="depot-name">Da Nang</div>
+              <div class="bar-track"><div class="bar-fill" style="width:64%;background:var(--amber)"></div></div>
+              <div class="depot-count">21/33</div>
+            </div>
+            <div class="depot-row">
+              <div class="depot-name">HCMC</div>
+              <div class="bar-track"><div class="bar-fill" style="width:88%"></div></div>
+              <div class="depot-count">46/52</div>
+            </div>
+            <div class="depot-row">
+              <div class="depot-name">Can Tho</div>
+              <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
+              <div class="depot-count">19/27</div>
+            </div>
+          </div>
+
+          <div class="card panel">
+            <div class="panel-head"><div class="panel-title">Open maintenance jobs</div></div>
+            <table class="mini-table">
+              <thead><tr><th>Job</th><th>Workshop</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">JOB-2291</td><td>Hanoi</td><td><span class="pill warn">In progress</span></td></tr>
+                <tr><td class="mono">JOB-2288</td><td>HCMC</td><td><span class="pill neutral">Awaiting parts</span></td></tr>
+                <tr><td class="mono">JOB-2285</td><td>Can Tho</td><td><span class="pill ok">Nearly done</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card panel">
+            <div class="panel-head"><div class="panel-title">Certifications expiring soon</div></div>
+            <table class="mini-table">
+              <thead><tr><th>Driver</th><th>Type</th><th>Expires</th></tr></thead>
+              <tbody>
+                <tr><td>Do Anh Kiet</td><td class="mono">EV Cert</td><td style="color:var(--red)">5 days</td></tr>
+                <tr><td>Vu Thi Lan</td><td class="mono">Heavy License</td><td style="color:var(--amber)">18 days</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
