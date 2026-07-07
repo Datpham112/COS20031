@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetOps — Workload</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">F</div>
+      <div>
+        <div class="brand-name">FleetOps</div>
+        <div class="brand-sub">SMART FLEET SYSTEM</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item" href="dashboard.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </a>
+
+    <div class="nav-section-label">Workshop</div>
+    <a class="nav-item" href="workshop.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/></svg>
+      Workshop Hub
+      <span class="dot"></span>
+    </a>
+    <a class="nav-item active" href="workload.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+      Workload
+    </a>
+
+    <div class="nav-section-label">Fleet Safety</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/></svg>
+      Safety Command Center
+    </a>
+
+    <div class="nav-section-label">Admin</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
+      Manager Console
+    </a>
+
+    <div class="sidebar-foot">
+      <div class="avatar">NT</div>
+      <div>
+        <div class="who-name">Nguyen Tung</div>
+        <div class="who-role">Fleet Manager · Hanoi</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">Workload</div>
+        <div class="page-crumb">FLEETOPS / WORKSHOP / WORKLOAD</div>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">🔍 Search vehicle, driver, job...</div>
+        <select class="depot-select">
+          <option>All depots</option>
+          <option>Hanoi</option>
+          <option>Da Nang</option>
+          <option>HCMC</option>
+          <option>Can Tho</option>
+        </select>
+        <span class="role-pill">MANAGER</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="filters">
+        <select class="filter-select"><option>All depots</option><option>Hanoi</option><option>Da Nang</option><option>HCMC</option><option>Can Tho</option></select>
+        <select class="filter-select"><option>All workshops</option><option>Workshop HN-01</option><option>Workshop HN-02</option></select>
+        <select class="filter-select"><option>This week</option><option>Last week</option></select>
+      </div>
+
+      <div class="stat-strip">
+        <div class="card stat-box">
+          <div class="kpi-label">Mechanics active</div>
+          <div class="kpi-val">18/22</div>
+        </div>
+        <div class="card stat-box">
+          <div class="kpi-label">Jobs in progress</div>
+          <div class="kpi-val">11</div>
+        </div>
+        <div class="card stat-box">
+          <div class="kpi-label">Open bays</div>
+          <div class="kpi-val" style="color:var(--teal)">3</div>
+        </div>
+        <div class="card stat-box">
+          <div class="kpi-label">Overloaded (&gt;8h/day)</div>
+          <div class="kpi-val" style="color:var(--red)">2</div>
+        </div>
+      </div>
+
+      <div class="workload-grid">
+        <div class="wl-head-row">
+          <div class="wl-head-cell">Mechanic</div>
+          <div class="wl-head-cell">Mon</div>
+          <div class="wl-head-cell">Tue</div>
+          <div class="wl-head-cell">Wed</div>
+          <div class="wl-head-cell">Thu</div>
+          <div class="wl-head-cell">Fri</div>
+          <div class="wl-head-cell">Sat</div>
+          <div class="wl-head-cell">Sun</div>
+        </div>
+        <div id="workloadBody"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

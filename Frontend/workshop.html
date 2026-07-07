@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetOps — Workshop Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">F</div>
+      <div>
+        <div class="brand-name">FleetOps</div>
+        <div class="brand-sub">SMART FLEET SYSTEM</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item" href="dashboard.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </a>
+
+    <div class="nav-section-label">Workshop</div>
+    <a class="nav-item active" href="workshop.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/></svg>
+      Workshop Hub
+      <span class="dot"></span>
+    </a>
+    <a class="nav-item" href="workload.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+      Workload
+    </a>
+
+    <div class="nav-section-label">Fleet Safety</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/></svg>
+      Safety Command Center
+    </a>
+
+    <div class="nav-section-label">Admin</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
+      Manager Console
+    </a>
+
+    <div class="sidebar-foot">
+      <div class="avatar">NT</div>
+      <div>
+        <div class="who-name">Nguyen Tung</div>
+        <div class="who-role">Fleet Manager · Hanoi</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">Workshop Hub</div>
+        <div class="page-crumb">FLEETOPS / WORKSHOP</div>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">🔍 Search vehicle, driver, job...</div>
+        <select class="depot-select">
+          <option>All depots</option>
+          <option>Hanoi</option>
+          <option>Da Nang</option>
+          <option>HCMC</option>
+          <option>Can Tho</option>
+        </select>
+        <span class="role-pill">MANAGER</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="wsTab('vehicles', this)">Vehicles</button>
+        <button class="tab-btn" onclick="wsTab('alerts', this)">Alerts</button>
+        <button class="tab-btn" onclick="wsTab('jobs', this)">Jobs</button>
+      </div>
+
+      <!-- Vehicles tab -->
+      <div class="tab-panel active" id="ws-vehicles">
+        <div class="filters">
+          <select class="filter-select"><option>All depots</option><option>Hanoi</option><option>Da Nang</option><option>HCMC</option><option>Can Tho</option></select>
+          <select class="filter-select"><option>All statuses</option><option>Active</option><option>Ready</option><option>In Maintenance</option><option>Awaiting Inspection</option></select>
+          <select class="filter-select"><option>All categories</option><option>Delivery Van</option><option>Refrigerated Truck</option><option>Electric Van</option><option>Service Vehicle</option><option>Heavy Transport Truck</option></select>
+          <input class="filter-search" placeholder="Search plate, VIN...">
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Plate</th><th>Category</th><th>Depot</th><th>Status</th><th>Odometer</th><th>Alerts</th><th></th></tr></thead>
+          <tbody id="vehicleTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Alerts tab -->
+      <div class="tab-panel" id="ws-alerts">
+        <div class="filters">
+          <select class="filter-select"><option>All severities</option><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select>
+          <select class="filter-select"><option>Alert type</option><option>Engine</option><option>Brake</option><option>Battery</option><option>Overheat</option></select>
+          <select class="filter-select"><option>All depots</option><option>Hanoi</option><option>Da Nang</option><option>HCMC</option><option>Can Tho</option></select>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Alert</th><th>Vehicle</th><th>Severity</th><th>Depot</th><th>Raised</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Engine overheat risk</td><td class="mono">29H-556.12</td>
+              <td><span class="pill crit">Critical</span></td><td>Hanoi</td><td class="mono">Jul 02, 08:30</td>
+              <td class="action-icons">
+                <button class="icon-btn" title="Acknowledge">✓</button>
+                <button class="icon-btn" title="Schedule">📅</button>
+                <button class="icon-btn" title="Escalate">🚨</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Brake wear at 82%</td><td class="mono">51C-889.04</td>
+              <td><span class="pill warn">Medium</span></td><td>HCMC</td><td class="mono">Jul 02, 07:15</td>
+              <td class="action-icons">
+                <button class="icon-btn" title="Acknowledge">✓</button>
+                <button class="icon-btn" title="Schedule">📅</button>
+                <button class="icon-btn" title="Link to job">🔗</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Battery degradation 15%</td><td class="mono">30E-104.77</td>
+              <td><span class="pill neutral">Low</span></td><td>Can Tho</td><td class="mono">Jul 02, 05:50</td>
+              <td class="action-icons">
+                <button class="icon-btn" title="Acknowledge">✓</button>
+                <button class="icon-btn" title="Resolve">☑</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Refrigeration overheat risk</td><td class="mono">43C-221.98</td>
+              <td><span class="pill warn">High</span></td><td>Da Nang</td><td class="mono">Jul 01, 22:10</td>
+              <td class="action-icons">
+                <button class="icon-btn" title="Schedule">📅</button>
+                <button class="icon-btn" title="Escalate">🚨</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Jobs tab -->
+      <div class="tab-panel" id="ws-jobs">
+        <div class="filters">
+          <select class="filter-select"><option>All statuses</option><option>Open</option><option>Closed</option></select>
+          <select class="filter-select"><option>All depots</option><option>Hanoi</option><option>Da Nang</option><option>HCMC</option><option>Can Tho</option></select>
+          <select class="filter-select"><option>All workshops</option><option>Workshop HN-01</option><option>Workshop HCM-01</option></select>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Job</th><th>Vehicle</th><th>Workshop</th><th>Opened</th><th>Downtime</th><th>Cost</th><th>Status</th></tr></thead>
+          <tbody id="jobTableBody"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- DRAWER -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div>
+      <div class="drawer-title" id="drawerTitle">—</div>
+      <div class="drawer-sub" id="drawerSub">—</div>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-actions">
+    <button class="btn-primary">Schedule repair</button>
+    <button class="btn-secondary">View full history</button>
+  </div>
+</div>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
