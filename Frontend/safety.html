@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetOps — Safety Command Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+<div class="brand">
+<div class="brand-mark">F</div>
+
+<div>
+<div class="brand-name">FleetOps</div>
+<div class="brand-sub">SMART FLEET SYSTEM</div>
+</div>
+</div>
+
+<div class="nav-section-label">Overview</div>
+
+<a class="nav-item" href="dashboard.html">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+<rect x="3" y="3" width="7" height="9" rx="1.5"/>
+<rect x="14" y="3" width="7" height="5" rx="1.5"/>
+<rect x="14" y="12" width="7" height="9" rx="1.5"/>
+<rect x="3" y="16" width="7" height="5" rx="1.5"/>
+</svg>
+Dashboard
+</a>
+
+<div class="nav-section-label">Workshop</div>
+
+<a class="nav-item" href="workshop.html">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+<path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/>
+</svg>
+Workshop Hub
+</a>
+
+<a class="nav-item" href="workload.html">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+<rect x="3" y="4" width="18" height="17" rx="2"/>
+<path d="M3 9h18M8 2v4M16 2v4"/>
+</svg>
+Workload
+</a>
+
+<div class="nav-section-label">Fleet Safety</div>
+
+<a class="nav-item active" href="safety.html">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+<path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/>
+</svg>
+Safety Command Center
+</a>
+
+<div class="nav-section-label">Admin</div>
+
+<a class="nav-item" href="safety.html">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+<circle cx="12" cy="8" r="3.2"/>
+<path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/>
+</svg>
+Manager Console
+</a>
+
+<div class="sidebar-foot">
+<div class="avatar">NT</div>
+<div>
+<div class="who-name">Nguyen Tung</div>
+<div class="who-role">Fleet Manager · Hanoi</div>
+</div>
+</div>
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div>
+<div class="page-title">Safety Command Center</div>
+<div class="page-crumb">FLEETOPS / FLEET SAFETY</div>
+</div>
+
+<div class="topbar-right">
+
+<div class="search-box">🔍 Search incident, driver...</div>
+
+<select class="depot-select">
+<option>All depots</option>
+<option>Hanoi</option>
+<option>Da Nang</option>
+<option>HCMC</option>
+<option>Can Tho</option>
+</select>
+
+<span class="role-pill">MANAGER</span>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<!--  Tabs -->
+
+<div class="tab-row">
+
+<button class="tab-btn active" onclick="safetyTab('drivers',this)">
+Drivers
+</button>
+
+<button class="tab-btn" onclick="safetyTab('incidents',this)">
+Incidents
+</button>
+
+<button class="tab-btn" onclick="safetyTab('analytics',this)">
+Safety Analytics
+</button>
+
+<button class="tab-btn" onclick="safetyTab('coaching',this)">
+Coaching & Compliance
+</button>
+
+</div>
+
+<!--  Drivers -->
+
+<div class="tab-panel active" id="safety-drivers">
+
+<div class="filters">
+
+<select class="filter-select">
+<option>All Depots</option>
+<option>Hanoi</option>
+<option>Da Nang</option>
+<option>HCMC</option>
+<option>Can Tho</option>
+</select>
+
+<select class="filter-select">
+<option>All Status</option>
+<option>Active</option>
+<option>Suspended</option>
+<option>Blocked</option>
+</select>
+
+<select class="filter-select">
+<option>Certification</option>
+<option>Valid</option>
+<option>Expiring</option>
+<option>Expired</option>
+</select>
+
+<select class="filter-select">
+<option>Safety Score</option>
+<option>90+</option>
+<option>75-89</option>
+<option>Below 75</option>
+</select>
+
+<input class="filter-search" placeholder="Search driver...">
+
+</div>
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+
+<th>Driver</th>
+<th>Depot</th>
+<th>Status</th>
+<th>Certification</th>
+<th>Safety Score</th>
+<th>Incidents</th>
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody id="driverTableBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- Safety incidents -->
+
+<div class="tab-panel" id="safety-incidents">
+
+<div class="filters">
+
+<select class="filter-select">
+<option>All Drivers</option>
+</select>
+
+<select class="filter-select">
+<option>All Vehicles</option>
+</select>
+
+<select class="filter-select">
+<option>All Depots</option>
+</select>
+
+<select class="filter-select">
+<option>Severity</option>
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+<option>Critical</option>
+</select>
+
+<input class="filter-search" placeholder="Search incident...">
+
+</div>
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Driver</th>
+<th>Vehicle</th>
+<th>Behaviour</th>
+<th>Severity</th>
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody id="incidentTableBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<!--  Safetty analytics  -->
+
+<div class="tab-panel" id="safety-analytics">
+
+<div class="stat-strip">
+
+<div class="card stat-box">
+<div class="kpi-label">Average Safety Score</div>
+<div class="kpi-val">86</div>
+</div>
+
+<div class="card stat-box">
+<div class="kpi-label">Critical Events</div>
+<div class="kpi-val" style="color:var(--red)">8</div>
+</div>
+
+<div class="card stat-box">
+<div class="kpi-label">High Risk Drivers</div>
+<div class="kpi-val">11</div>
+</div>
+
+<div class="card stat-box">
+<div class="kpi-label">Repeat Offenders</div>
+<div class="kpi-val">4</div>
+</div>
+
+</div>
+
+<div class="split-grid">
+
+<div>
+
+<h3 class="section-heading">Depot Comparison</h3>
+
+<table class="data-table">
+
+<thead>
+<tr>
+<th>Depot</th>
+<th>Average Score</th>
+<th>Critical Events</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>HCMC</td>
+<td>91</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>Hanoi</td>
+<td>84</td>
+<td>3</td>
+</tr>
+
+<tr>
+<td>Da Nang</td>
+<td>79</td>
+<td>4</td>
+</tr>
+
+<tr>
+<td>Can Tho</td>
+<td>88</td>
+<td>0</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div>
+
+<h3 class="section-heading">Repeat Offenders</h3>
+
+<table class="data-table">
+
+<thead>
+<tr>
+<th>Driver</th>
+<th>Score</th>
+<th>Events</th>
+</tr>
+</thead>
+
+<tbody>
+<!-- Placeholder data, will be adjusted later -->
+<tr>
+<td>Duc Dao</td>
+<td>49</td>
+<td>5</td>
+</tr>
+
+<tr>
+<td>Duc Dao</td>
+<td>74</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>Duc Dao</td>
+<td>69</td>
+<td>3</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!--  Coaching  -->
+
+<div class="tab-panel" id="safety-coaching">
+
+<div class="split-grid">
+
+<div>
+
+<h3 class="section-heading">
+Drivers Requiring Training
+</h3>
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+<th>Driver</th>
+<th>Score</th>
+<th>Training Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td> Duc Dao </td>
+<td>74</td>
+<td>Pending</td>
+</tr>
+
+<tr>
+<td>Duc Dao</td>
+<td>69</td>
+<td>Scheduled</td>
+</tr>
+
+<tr>
+<td>Duc Dao</td>
+<td>71</td>
+<td>Completed</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div>
+
+<h3 class="section-heading">
+Blocked From Assignment
+</h3>
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+<th>Driver</th>
+<th>Reason</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>Duc Dao</td>
+<td>Critical Fatigue</td>
+<td><span class="pill crit">Blocked</span></td>
+</tr>
+
+<tr>
+<td>Duc Dao</td>
+<td>Safety Score 42</td>
+<td><span class="pill crit">Blocked</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= DRAWER ================= -->
+
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+
+<div class="drawer" id="drawer">
+
+<div class="drawer-head">
+
+<div>
+
+<div class="drawer-title" id="drawerTitle">
+Driver Details
+</div>
+
+<div class="drawer-sub" id="drawerSub">
+Fleet Safety Record
+</div>
+
+</div>
+
+<button class="drawer-close" onclick="closeDrawer()">
+✕
+</button>
+
+</div>
+
+<div class="drawer-body">
+
+<h4>Personal Information</h4>
+
+<p><strong>Name:</strong> Duc Dao </p>
+
+<p><strong>Depot:</strong> HCMC</p>
+
+<p><strong>Role:</strong> Driver</p>
+
+<p><strong>Certification:</strong> Heavy Vehicle Licence</p>
+
+<hr>
+
+<h4>Safety Score Trend</h4>
+
+<p>Current Score: <strong>95</strong></p>
+
+<p>Improving over the last 6 months.</p>
+
+<hr>
+
+<h4>Incident History</h4>
+
+<ul>
+
+<li>No critical incidents.</li>
+
+<li>1 speeding warning (2024)</li>
+
+<li>Completed Defensive Driving Course</li>
+
+</ul>
+
+<hr>
+
+<h4>Coaching Notes</h4>
+
+<textarea placeholder="Add coaching comments..." rows="5"></textarea>
+
+</div>
+
+<div class="drawer-actions">
+
+<button class="btn-primary">
+Save Notes
+</button>
+
+<button class="btn-secondary">
+Close
+</button>
+
+</div>
+
+</div>
+
+<script src="assets/script.js"></script>
+
+</body>
+</html>
