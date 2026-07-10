@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetOps — Manager Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">F</div>
+      <div>
+        <div class="brand-name">FleetOps</div>
+        <div class="brand-sub">SMART FLEET SYSTEM</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item" href="dashboard.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </a>
+
+    <div class="nav-section-label">Workshop</div>
+    <a class="nav-item" href="workshop.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/></svg>
+      Workshop Hub
+      <span class="dot"></span>
+    </a>
+    <a class="nav-item" href="workload.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+      Workload
+    </a>
+
+    <div class="nav-section-label">Fleet Safety</div>
+    <a class="nav-item" href="safety.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/></svg>
+      Safety Command Center
+    </a>
+
+    <div class="nav-section-label">Admin</div>
+    <a class="nav-item active" href="manager_console.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
+      Manager Console
+    </a>
+
+    <div class="sidebar-foot">
+      <div class="avatar">NT</div>
+      <div>
+        <div class="who-name">Nguyen Tung</div>
+        <div class="who-role">Fleet Manager · Hanoi</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">Manager Console</div>
+        <div class="page-crumb">FLEETOPS / ADMIN / MANAGER CONSOLE</div>
+      </div>
+      <div class="topbar-right">
+        <input type="text" id="userSearchInput" class="search-box" placeholder="🔍 Search user name..." style="border: none; outline: none; background: #f8f9fa; padding: 8px 16px; border-radius: 20px; font-family: 'Space Grotesk', sans-serif;">
+        <select class="depot-select">
+          <option>All depots</option>
+          <option>Hanoi</option>
+          <option>Da Nang</option>
+          <option>HCMC</option>
+          <option>Can Tho</option>
+        </select>
+        <span class="role-pill">MANAGER</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="card" style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; margin-top: 20px;">
+        
+        <div style="padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+          <h6 style="margin: 0; font-weight: 600; font-size: 16px; color: #333; font-family: 'Space Grotesk', sans-serif;">User Management</h6>
+          <button data-toggle="modal" data-target="#addUserModal" style="background: #2e7d32; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif;">
+            + Add New User
+          </button>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-family: 'Inter', sans-serif;">
+            <thead>
+              <tr style="background: #f8f9fa; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">
+                <th style="padding: 14px 20px; border-bottom: 1px solid #eee;">Name</th>
+                <th style="padding: 14px 20px; border-bottom: 1px solid #eee;">Role</th>
+                <th style="padding: 14px 20px; border-bottom: 1px solid #eee;">Location</th>
+                <th style="padding: 14px 20px; border-bottom: 1px solid #eee;">Status</th>
+                <th style="padding: 14px 20px; border-bottom: 1px solid #eee;">Actions</th>
+              </tr>
+            </thead>
+            <tbody style="font-size: 14px; color: #333;">
+              
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Nguyen Tung</td>
+                <td style="padding: 14px 20px;">Manager</td>
+                <td style="padding: 14px 20px;">Hanoi</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Alan Dương</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">HCMC</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Khoi Sam</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">Hanoi</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Dustin Pham</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">Hanoi</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Hoang Long</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">Da Nang</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #ffebee; color: #c62828; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">On Leave</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Hong Duc</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">Can Tho</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+              
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Hân</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">HCMC</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+              
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Kỳ</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">Hanoi</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">An</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">Da Nang</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #ffebee; color: #c62828; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Inactive</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 14px 20px; font-weight: 600;">Minh</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">HCMC</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding: 14px 20px; font-weight: 600;">Anh</td>
+                <td style="padding: 14px 20px;">Mechanic</td>
+                <td style="padding: 14px 20px;">Hanoi</td>
+                <td style="padding: 14px 20px;">
+                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
+                </td>
+                <td style="padding: 14px 20px;">
+                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
+                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold" style="font-family: 'Space Grotesk', sans-serif;">Add New User</h5>
+                <button type="button" class="close closeModalBtn"><span>×</span></button>
+            </div>
+            <div class="modal-body" style="font-family: 'Inter', sans-serif;">
+                <form id="addUserForm">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="newUserName" class="form-control"></div>
+                    <div class="form-group"><label>Role</label><select id="newUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Manager</option></select></div>
+                    <div class="form-group"><label>Location</label><select id="newUserLocation" class="form-control"><option>Hanoi</option><option>HCMC</option><option>Da Nang</option><option>Can Tho</option></select></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalBtn">Cancel</button>
+                <button type="button" class="btn btn-success" id="confirmAddBtn">Create User</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold" style="font-family: 'Space Grotesk', sans-serif;">Edit User Info</h5>
+                <button type="button" class="close closeModalBtn"><span>×</span></button>
+            </div>
+            <div class="modal-body" style="font-family: 'Inter', sans-serif;">
+                <form id="editUserForm">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="editUserName" class="form-control"></div>
+                    <div class="form-group"><label>Role</label><select id="editUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Manager</option></select></div>
+                    <div class="form-group"><label>Location</label><select id="editUserLocation" class="form-control"><option>Hanoi</option><option>HCMC</option><option>Da Nang</option><option>Can Tho</option></select></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalBtn">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveEditBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Prevent form submission
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+        });
+    });
+
+    // 1. MODAL SYSTEM
+    function openModal(modalId) {
+        let m = document.getElementById(modalId);
+        if(m) {
+            m.classList.add('show');
+            m.style.display = 'block';
+            document.body.classList.add('modal-open');
+            
+            // Create backdrop
+            let bg = document.createElement('div');
+            bg.className = 'modal-backdrop fade show my-custom-backdrop';
+            document.body.appendChild(bg);
+        }
+    }
+
+    function closeAllModals() {
+        document.querySelectorAll('.modal').forEach(m => {
+            m.classList.remove('show');
+            m.style.display = 'none';
+        });
+        document.body.classList.remove('modal-open');
+        
+        // Remove backdrops
+        document.querySelectorAll('.modal-backdrop').forEach(bg => bg.remove());
+    }
+
+    // Close modal events
+    document.querySelectorAll('.closeModalBtn, .close, [data-dismiss="modal"]').forEach(btn => {
+        btn.addEventListener('click', closeAllModals);
+    });
+
+    // 2. SEARCH 
+    const searchInput = document.getElementById('userSearchInput');
+    if(searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            let text = e.target.value.toLowerCase();
+            document.querySelectorAll('tbody tr').forEach(row => {
+                let name = row.cells[0].innerText.toLowerCase();
+                row.style.display = name.includes(text) ? '' : 'none';
+            });
+        });
+    }
+
+    // 3. ADD NEW USER 
+    const openAddBtn = document.querySelector('[data-target="#addUserModal"]') || document.getElementById('openAddModalBtn');
+    if(openAddBtn) {
+        openAddBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal('addUserModal');
+        });
+    }
+
+    const confirmAdd = document.getElementById('confirmAddBtn');
+    if(confirmAdd) {
+        confirmAdd.addEventListener('click', function() {
+            let name = document.getElementById('newUserName').value;
+            let role = document.getElementById('newUserRole').value;
+            let loc = document.getElementById('newUserLocation').value;
+            
+            if (!name) { alert('Please enter user name!'); return; }
+
+            let newTr = document.createElement('tr');
+            newTr.style.borderBottom = '1px solid #eee';
+            newTr.innerHTML = `
+                <td style="padding: 14px 20px; font-weight: 600;">${name}</td>
+                <td style="padding: 14px 20px;">${role}</td>
+                <td style="padding: 14px 20px;">${loc}</td>
+                <td style="padding: 14px 20px;"><span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span></td>
+                <td style="padding: 14px 20px;">
+                    <a href="#" class="edit-btn" style="color:#007bff; font-weight:500; text-decoration:none; margin-right:12px;">Edit</a> 
+                    <a href="#" class="disable-btn" style="color:#dc3545; font-weight:500; text-decoration:none;">Disable</a>
+                </td>
+            `;
+            
+            document.querySelector('tbody').prepend(newTr);
+            document.getElementById('addUserForm').reset();
+            closeAllModals();
+        });
+    }
+
+    // 4. EDIT & DISABLE
+    let currentRowToEdit = null;
+    const tableBody = document.querySelector('tbody');
+    
+    if(tableBody) {
+        tableBody.addEventListener('click', function(e) {
+            if(e.target.classList.contains('edit-btn') || e.target.innerText === 'Edit') {
+                e.preventDefault();
+                currentRowToEdit = e.target.closest('tr');
+                
+                document.getElementById('editUserName').value = currentRowToEdit.cells[0].innerText;
+                document.getElementById('editUserRole').value = currentRowToEdit.cells[1].innerText;
+                document.getElementById('editUserLocation').value = currentRowToEdit.cells[2].innerText;
+                
+                openModal('editUserModal');
+            }
+            else if(e.target.classList.contains('disable-btn') || e.target.innerText === 'Disable') {
+                e.preventDefault();
+                let delName = e.target.closest('tr').cells[0].innerText;
+                if(confirm('Are you sure you want to delete ' + delName + '?')) {
+                    e.target.closest('tr').remove();
+                }
+            }
+        });
+    }
+
+    // 5. SAVE EDIT
+    const saveEdit = document.getElementById('saveEditBtn');
+    if(saveEdit) {
+        saveEdit.addEventListener('click', function() {
+            if(currentRowToEdit) {
+                currentRowToEdit.cells[0].innerText = document.getElementById('editUserName').value;
+                currentRowToEdit.cells[1].innerText = document.getElementById('editUserRole').value;
+                currentRowToEdit.cells[2].innerText = document.getElementById('editUserLocation').value;
+                
+                closeAllModals();
+            }
+        });
+    }
+
+});
+</script>
+</body>
+</html>
