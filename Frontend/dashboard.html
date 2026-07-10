@@ -67,7 +67,24 @@
         <div class="page-crumb">FLEETOPS / OVERVIEW</div>
       </div>
       <div class="topbar-right">
-        <div class="search-box">🔍 Search vehicle, driver, job...</div>
+        <div class="search-wrapper">
+
+    <div class="search-box">
+
+        <span>🔍</span>
+
+        <input
+            type="text"
+            id="dashboardSearch"
+            placeholder="Search vehicle, driver, job..."
+            autocomplete="off"
+        >
+
+    </div>
+
+    <div class="search-results" id="searchResults"></div>
+
+</div>
         <select class="depot-select">
           <option>All depots</option>
           <option>Hanoi</option>
