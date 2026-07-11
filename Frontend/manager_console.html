@@ -306,22 +306,24 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Prevent form submission
+    // Prevent form reload
     document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-        });
+        form.addEventListener('submit', function(e) { e.preventDefault(); });
     });
 
+    // ==========================================
     // 1. MODAL SYSTEM
+    // ==========================================
     function openModal(modalId) {
         let m = document.getElementById(modalId);
         if(m) {
+            // Clear old backdrops to prevent freezing
+            document.querySelectorAll('.modal-backdrop').forEach(bg => bg.remove());
+
             m.classList.add('show');
             m.style.display = 'block';
             document.body.classList.add('modal-open');
             
-            // Create backdrop
             let bg = document.createElement('div');
             bg.className = 'modal-backdrop fade show my-custom-backdrop';
             document.body.appendChild(bg);
@@ -334,17 +336,13 @@ document.addEventListener('DOMContentLoaded', function() {
             m.style.display = 'none';
         });
         document.body.classList.remove('modal-open');
-        
-        // Remove backdrops
+        // Clear all backdrops
         document.querySelectorAll('.modal-backdrop').forEach(bg => bg.remove());
     }
 
-    // Close modal events
-    document.querySelectorAll('.closeModalBtn, .close, [data-dismiss="modal"]').forEach(btn => {
-        btn.addEventListener('click', closeAllModals);
-    });
-
-    // 2. SEARCH 
+    // ==========================================
+    // 2. SEARCH
+    // ==========================================
     const searchInput = document.getElementById('userSearchInput');
     if(searchInput) {
         searchInput.addEventListener('input', function(e) {
@@ -356,18 +354,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 3. ADD NEW USER 
-    const openAddBtn = document.querySelector('[data-target="#addUserModal"]') || document.getElementById('openAddModalBtn');
-    if(openAddBtn) {
-        openAddBtn.addEventListener('click', function(e) {
+    // ==========================================
+    // 3. EVENT DELEGATION
+    // ==========================================
+    let currentRowToEdit = null;
+
+    document.body.addEventListener('click', function(e) {
+        
+        // --- Close Modals ---
+        if (e.target.closest('.closeModalBtn') || e.target.closest('.close') || e.target.closest('[data-dismiss="modal"]')) {
+            e.preventDefault();
+            closeAllModals();
+        }
+
+        // --- Open Add Modal ---
+        let btnOpenAdd = e.target.closest('#openAddModalBtn') || e.target.closest('[data-target="#addUserModal"]');
+        if (btnOpenAdd) {
             e.preventDefault();
             openModal('addUserModal');
-        });
-    }
+        }
 
-    const confirmAdd = document.getElementById('confirmAddBtn');
-    if(confirmAdd) {
-        confirmAdd.addEventListener('click', function() {
+        // --- Confirm Add User ---
+        if (e.target.closest('#confirmAddBtn')) {
+            e.preventDefault();
+            
             let name = document.getElementById('newUserName').value;
             let role = document.getElementById('newUserRole').value;
             let loc = document.getElementById('newUserLocation').value;
@@ -390,48 +400,39 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('tbody').prepend(newTr);
             document.getElementById('addUserForm').reset();
             closeAllModals();
-        });
-    }
+        }
 
-    // 4. EDIT & DISABLE
-    let currentRowToEdit = null;
-    const tableBody = document.querySelector('tbody');
-    
-    if(tableBody) {
-        tableBody.addEventListener('click', function(e) {
-            if(e.target.classList.contains('edit-btn') || e.target.innerText === 'Edit') {
-                e.preventDefault();
-                currentRowToEdit = e.target.closest('tr');
-                
-                document.getElementById('editUserName').value = currentRowToEdit.cells[0].innerText;
-                document.getElementById('editUserRole').value = currentRowToEdit.cells[1].innerText;
-                document.getElementById('editUserLocation').value = currentRowToEdit.cells[2].innerText;
-                
-                openModal('editUserModal');
-            }
-            else if(e.target.classList.contains('disable-btn') || e.target.innerText === 'Disable') {
-                e.preventDefault();
-                let delName = e.target.closest('tr').cells[0].innerText;
-                if(confirm('Are you sure you want to delete ' + delName + '?')) {
-                    e.target.closest('tr').remove();
-                }
-            }
-        });
-    }
+        // --- Open Edit Modal ---
+        if (e.target.closest('.edit-btn')) {
+            e.preventDefault();
+            currentRowToEdit = e.target.closest('tr');
+            document.getElementById('editUserName').value = currentRowToEdit.cells[0].innerText;
+            document.getElementById('editUserRole').value = currentRowToEdit.cells[1].innerText;
+            document.getElementById('editUserLocation').value = currentRowToEdit.cells[2].innerText;
+            openModal('editUserModal');
+        }
 
-    // 5. SAVE EDIT
-    const saveEdit = document.getElementById('saveEditBtn');
-    if(saveEdit) {
-        saveEdit.addEventListener('click', function() {
+        // --- Save Edit ---
+        if (e.target.closest('#saveEditBtn')) {
+            e.preventDefault();
             if(currentRowToEdit) {
                 currentRowToEdit.cells[0].innerText = document.getElementById('editUserName').value;
                 currentRowToEdit.cells[1].innerText = document.getElementById('editUserRole').value;
                 currentRowToEdit.cells[2].innerText = document.getElementById('editUserLocation').value;
-                
                 closeAllModals();
             }
-        });
-    }
+        }
+
+        // --- Disable User ---
+        if (e.target.closest('.disable-btn')) {
+            e.preventDefault();
+            let tr = e.target.closest('tr');
+            let delName = tr.cells[0].innerText;
+            if(confirm('Are you sure you want to delete ' + delName + '?')) {
+                tr.remove();
+            }
+        }
+    });
 
 });
 </script>
