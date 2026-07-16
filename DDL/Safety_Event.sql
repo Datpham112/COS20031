@@ -1,6 +1,6 @@
 CREATE TABLE Safety_Event (
     Event_ID INT PRIMARY KEY,
-    Driver_ID INT,
+    Driver_ID VARCHAR(10),
     VIN VARCHAR(17),
     Depot_ID INT,
     Timestamp DATETIME,
