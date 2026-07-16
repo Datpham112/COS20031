@@ -70,9 +70,9 @@
         <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search mechanic name..." style="border: none; outline: none; background: #f8f9fa; padding: 8px 16px; border-radius: 20px; font-family: 'Space Grotesk', sans-serif;">
         <select class="depot-select">
           <option>All depots</option>
-          <option>Hanoi</option>
+          <option>Ha Noi</option>
           <option>Da Nang</option>
-          <option>HCMC</option>
+          <option>Ho Chi Minh City</option>
           <option>Can Tho</option>
         </select>
         <span class="role-pill">MANAGER</span>
@@ -84,16 +84,17 @@
       <div class="filters">
         <select id="depotFilter" class="filter-select">
           <option value="all">All depots</option>
-          <option value="Hanoi">Hanoi</option>
+          <option value="Ha Noi">Ha Noi</option>
           <option value="Da Nang">Da Nang</option>
-          <option value="HCMC">HCMC</option>
+          <option value="Ho Chi Minh City">Ho Chi Minh City</option>
           <option value="Can Tho">Can Tho</option>
         </select>
         <select id="workshopFilter" class="filter-select">
           <option value="all">All workshops</option>
           <option value="Workshop HN-01">Workshop HN-01</option>
-          <option value="Workshop HN-02">Workshop HN-02</option>
+          <option value="Workshop DN-01">Workshop DN-01</option>
           <option value="Workshop HCMC-01">Workshop HCMC-01</option>
+          <option value="Workshop CT-01">Workshop CT-01</option>
         </select>
         <select id="weekFilter" class="filter-select">
           <option value="all">All time</option>
@@ -121,194 +122,10 @@
         </div>
       </div>
 
-      <div class="workload-grid">
-      <div style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 2px solid #eee; font-weight: 700; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">
-        <div>Mechanic</div>
-        <div style="text-align: center;">Mon</div>
-        <div style="text-align: center;">Tue</div>
-        <div style="text-align: center;">Wed</div>
-        <div style="text-align: center;">Thu</div>
-        <div style="text-align: center;">Fri</div>
-        <div style="text-align: center;">Sat</div>
-        <div style="text-align: center;">Sun</div>
-      </div>
-
-      <!-- 1. Alan Dương -->
-      <div class="mechanic-row" data-depot="HCMC" data-workshop="Workshop HCMC-01" data-week="this-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Alan Dương</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Oil Change)</div>
-        <div style="background: #ffebee; color: #c62828; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">10h (Overload)</div>
-        <div style="background: #fff3e0; color: #ef6c00; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">4h (Brakes)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Tires)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 2. Khoi Sam -->
-      <div class="mechanic-row" data-depot="Hanoi" data-workshop="Workshop HN-01" data-week="this-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Khoi Sam</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">6h (Inspection)</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Engine)</div>
-        <div style="background: #fff3e0; color: #ef6c00; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">5h (AC Repair)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 3. Dustin Pham -->
-      <div class="mechanic-row" data-depot="Hanoi" data-workshop="Workshop HN-02" data-week="last-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Dustin Pham</div>
-        <div style="background: #fff3e0; color: #ef6c00; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">4h (Battery)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Gearbox)</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Gearbox)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 4. Hoang Long -->
-      <div class="mechanic-row" data-depot="Da Nang" data-workshop="Workshop DN-01" data-week="this-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Hoang Long</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Wiring)</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Lights)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #ffebee; color: #c62828; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">12h (Engine Swap)</div>
-        <div style="background: #ffebee; color: #c62828; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">10h (Finish)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 5. Hong Duc -->
-      <div class="mechanic-row" data-depot="Can Tho" data-workshop="Workshop CT-01" data-week="this-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Hong Duc</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #fff3e0; color: #ef6c00; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">4h (Suspension)</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Alignment)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 6. Hân -->
-      <div class="mechanic-row" data-depot="HCMC" data-workshop="Workshop HCMC-01" data-week="this-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Hân</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Design)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #fff3e0; color: #ef6c00; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">4h (Prototyping)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Testing)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 7. Kỳ -->
-      <div class="mechanic-row" data-depot="Hanoi" data-workshop="Workshop HN-01" data-week="last-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Kỳ</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #ffebee; color: #c62828; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">10h (Data Setup)</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Analytics)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 8. An -->
-      <div class="mechanic-row" data-depot="Da Nang" data-workshop="Workshop DN-01" data-week="this-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 An</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">6h (Review)</div>
-        <div style="background: #fff3e0; color: #ef6c00; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">5h (Sync)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Deployment)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 9. Minh -->
-      <div class="mechanic-row" data-depot="HCMC" data-workshop="Workshop HCMC-01" data-week="this-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Minh</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Frontend)</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (Backend)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #fff3e0; color: #ef6c00; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">4h (Bug Fix)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-      <!-- 10. Anh -->
-      <div class="mechanic-row" data-depot="Hanoi" data-workshop="Workshop HN-02" data-week="last-week" style="display: grid; grid-template-columns: 1.8fr repeat(7, 1fr); gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-        <div style="font-weight: 600; color: #333; font-size: 14px;">👨‍🔧 Anh</div>
-        <div style="background: #ffebee; color: #c62828; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">10h (DB Design)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="background: #e8f5e9; color: #2e7d32; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: 500;">8h (API Setup)</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">-- Free --</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-        <div style="color: #bbb; text-align: center; font-size: 12px;">Off</div>
-      </div>
-
-    </div>
+      <div class="workload-grid" id="workloadRows"></div>
   </div>
 </div>
 
 <script src="assets/script.js"></script>
-<script>
-  // Get all filter elements including the new Search Input
-  const searchInput = document.getElementById('searchInput');
-  const depotFilter = document.getElementById('depotFilter');
-  const workshopFilter = document.getElementById('workshopFilter');
-  const weekFilter = document.getElementById('weekFilter');
-
-  // Function to filter mechanics based on Search AND Dropdowns
-  function filterWorkload() {
-    // Convert search text to lowercase for easy matching
-    const searchText = searchInput.value.toLowerCase();
-    
-    const selectedDepot = depotFilter.value;
-    const selectedWorkshop = workshopFilter.value;
-    const selectedWeek = weekFilter.value;
-    
-    // Select all mechanic rows
-    const allMechanics = document.querySelectorAll('.mechanic-row');
-    
-    allMechanics.forEach(function(mechanic) {
-      // Get the mechanic's name from the first column and convert to lowercase
-      const mechanicName = mechanic.querySelector('div').innerText.toLowerCase();
-      
-      // Get data attributes from each row
-      const mechanicDepot = mechanic.getAttribute('data-depot');
-      const mechanicWorkshop = mechanic.getAttribute('data-workshop');
-      const mechanicWeek = mechanic.getAttribute('data-week');
-      
-      // Check if conditions match
-      const matchSearch = mechanicName.includes(searchText);
-      const matchDepot = (selectedDepot === 'all' || mechanicDepot === selectedDepot);
-      const matchWorkshop = (selectedWorkshop === 'all' || mechanicWorkshop === selectedWorkshop);
-      const matchWeek = (selectedWeek === 'all' || mechanicWeek === selectedWeek);
-      
-      // Display row only if ALL conditions (Search + 3 Filters) are met
-      if (matchSearch && matchDepot && matchWorkshop && matchWeek) {
-        mechanic.style.display = 'grid'; 
-      } else {
-        mechanic.style.display = 'none'; 
-      }
-    });
-  }
-
-  // Add event listeners (Trigger filter when typing or changing dropdowns)
-  searchInput.addEventListener('input', filterWorkload); // 'input' makes it filter instantly as you type
-  depotFilter.addEventListener('change', filterWorkload);
-  workshopFilter.addEventListener('change', filterWorkload);
-  weekFilter.addEventListener('change', filterWorkload);
-  
-  // Run filter once on initial load
-  filterWorkload();
-</script>
 </body>
 </html>
