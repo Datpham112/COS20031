@@ -8,7 +8,6 @@ JOIN Part p ON ap.Part_ID = p.Part_ID
 GROUP BY p.Part_ID, p.Part_Name, p.Part_Category
 ORDER BY Total_Cost_Incurred DESC;
 
--- -> [Predictive_Alert], [Part]
 SELECT DISTINCT
     pa.VIN, 
     pa.Alert_Type, 
