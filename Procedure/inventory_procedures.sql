@@ -42,7 +42,7 @@ END //
 
 DELIMITER ;
 
--- Triggers
+-- Trigger_Auto_Create_Warranty_Claim
 DELIMITER //
 
 CREATE TRIGGER trg_Auto_Create_Warranty_Claim
