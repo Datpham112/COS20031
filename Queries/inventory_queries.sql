@@ -23,56 +23,6 @@ LEFT JOIN Part p ON
 WHERE pa.Action_Taken IN ('Scheduled Repair', 'Emergency Repair')
 ORDER BY pa.VIN;
 
-
--- 3: STORED PROCEDURES 
-
-DELIMITER //
-
--- -> [Warranty_Claim]
-CREATE PROCEDURE sp_Register_Warranty_Claim(
-    IN p_Activity_ID INT,
-    IN p_Part_ID INT,
-    IN p_Claim_Type VARCHAR(50)
-)
-BEGIN
-    INSERT INTO Warranty_Claims (
-        Activity_ID, 
-        Part_ID, 
-        Claim_Status, 
-        Claim_Date, 
-        Claim_Type
-    )
-    VALUES (
-        p_Activity_ID, 
-        p_Part_ID, 
-        'Pending', 
-        CURDATE(), 
-        p_Claim_Type
-    );
-END //
-
--- -> [Part], [Supplier], [Part_Supplier]
-CREATE PROCEDURE sp_Get_Optimal_Supplier(
-    IN p_Part_Name_Keyword VARCHAR(100)
-)
-BEGIN
-    SELECT 
-        p.Part_Name,
-        s.Supplier_Name,
-        s.Phone_Number,
-        ps.Supplier_Type,
-        ps.Unit_Cost,
-        ps.Lead_Time_Days
-    FROM Part p
-    JOIN Part_Supplier ps ON p.Part_ID = ps.Part_ID
-    JOIN Supplier s ON ps.Supplier_ID = s.Supplier_ID
-    WHERE p.Part_Name LIKE CONCAT('%', p_Part_Name_Keyword, '%')
-    ORDER BY ps.Lead_Time_Days ASC, ps.Unit_Cost ASC;
-END //
-
-DELIMITER ;
-
-
 -- 4: TRIGGERS 
 
 DELIMITER //
@@ -109,20 +59,7 @@ END //
 DELIMITER ;
 
 
--- 5: SCRIPTS TEST
-/*
--- 1. Test Views
-SELECT * FROM vw_Part_Supplier_Details;
-SELECT * FROM vw_Warranty_Claim_Status;
 
--- 2. Test Procedure find supplier
-CALL sp_Get_Optimal_Supplier('Brake');
-
--- 3. Test Procedure create a manual claim
-CALL sp_Register_Warranty_Claim(3, 3, 'Manufacturer Defect');
-SELECT * FROM Warranty_Claims;
-
--- 4. Test Trigger automatic
 INSERT INTO Activity_Part (Activity_ID, Part_ID, Quantity_Used, Unit_Cost, Total_Cost)
 VALUES (3, 6, 1, 75000.00, 75000.00);
 SELECT * FROM Warranty_Claims;
