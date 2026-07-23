@@ -446,45 +446,74 @@ function filterWorkload() {
   });
 }
 
-if (document.getElementById("workloadRows")) {
-  renderWorkloadPage();
-  const searchInputEl = document.getElementById("searchInput");
-  const depotFilter = document.getElementById("depotFilter");
-  const workshopFilter = document.getElementById("workshopFilter");
-  const weekFilter = document.getElementById("weekFilter");
+/*=========================
+    LOAD LIVE DATA FROM BACKEND
+    Overwrites the demo arrays above with real rows from
+    Backend/api/workshop.php. If the API can't be reached (backend not
+    set up yet, wrong DB credentials, etc.) we log a warning and keep
+    rendering with the demo data so the pages still work.
+=========================*/
 
-  searchInputEl?.addEventListener("input", filterWorkload);
-  depotFilter?.addEventListener("change", filterWorkload);
-  workshopFilter?.addEventListener("change", filterWorkload);
-  weekFilter?.addEventListener("change", filterWorkload);
-  filterWorkload();
+async function loadWorkshopDataFromApi() {
+  try {
+    const res = await fetch("../Backend/api/workshop.php");
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const apiData = await res.json();
+    if (apiData.error) throw new Error(apiData.detail || apiData.error);
+
+    workshopData.depots = apiData.depots;
+    workshopData.workshops = apiData.workshops;
+    workshopData.vehicles = apiData.vehicles;
+    workshopData.alerts = apiData.alerts;
+    workshopData.jobs = apiData.jobs;
+  } catch (err) {
+    console.warn("Could not load live workshop data, showing demo data instead:", err);
+  }
 }
 
-const workshopFilterControls = [
-  document.getElementById("topDepotFilter"),
-  document.getElementById("vehicleDepotFilter"),
-  document.getElementById("vehicleStatusFilter"),
-  document.getElementById("vehicleCategoryFilter"),
-  document.getElementById("vehicleSearchInput"),
-  document.getElementById("globalWorkshopSearch"),
-  document.getElementById("alertSeverityFilter"),
-  document.getElementById("alertTypeFilter"),
-  document.getElementById("alertDepotFilter"),
-  document.getElementById("jobStatusFilter"),
-  document.getElementById("jobDepotFilter"),
-  document.getElementById("jobWorkshopFilter")
-];
+(async function initWorkshopPages() {
+  await loadWorkshopDataFromApi();
 
-workshopFilterControls.forEach((control) => {
-  if (!control) return;
-  const eventName = control.tagName === "INPUT" ? "input" : "change";
-  control.addEventListener(eventName, () => {
-    if (control.id && control.id.includes("Depot")) {
-      syncDepotFilters(control.value);
-    }
-    renderWorkshopPage();
+  if (document.getElementById("workloadRows")) {
+    renderWorkloadPage();
+    const searchInputEl = document.getElementById("searchInput");
+    const depotFilter = document.getElementById("depotFilter");
+    const workshopFilter = document.getElementById("workshopFilter");
+    const weekFilter = document.getElementById("weekFilter");
+
+    searchInputEl?.addEventListener("input", filterWorkload);
+    depotFilter?.addEventListener("change", filterWorkload);
+    workshopFilter?.addEventListener("change", filterWorkload);
+    weekFilter?.addEventListener("change", filterWorkload);
+    filterWorkload();
+  }
+
+  const workshopFilterControls = [
+    document.getElementById("topDepotFilter"),
+    document.getElementById("vehicleDepotFilter"),
+    document.getElementById("vehicleStatusFilter"),
+    document.getElementById("vehicleCategoryFilter"),
+    document.getElementById("vehicleSearchInput"),
+    document.getElementById("globalWorkshopSearch"),
+    document.getElementById("alertSeverityFilter"),
+    document.getElementById("alertTypeFilter"),
+    document.getElementById("alertDepotFilter"),
+    document.getElementById("jobStatusFilter"),
+    document.getElementById("jobDepotFilter"),
+    document.getElementById("jobWorkshopFilter")
+  ];
+
+  workshopFilterControls.forEach((control) => {
+    if (!control) return;
+    const eventName = control.tagName === "INPUT" ? "input" : "change";
+    control.addEventListener(eventName, () => {
+      if (control.id && control.id.includes("Depot")) {
+        syncDepotFilters(control.value);
+      }
+      renderWorkshopPage();
+    });
   });
-});
 
-syncDepotFilters("all");
-renderWorkshopPage();
+  syncDepotFilters("all");
+  renderWorkshopPage();
+})();
