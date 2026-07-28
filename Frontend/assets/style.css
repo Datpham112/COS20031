@@ -601,3 +601,144 @@ textarea::placeholder{
     color:var(--text-faint);
 
 }
+
+/* ================= LOGIN ================= */
+.login-container {
+    width: 100%;
+    max-width: 415px;
+    margin: 120px auto;
+    padding: 0 20px;
+}
+
+.login-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 40px 33px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 4px;
+}
+
+.input-group {
+    margin-bottom: 24px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-soft);
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-family: var(--font-body);
+    color: var(--text);
+    background-color: var(--canvas);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: var(--steel-soft);
+    background-color: #fff;
+}
+
+button[type="submit"] {
+    width: 100%;
+    background-color: var(--ink);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--ink-2);
+}
+
+/* ================= LOGOUT ================= */
+
+.logout-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 36px 29px;
+    text-align: center;
+}
+
+.logout-checkmark {
+    width: 63px;
+    height: 63px;
+    margin: 18px auto 23px auto;
+    display: block;
+}
+
+.logout-title {
+    font-family: var(--font-display);
+    font-size: 21px;
+    color: var(--ink);
+    font-weight: 725;
+    margin-bottom: 9px;
+}
+
+.logout-message {
+    font-family: var(--font-body);
+    color: var(--text-soft);
+    font-size: 14.5px;
+    line-height: 1.4;
+    margin-bottom: 27px;
+}
+
+.logout-card a {
+    text-decoration: none;
+    display: block;
+}
+
+.logout-card button[type="button"] {
+    width: 100%;
+    background-color: var(--ink);
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 600;
+    padding: 13px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-card button[type="button"]:hover {
+    background-color: var(--ink-2);
+}
