@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetOps — Manage Data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  /* A few small additions just for this page's forms */
+  .md-form { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; padding:18px 20px; }
+  .md-field { display:flex; flex-direction:column; gap:5px; }
+  .md-field label { font-size:11.5px; font-weight:600; color:var(--text-soft); }
+  .md-field input, .md-field select {
+    font-size:13px; border:1px solid var(--line); border-radius:7px; padding:8px 10px; background:#fff; color:var(--text);
+  }
+  .md-actions { grid-column: 1 / -1; display:flex; gap:10px; align-items:center; }
+  .md-status { font-size:12.5px; padding:2px 4px; }
+  .md-status.ok { color:var(--teal); }
+  .md-status.err { color:var(--red); }
+  .md-table-wrap { overflow-x:auto; }
+  .md-action-btn { border:1px solid var(--line); background:#fff; border-radius:6px; padding:4px 9px; font-size:11.5px; cursor:pointer; margin-right:4px; }
+  .md-action-btn:hover { background:var(--canvas); }
+  .md-action-btn.danger { color:var(--red); border-color:#f3d2ce; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">F</div>
+      <div>
+        <div class="brand-name">FleetOps</div>
+        <div class="brand-sub">SMART FLEET SYSTEM</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item" href="dashboard.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </a>
+
+    <div class="nav-section-label">Workshop</div>
+    <a class="nav-item" href="workshop.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/></svg>
+      Workshop Hub
+    </a>
+    <a class="nav-item" href="workload.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+      Workload
+    </a>
+
+    <div class="nav-section-label">Fleet Safety</div>
+    <a class="nav-item" href="safety.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/></svg>
+      Safety Command Center
+    </a>
+
+    <div class="nav-section-label">Admin</div>
+    <a class="nav-item" href="manager_console.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
+      Manager Console
+    </a>
+    <a class="nav-item active" href="manage_data.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+      Manage Data
+      <span class="dot"></span>
+    </a>
+
+    <div class="sidebar-foot">
+      <div class="avatar">NT</div>
+      <div>
+        <div class="who-name">Nguyen Tung</div>
+        <div class="who-role">Fleet Manager · Hanoi</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">Manage Data</div>
+        <div class="page-crumb">FLEETOPS / ADMIN / MANAGE DATA</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="tab-row" id="entityTabs"></div>
+      <div id="entityPanels"></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/manage_data.js"></script>
+</body>
+</html>
