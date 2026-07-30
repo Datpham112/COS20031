@@ -15,10 +15,12 @@ define('DB_USER', 'root');           // your MySQL username
 define('DB_PASS', '');               // your MySQL password
 
 /**
- * Returns a shared PDO instance. Dies with a clean JSON error instead of
- * leaking credentials/stack traces if the connection fails.
+ * Opens (or reuses) the shared PDO connection. Throws PDOException on
+ * failure instead of printing anything -- used by callers that need to
+ * show their own error UI (e.g. the login page) rather than a raw JSON
+ * blob.
  */
-function get_db_connection(): PDO
+function open_db_connection(): PDO
 {
     static $pdo = null;
 
@@ -28,13 +30,23 @@ function get_db_connection(): PDO
 
     $dsn = 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4';
 
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+    ]);
+    return $pdo;
+}
+
+/**
+ * Returns a shared PDO instance. Dies with a clean JSON error instead of
+ * leaking credentials/stack traces if the connection fails. Use this
+ * from Backend/api/*.php (they always return JSON anyway).
+ */
+function get_db_connection(): PDO
+{
     try {
-        $pdo = new PDO($dsn, DB_USER, DB_PASS, [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ]);
-        return $pdo;
+        return open_db_connection();
     } catch (PDOException $e) {
         http_response_code(500);
         header('Content-Type: application/json; charset=utf-8');

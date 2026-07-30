@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
+<body data-page-roles="Head Manager,Depot Manager,Workshop Manager,Mechanic">
 <div class="app">
 
   <!-- SIDEBAR -->
@@ -22,7 +22,7 @@
     </div>
 
     <div class="nav-section-label">Overview</div>
-    <a class="nav-item" href="dashboard.html">
+    <a class="nav-item" href="dashboard.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
       Dashboard
     </a>
@@ -33,37 +33,52 @@
       Workshop Hub
       <span class="dot"></span>
     </a>
-    <a class="nav-item" href="workload.html">
+    <a class="nav-item" href="workload.html" data-roles="Head Manager,Workshop Manager,Mechanic">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
       Workload
     </a>
 
     <div class="nav-section-label">Fleet Safety</div>
-    <a class="nav-item" href="safety.html">
+    <a class="nav-item" href="safety.html" data-roles="Head Manager,Depot Manager,Driver Manager,Driver">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/></svg>
       Safety Command Center
     </a>
 
     <div class="nav-section-label">Admin</div>
-    <a class="nav-item" href="manager_console.html">
+    <a class="nav-item" href="manager_console.html" data-roles="Head Manager">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
       Manager Console
     </a>
-
-    <a class="nav-item active" href="manage_data.html">
+    <a class="nav-item" href="manage_data.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
       Manage Data
-      <span class="dot"></span>
+    </a>
+    <a class="nav-item" href="history.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l4 2"/></svg>
+      History
     </a>
 
     <div class="sidebar-foot">
-      <div class="avatar">NT</div>
+      <div class="avatar" id="sidebarAvatar">?</div>
       <div>
-        <div class="who-name">Nguyen Tung</div>
-        <div class="who-role">Fleet Manager · Hanoi</div>
+        <div class="who-name" id="sidebarName">…</div>
+        <div class="who-role" id="sidebarRole">…</div>
       </div>
+      <a href="#" data-action="logout" style="margin-left:auto;font-size:12px;color:var(--muted)">Log out</a>
     </div>
   </aside>
+
+  <script src="assets/auth-guard.js"></script>
+  <script>
+    document.addEventListener('staffReady', (e) => {
+      const me = e.detail;
+      document.getElementById('sidebarName').textContent = me.fullName;
+      document.getElementById('sidebarRole').textContent = me.roleType + (me.depotId ? ' · Depot ' + me.depotId : '');
+      document.getElementById('sidebarAvatar').textContent = me.fullName.split(' ').filter(Boolean).slice(-2).map(w => w[0]).join('').toUpperCase();
+      const pill = document.getElementById('topRolePill');
+      if (pill) pill.textContent = me.roleType.toUpperCase();
+    });
+  </script>
 
   <!-- MAIN -->
   <div class="main">
@@ -81,7 +96,7 @@
           <option value="Ho Chi Minh City">Ho Chi Minh City</option>
           <option value="Can Tho">Can Tho</option>
         </select>
-        <span class="role-pill">MANAGER</span>
+        <span class="role-pill" id="topRolePill">…</span>
       </div>
     </div>
 
