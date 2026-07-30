@@ -19,7 +19,9 @@ CREATE TABLE Predictive_Alert (
                 'Brake Wear',
                 'Overheating Risk',
                 'Battery Degradation',
-                'Engine Fault',
+                'Oil Quality Deterioration',
+                'Transmission Fault',
+                'Cooling System Anomaly',
                 'Tyre Pressure'
             )
         ),

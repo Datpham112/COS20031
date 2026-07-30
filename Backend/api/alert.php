@@ -2,7 +2,7 @@
 /**
  * Backend/api/alert.php
  * ------------------------------------------------------------------
- *   GET    alert.php               -> list every alert
+ *   GET    alert.php               -> list alerts (scoped by role)
  *   GET    alert.php?alert_id=XXX  -> one alert
  *   POST   alert.php               -> create
  *   PUT    alert.php?alert_id=XXX  -> update
@@ -15,11 +15,15 @@
  * action_taken must be one of: Acknowledged, Scheduled Repair,
  *   Emergency Repair, Resolved
  * severity_level must be one of: Low, Medium, High, Critical
+ *
+ * Permissions: Read/Write = Head Manager (all) / Workshop Manager
+ * (own depot's alerts only).
  * ------------------------------------------------------------------
  */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';
+require_once __DIR__ . '/../auth/auth_check.php';
 
 $pdo = get_db_connection();
 $method = $_SERVER['REQUEST_METHOD'];
@@ -27,20 +31,35 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
 
     case 'GET':
+        $staff = require_table_permission('Predictive_Alert', 'read');
+
         if (isset($_GET['alert_id'])) {
             $stmt = $pdo->prepare('SELECT * FROM Predictive_Alert WHERE Alert_ID = ?');
             $stmt->execute([$_GET['alert_id']]);
             $row = $stmt->fetch();
+            if ($row && $staff['role_type'] !== 'Head Manager' && (int) $row['Depot_ID'] !== (int) $staff['depot_id']) {
+                json_response(['error' => 'Alert not found'], 404);
+            }
             json_response($row ?: ['error' => 'Alert not found'], $row ? 200 : 404);
         }
-        json_response($pdo->query('SELECT * FROM Predictive_Alert ORDER BY Alert_ID DESC')->fetchAll());
+
+        if ($staff['role_type'] === 'Head Manager') {
+            json_response($pdo->query('SELECT * FROM Predictive_Alert ORDER BY Alert_ID DESC')->fetchAll());
+        }
+        $stmt = $pdo->prepare('SELECT * FROM Predictive_Alert WHERE Depot_ID = ? ORDER BY Alert_ID DESC');
+        $stmt->execute([$staff['depot_id']]);
+        json_response($stmt->fetchAll());
         break;
 
     case 'POST':
+        $staff = require_table_permission('Predictive_Alert', 'write');
         $data = get_request_body();
         $missing = missing_fields($data, ['vin', 'depot_id', 'alert_type', 'action_taken']);
         if ($missing) {
             json_response(['error' => 'Missing fields', 'fields' => $missing], 422);
+        }
+        if ((int) $data['depot_id'] !== (int) $staff['depot_id']) {
+            json_fail(403, 'You can only create alerts for your own depot.');
         }
 
         $fields = ['VIN', 'Depot_ID', 'Alert_Type', 'Action_Taken'];
@@ -59,17 +78,26 @@ switch ($method) {
         }
 
         $sql = 'INSERT INTO Predictive_Alert (' . implode(', ', $fields) . ') VALUES (' . implode(', ', $placeholders) . ')';
-        run_write($pdo, $sql, $values, 'Alert created', 201);
+        run_write($pdo, $sql, $values, 'Alert created', 201, [
+            'staff_id' => $staff['staff_id'], 'table' => 'Predictive_Alert', 'action' => 'CREATE', 'summary' => $data['alert_type'] . ' - ' . $data['vin'],
+        ]);
         break;
 
     case 'PUT':
+        $staff = require_table_permission('Predictive_Alert', 'write');
         if (!isset($_GET['alert_id'])) {
             json_response(['error' => 'Missing ?alert_id= in URL'], 422);
+        }
+        if (!alert_in_own_depot($pdo, $_GET['alert_id'], $staff)) {
+            json_fail(403, 'You can only edit alerts in your own depot.');
         }
         $data = get_request_body();
         $missing = missing_fields($data, ['vin', 'depot_id', 'alert_type', 'action_taken']);
         if ($missing) {
             json_response(['error' => 'Missing fields', 'fields' => $missing], 422);
+        }
+        if ((int) $data['depot_id'] !== (int) $staff['depot_id']) {
+            json_fail(403, 'You cannot move an alert to another depot.');
         }
 
         run_write($pdo, '
@@ -86,16 +114,33 @@ switch ($method) {
             $data['severity_level'] ?? null,
             $data['raised_at'] ?? null,
             $_GET['alert_id'],
-        ], 'Alert updated');
+        ], 'Alert updated', 200, [
+            'staff_id' => $staff['staff_id'], 'table' => 'Predictive_Alert', 'action' => 'UPDATE', 'summary' => 'Alert ' . $_GET['alert_id'],
+        ]);
         break;
 
     case 'DELETE':
+        $staff = require_table_permission('Predictive_Alert', 'write');
         if (!isset($_GET['alert_id'])) {
             json_response(['error' => 'Missing ?alert_id= in URL'], 422);
         }
-        run_write($pdo, 'DELETE FROM Predictive_Alert WHERE Alert_ID = ?', [$_GET['alert_id']], 'Alert deleted');
+        if (!alert_in_own_depot($pdo, $_GET['alert_id'], $staff)) {
+            json_fail(403, 'You can only delete alerts in your own depot.');
+        }
+        run_write($pdo, 'DELETE FROM Predictive_Alert WHERE Alert_ID = ?', [$_GET['alert_id']], 'Alert deleted', 200, [
+            'staff_id' => $staff['staff_id'], 'table' => 'Predictive_Alert', 'action' => 'DELETE', 'summary' => 'Alert ' . $_GET['alert_id'],
+        ]);
         break;
 
     default:
         json_response(['error' => 'Method not allowed'], 405);
+}
+
+function alert_in_own_depot(PDO $pdo, string $alertId, array $staff): bool
+{
+    if ($staff['role_type'] === 'Head Manager') return true;
+    $stmt = $pdo->prepare('SELECT Depot_ID FROM Predictive_Alert WHERE Alert_ID = ?');
+    $stmt->execute([$alertId]);
+    $depotId = $stmt->fetchColumn();
+    return $depotId !== false && (int) $depotId === (int) $staff['depot_id'];
 }
