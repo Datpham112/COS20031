@@ -11,4 +11,4 @@ VALUES
 (2, 2, 'Pending', '2024-04-05', 'Tyre Warranty'),
 (3, 3, 'Approved', '2024-06-21', 'Battery Warranty'),
 (4, 4, 'Rejected', '2024-08-14', 'Cooling System Repair'),
-(5, 5, 'Pending', '2024-10-02', 'Oil Filter Replacement')
+(5, 5, 'Pending', '2024-10-02', 'Oil Filter Replacement');
