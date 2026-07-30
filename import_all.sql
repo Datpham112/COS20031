@@ -713,9 +713,7 @@ VALUES
 ('D-331','Le Quoc Minh','Hazardous Goods Certification','2027-11-18'),
 ('D-417','Pham Duc Long','Heavy Vehicle Licence','2028-01-15'),
 ('D-417','Pham Duc Long','Standard Licence','2025-08-20');
-
-select * from driver_certification;
-
+ 
 -- =========================
 -- DML/driver_safety_score_data.sql
 -- =========================
