@@ -7,6 +7,10 @@ CREATE TABLE Activity_Part (
 
     PRIMARY KEY (Activity_ID, Part_ID),
 
+    CONSTRAINT fk_activity_part_activity
+        FOREIGN KEY (Activity_ID)
+        REFERENCES Maintenance_Activity(Activity_ID),
+
     CONSTRAINT fk_activity_part_part
         FOREIGN KEY (Part_ID)
         REFERENCES Part(Part_ID)
