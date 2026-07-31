@@ -517,3 +517,12 @@ async function loadWorkshopDataFromApi() {
   syncDepotFilters("all");
   renderWorkshopPage();
 })();
+
+function setupTabs() {
+    document.querySelectorAll(".tab-btn").forEach(function (button) {
+        button.addEventListener("click", function () {
+            safetyTab(button.dataset.tab, button);
+        });
+    });
+}
+
