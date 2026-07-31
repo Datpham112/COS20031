@@ -43,7 +43,7 @@ switch ($method) {
             $row = $stmt->fetch();
             json_response($row ?: ['error' => 'Staff not found'], $row ? 200 : 404);
         }
-        json_response($pdo->query('SELECT Staff_ID, Full_Name, Role_Type, Depot_ID, Linked_Driver_ID, Contact_Info, Username FROM Staff ORDER BY Full_Name')->fetchAll());
+        json_response($pdo->query('SELECT Staff_ID, Full_Name, Role_Type, Depot_ID, Contact_Info, Username FROM Staff ORDER BY Full_Name')->fetchAll());
         break;
 
     case 'POST':

@@ -51,6 +51,15 @@
       Manager Console
     </a>
 
+<a class="nav-item" href="manage_data.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
+      Manage Data
+    </a>
+    <a class="nav-item" href="history.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l4 2"/></svg>
+      History
+    </a>
+
     <div class="sidebar-foot">
       <div class="avatar" id="sidebarAvatar">?</div>
       <div>
@@ -61,7 +70,7 @@
     </div>
   </aside>
 
-  <script src="assets/auth-guard.js"></script>
+  <!--x<script src="assets/auth-guard.js"></script>
   <script>
     document.addEventListener('staffReady', (e) => {
       const me = e.detail;
@@ -141,8 +150,11 @@
                 <form id="addUserForm">
                     <div class="form-group"><label>Staff ID</label><input type="text" id="newStaffId" class="form-control" placeholder="E.g., ST001"></div>
                     <div class="form-group"><label>Full Name</label><input type="text" id="newUserName" class="form-control"></div>
-                    <div class="form-group"><label>Role</label><select id="newUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Manager</option></select></div>
-                    <div class="form-group"><label>Location</label><select id="newUserLocation" class="form-control"><option>Hanoi</option><option>HCMC</option><option>Da Nang</option><option>Can Tho</option></select></div>
+                    <div class="form-group"><label>Username</label><input type="text" id="newUsername" class="form-control"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="newPassword" class="form-control"></div>
+                    <div class="form-group"><label>Contact Info</label><input type="text" id="newContactInfo" class="form-control"></div>
+                    <div class="form-group"><label>Role</label><select id="newUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Head Manager</option><option>Depot Manager</option><option>Workshop Manager</option><option>Driver Manager</option><option>Inventory Manager</option></select></div>
+                    <div class="form-group"><label>Location (Depot ID)</label><select id="newUserLocation" class="form-control"><option value="1">Ha Noi</option><option value="2">Da Nang</option><option value="3">Ho Chi Minh City</option><option value="4">Can Tho</option></select></div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -164,8 +176,11 @@
                 <form id="editUserForm">
                     <div class="form-group"><label>Staff ID</label><input type="text" id="editStaffId" class="form-control" readonly style="background: #f4f5f7;"></div>
                     <div class="form-group"><label>Full Name</label><input type="text" id="editUserName" class="form-control"></div>
-                    <div class="form-group"><label>Role</label><select id="editUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Manager</option></select></div>
-                    <div class="form-group"><label>Location</label><select id="editUserLocation" class="form-control"><option>Hanoi</option><option>HCMC</option><option>Da Nang</option><option>Can Tho</option></select></div>
+                    <div class="form-group"><label>Username</label><input type="text" id="editUsername" class="form-control"></div>
+                    <div class="form-group"><label>Password (Leave blank to keep current)</label><input type="password" id="editPassword" class="form-control"></div>
+                    <div class="form-group"><label>Contact Info</label><input type="text" id="editContactInfo" class="form-control"></div>
+                    <div class="form-group"><label>Role</label><select id="editUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Head Manager</option><option>Depot Manager</option><option>Workshop Manager</option><option>Driver Manager</option><option>Inventory Manager</option></select></div>
+                    <div class="form-group"><label>Location (Depot ID)</label><select id="editUserLocation" class="form-control"><option value="1">Ha Noi</option><option value="2">Da Nang</option><option value="3">Ho Chi Minh City</option><option value="4">Can Tho</option></select></div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -409,5 +424,62 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script src="assets/script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tableBody = document.getElementById('staffTableBody');
+
+    fetch('http://localhost/COS20031/Backend/api/staff.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            tableBody.innerHTML = '';
+
+            const depotMap = {
+                1: 'Hanoi',
+                2: 'Da Nang',
+                3: 'HCMC',
+                4: 'Can Tho'
+            };
+
+            if (Array.isArray(data)) {
+                data.forEach(user => {
+                    const depotName = depotMap[user.Depot_ID] || 'Unknown';
+                    const tr = document.createElement('tr');
+                    
+                    tr.innerHTML = `
+                        <td style="padding: 14px 20px; border-bottom: 1px solid #eee;">
+                            <div style="font-weight: 600; color: #111827;">${user.Full_Name}</div>
+                            <div style="font-size: 12px; color: #6B7280; margin-top: 2px;">${user.Staff_ID}</div>
+                        </td>
+                        <td style="padding: 14px 20px; border-bottom: 1px solid #eee;">
+                            <span style="background: #eef2ff; color: #4f46e5; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500;">
+                                ${user.Role_Type}
+                            </span>
+                        </td>
+                        <td style="padding: 14px 20px; border-bottom: 1px solid #eee;">${depotName}</td>
+                        <td style="padding: 14px 20px; border-bottom: 1px solid #eee;">
+                            <span style="color: #059669; font-size: 13px; font-weight: 500;">● Active</span>
+                        </td>
+                        <td style="padding: 14px 20px; border-bottom: 1px solid #eee;">
+                            <a href="#" class="edit-btn" data-id="${user.Staff_ID}" style="color: #2563eb; font-weight: 500; font-size: 13px; margin-right: 12px; text-decoration: none;">Edit</a>
+                            <a href="#" class="disable-btn" data-id="${user.Staff_ID}" style="color: #dc2626; font-weight: 500; font-size: 13px; text-decoration: none;">Delete</a>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } else {
+                 tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">No user data found.</td></tr>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching staff data:', error);
+            tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: red;">Failed to load data. Please check backend connection.</td></tr>`;
+        });
+});
+</script>
 </body>
 </html>
