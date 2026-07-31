@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 
-<body>
+<body data-page-roles="Head Manager,Depot Manager,Driver Manager,Driver">
 
 <div class="app">
 
@@ -29,7 +29,7 @@
 
 <div class="nav-section-label">Overview</div>
 
-<a class="nav-item" href="dashboard.html">
+<a class="nav-item" href="dashboard.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
 <rect x="3" y="3" width="7" height="9" rx="1.5"/>
 <rect x="14" y="3" width="7" height="5" rx="1.5"/>
@@ -41,14 +41,14 @@ Dashboard
 
 <div class="nav-section-label">Workshop</div>
 
-<a class="nav-item" href="workshop.html">
+<a class="nav-item" href="workshop.html" data-roles="Head Manager,Depot Manager,Workshop Manager,Mechanic">
 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
 <path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/>
 </svg>
 Workshop Hub
 </a>
 
-<a class="nav-item" href="workload.html">
+<a class="nav-item" href="workload.html" data-roles="Head Manager,Workshop Manager,Mechanic">
 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
 <rect x="3" y="4" width="18" height="17" rx="2"/>
 <path d="M3 9h18M8 2v4M16 2v4"/>
@@ -65,23 +65,44 @@ Safety Command Center
 </a>
 
 <div class="nav-section-label">Admin</div>
-<a class="nav-item" href="manager_console.html">
+<a class="nav-item" href="manager_console.html" data-roles="Head Manager">
 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
 <circle cx="12" cy="8" r="3.2"/>
 <path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/>
 </svg>
 Manager Console
 </a>
+<a class="nav-item" href="manage_data.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
+Manage Data
+</a>
+<a class="nav-item" href="history.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l4 2"/></svg>
+History
+</a>
 
 <div class="sidebar-foot">
-<div class="avatar">NT</div>
+<div class="avatar" id="sidebarAvatar">?</div>
 <div>
-<div class="who-name">Nguyen Tung</div>
-<div class="who-role">Fleet Manager · Hanoi</div>
+<div class="who-name" id="sidebarName">…</div>
+<div class="who-role" id="sidebarRole">…</div>
 </div>
+<a href="#" data-action="logout" style="margin-left:auto;font-size:12px;color:var(--muted)">Log out</a>
 </div>
 
 </aside>
+
+<script src="assets/auth-guard.js"></script>
+<script>
+document.addEventListener('staffReady', (e) => {
+  const me = e.detail;
+  document.getElementById('sidebarName').textContent = me.fullName;
+  document.getElementById('sidebarRole').textContent = me.roleType + (me.depotId ? ' · Depot ' + me.depotId : '');
+  document.getElementById('sidebarAvatar').textContent = me.fullName.split(' ').filter(Boolean).slice(-2).map(w => w[0]).join('').toUpperCase();
+  const pill = document.getElementById('topRolePill');
+  if (pill) pill.textContent = me.roleType.toUpperCase();
+});
+</script>
 
 <!-- ================= MAIN ================= -->
 
@@ -106,7 +127,7 @@ Manager Console
 <option>Can Tho</option>
 </select>
 
-<span class="role-pill">MANAGER</span>
+<span class="role-pill" id="topRolePill">…</span>
 
 </div>
 

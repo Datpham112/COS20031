@@ -15,6 +15,7 @@
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';
+require_once __DIR__ . '/../auth/auth_check.php';
 
 $pdo = get_db_connection();
 $method = $_SERVER['REQUEST_METHOD'];
@@ -22,6 +23,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
 
     case 'GET':
+        require_table_permission('Part', 'read');
         if (isset($_GET['part_id'])) {
             $stmt = $pdo->prepare('SELECT * FROM Part WHERE Part_ID = ?');
             $stmt->execute([$_GET['part_id']]);
@@ -32,6 +34,7 @@ switch ($method) {
         break;
 
     case 'POST':
+        $staff = require_table_permission('Part', 'write');
         $data = get_request_body();
         $missing = missing_fields($data, ['part_name']);
         if ($missing) {
@@ -47,10 +50,13 @@ switch ($method) {
             $data['brand'] ?? null,
             $data['unit_price'] ?? null,
             $data['reorder_level'] ?? null,
-        ], 'Part created', 201);
+        ], 'Part created', 201, [
+            'staff_id' => $staff['staff_id'], 'table' => 'Part', 'action' => 'CREATE', 'summary' => $data['part_name'],
+        ]);
         break;
 
     case 'PUT':
+        $staff = require_table_permission('Part', 'write');
         if (!isset($_GET['part_id'])) {
             json_response(['error' => 'Missing ?part_id= in URL'], 422);
         }
@@ -71,14 +77,19 @@ switch ($method) {
             $data['unit_price'] ?? null,
             $data['reorder_level'] ?? null,
             $_GET['part_id'],
-        ], 'Part updated');
+        ], 'Part updated', 200, [
+            'staff_id' => $staff['staff_id'], 'table' => 'Part', 'action' => 'UPDATE', 'summary' => $data['part_name'],
+        ]);
         break;
 
     case 'DELETE':
+        $staff = require_table_permission('Part', 'write');
         if (!isset($_GET['part_id'])) {
             json_response(['error' => 'Missing ?part_id= in URL'], 422);
         }
-        run_write($pdo, 'DELETE FROM Part WHERE Part_ID = ?', [$_GET['part_id']], 'Part deleted');
+        run_write($pdo, 'DELETE FROM Part WHERE Part_ID = ?', [$_GET['part_id']], 'Part deleted', 200, [
+            'staff_id' => $staff['staff_id'], 'table' => 'Part', 'action' => 'DELETE', 'summary' => $_GET['part_id'],
+        ]);
         break;
 
     default:

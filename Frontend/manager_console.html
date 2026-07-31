@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
+<body data-page-roles="Head Manager">
 <div class="app">
 
   <!-- SIDEBAR -->
@@ -50,20 +50,28 @@
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
       Manager Console
     </a>
-    <a class="nav-item" href="manage_data.html">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
-      Manage Data
-      <span class="dot"></span>
-    </a>
 
     <div class="sidebar-foot">
-      <div class="avatar">NT</div>
+      <div class="avatar" id="sidebarAvatar">?</div>
       <div>
-        <div class="who-name">Nguyen Tung</div>
-        <div class="who-role">Fleet Manager · Hanoi</div>
+        <div class="who-name" id="sidebarName">…</div>
+        <div class="who-role" id="sidebarRole">…</div>
       </div>
+      <a href="#" data-action="logout" style="margin-left:auto;font-size:12px;color:var(--muted)">Log out</a>
     </div>
   </aside>
+
+  <script src="assets/auth-guard.js"></script>
+  <script>
+    document.addEventListener('staffReady', (e) => {
+      const me = e.detail;
+      document.getElementById('sidebarName').textContent = me.fullName;
+      document.getElementById('sidebarRole').textContent = me.roleType + (me.depotId ? ' · Depot ' + me.depotId : '');
+      document.getElementById('sidebarAvatar').textContent = me.fullName.split(' ').filter(Boolean).slice(-2).map(w => w[0]).join('').toUpperCase();
+      const pill = document.getElementById('topRolePill');
+      if (pill) pill.textContent = me.roleType.toUpperCase();
+    });
+  </script>
 
   <!-- MAIN -->
   <div class="main">
@@ -81,7 +89,7 @@
           <option>HCMC</option>
           <option>Can Tho</option>
         </select>
-        <span class="role-pill">MANAGER</span>
+        <span class="role-pill" id="topRolePill">…</span>
       </div>
     </div>
 
@@ -133,27 +141,8 @@
                 <form id="addUserForm">
                     <div class="form-group"><label>Staff ID</label><input type="text" id="newStaffId" class="form-control" placeholder="E.g., ST001"></div>
                     <div class="form-group"><label>Full Name</label><input type="text" id="newUserName" class="form-control"></div>
-                    <div class="form-group"><label>Username</label><input type="text" id="newUsername" class="form-control"></div>
-                    <div class="form-group"><label>Password</label><input type="password" id="newPassword" class="form-control"></div>
-                    <div class="form-group"><label>Contact Info</label><input type="text" id="newContactInfo" class="form-control" placeholder="Email or Phone"></div>
-                    <div class="form-group"><label>Role</label>
-                        <select id="newUserRole" class="form-control">
-                            <option>Mechanic</option>
-                            <option>Driver Manager</option>
-                            <option>Workshop Manager</option>
-                            <option>Depot Manager</option>
-                            <option>Head Manager</option>
-                            <option>Inventory Manager</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>Location</label>
-                        <select id="newUserLocation" class="form-control">
-                            <option value="1">Hanoi</option>
-                            <option value="2">HCMC</option>
-                            <option value="3">Da Nang</option>
-                            <option value="4">Can Tho</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Role</label><select id="newUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Manager</option></select></div>
+                    <div class="form-group"><label>Location</label><select id="newUserLocation" class="form-control"><option>Hanoi</option><option>HCMC</option><option>Da Nang</option><option>Can Tho</option></select></div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -175,27 +164,8 @@
                 <form id="editUserForm">
                     <div class="form-group"><label>Staff ID</label><input type="text" id="editStaffId" class="form-control" readonly style="background: #f4f5f7;"></div>
                     <div class="form-group"><label>Full Name</label><input type="text" id="editUserName" class="form-control"></div>
-                    <div class="form-group"><label>Username</label><input type="text" id="editUsername" class="form-control"></div>
-                    <div class="form-group"><label>New Password (Optional)</label><input type="password" id="editPassword" class="form-control" placeholder="Leave blank to keep current"></div>
-                    <div class="form-group"><label>Contact Info</label><input type="text" id="editContactInfo" class="form-control" placeholder="Email or Phone"></div>
-                    <div class="form-group"><label>Role</label>
-                        <select id="editUserRole" class="form-control">
-                            <option>Mechanic</option>
-                            <option>Driver Manager</option>
-                            <option>Workshop Manager</option>
-                            <option>Depot Manager</option>
-                            <option>Head Manager</option>
-                            <option>Inventory Manager</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>Location</label>
-                        <select id="editUserLocation" class="form-control">
-                            <option value="1">Hanoi</option>
-                            <option value="2">HCMC</option>
-                            <option value="3">Da Nang</option>
-                            <option value="4">Can Tho</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Role</label><select id="editUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Manager</option></select></div>
+                    <div class="form-group"><label>Location</label><select id="editUserLocation" class="form-control"><option>Hanoi</option><option>HCMC</option><option>Da Nang</option><option>Can Tho</option></select></div>
                 </form>
             </div>
             <div class="modal-footer">

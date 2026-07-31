@@ -2,7 +2,7 @@
 /**
  * Backend/api/mechanic.php
  * ------------------------------------------------------------------
- *   GET    mechanic.php                     -> list every mechanic
+ *   GET    mechanic.php                     -> list mechanics (scoped)
  *   GET    mechanic.php?mechanic_id=XXX     -> one mechanic
  *   POST   mechanic.php                     -> create
  *   PUT    mechanic.php?mechanic_id=XXX     -> update
@@ -10,11 +10,16 @@
  *
  * Required fields for POST: workshop_id, full_name
  * (Mechanic_ID is AUTO_INCREMENT, don't send it)
+ *
+ * Permissions: Read/Write = Head Manager (all) / Workshop Manager
+ * (their own workshop only -- each depot has exactly one workshop,
+ * matched via Workshop.Depot_ID = the manager's Depot_ID).
  * ------------------------------------------------------------------
  */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';
+require_once __DIR__ . '/../auth/auth_check.php';
 
 $pdo = get_db_connection();
 $method = $_SERVER['REQUEST_METHOD'];
@@ -22,47 +27,100 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
 
     case 'GET':
+        $staff = require_table_permission('Mechanic', 'read');
+
         if (isset($_GET['mechanic_id'])) {
             $stmt = $pdo->prepare('SELECT * FROM Mechanic WHERE Mechanic_ID = ?');
             $stmt->execute([$_GET['mechanic_id']]);
             $row = $stmt->fetch();
+            if ($row && $staff['role_type'] !== 'Head Manager' && (int) $row['Workshop_ID'] !== own_workshop_id($pdo, $staff)) {
+                json_response(['error' => 'Mechanic not found'], 404);
+            }
             json_response($row ?: ['error' => 'Mechanic not found'], $row ? 200 : 404);
         }
-        json_response($pdo->query('SELECT * FROM Mechanic ORDER BY Full_Name')->fetchAll());
+
+        if ($staff['role_type'] === 'Head Manager') {
+            json_response($pdo->query('SELECT * FROM Mechanic ORDER BY Full_Name')->fetchAll());
+        }
+        $stmt = $pdo->prepare('SELECT * FROM Mechanic WHERE Workshop_ID = ? ORDER BY Full_Name');
+        $stmt->execute([own_workshop_id($pdo, $staff)]);
+        json_response($stmt->fetchAll());
         break;
 
     case 'POST':
+        $staff = require_table_permission('Mechanic', 'write');
         $data = get_request_body();
         $missing = missing_fields($data, ['workshop_id', 'full_name']);
         if ($missing) {
             json_response(['error' => 'Missing fields', 'fields' => $missing], 422);
+        }
+        if ((int) $data['workshop_id'] !== own_workshop_id($pdo, $staff)) {
+            json_fail(403, 'You can only add mechanics to your own workshop.');
         }
 
         run_write($pdo, 'INSERT INTO Mechanic (Workshop_ID, Full_Name) VALUES (?, ?)',
-            [$data['workshop_id'], $data['full_name']], 'Mechanic created', 201);
+            [$data['workshop_id'], $data['full_name']], 'Mechanic created', 201, [
+                'staff_id' => $staff['staff_id'], 'table' => 'Mechanic', 'action' => 'CREATE',
+                'summary' => $data['full_name'],
+            ]);
         break;
 
     case 'PUT':
+        $staff = require_table_permission('Mechanic', 'write');
         if (!isset($_GET['mechanic_id'])) {
             json_response(['error' => 'Missing ?mechanic_id= in URL'], 422);
+        }
+        if (!mechanic_in_own_workshop($pdo, $_GET['mechanic_id'], $staff)) {
+            json_fail(403, 'You can only edit mechanics in your own workshop.');
         }
         $data = get_request_body();
         $missing = missing_fields($data, ['workshop_id', 'full_name']);
         if ($missing) {
             json_response(['error' => 'Missing fields', 'fields' => $missing], 422);
         }
+        if ((int) $data['workshop_id'] !== own_workshop_id($pdo, $staff)) {
+            json_fail(403, 'You cannot move a mechanic to another workshop.');
+        }
 
         run_write($pdo, 'UPDATE Mechanic SET Workshop_ID = ?, Full_Name = ? WHERE Mechanic_ID = ?',
-            [$data['workshop_id'], $data['full_name'], $_GET['mechanic_id']], 'Mechanic updated');
+            [$data['workshop_id'], $data['full_name'], $_GET['mechanic_id']], 'Mechanic updated', 200, [
+                'staff_id' => $staff['staff_id'], 'table' => 'Mechanic', 'action' => 'UPDATE',
+                'summary' => $data['full_name'],
+            ]);
         break;
 
     case 'DELETE':
+        $staff = require_table_permission('Mechanic', 'write');
         if (!isset($_GET['mechanic_id'])) {
             json_response(['error' => 'Missing ?mechanic_id= in URL'], 422);
         }
-        run_write($pdo, 'DELETE FROM Mechanic WHERE Mechanic_ID = ?', [$_GET['mechanic_id']], 'Mechanic deleted');
+        if (!mechanic_in_own_workshop($pdo, $_GET['mechanic_id'], $staff)) {
+            json_fail(403, 'You can only delete mechanics in your own workshop.');
+        }
+        run_write($pdo, 'DELETE FROM Mechanic WHERE Mechanic_ID = ?', [$_GET['mechanic_id']], 'Mechanic deleted', 200, [
+            'staff_id' => $staff['staff_id'], 'table' => 'Mechanic', 'action' => 'DELETE',
+            'summary' => $_GET['mechanic_id'],
+        ]);
         break;
 
     default:
         json_response(['error' => 'Method not allowed'], 405);
+}
+
+/** Returns the Workshop_ID tied to the logged-in manager's own depot. */
+function own_workshop_id(PDO $pdo, array $staff): ?int
+{
+    $stmt = $pdo->prepare('SELECT Workshop_ID FROM Workshop WHERE Depot_ID = ?');
+    $stmt->execute([$staff['depot_id']]);
+    $id = $stmt->fetchColumn();
+    return $id !== false ? (int) $id : null;
+}
+
+function mechanic_in_own_workshop(PDO $pdo, string $mechanicId, array $staff): bool
+{
+    if ($staff['role_type'] === 'Head Manager') return true;
+    $stmt = $pdo->prepare('SELECT Workshop_ID FROM Mechanic WHERE Mechanic_ID = ?');
+    $stmt->execute([$mechanicId]);
+    $workshopId = $stmt->fetchColumn();
+    return $workshopId !== false && (int) $workshopId === own_workshop_id($pdo, $staff);
 }

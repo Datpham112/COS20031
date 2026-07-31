@@ -32,7 +32,9 @@
 </div>
 
 
-        <form action="auth/login_process.php" method="POST">
+        <div id="loginError" style="display:none;background:#fbe9e7;color:#c4433b;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:13px;"></div>
+
+        <form action="../Backend/auth/login_process.php" method="POST">
 
             <div class="input-group">
 
@@ -78,5 +80,14 @@
 </div>
 
 
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const err = params.get('error');
+  if (err) {
+    const box = document.getElementById('loginError');
+    box.textContent = err;
+    box.style.display = 'block';
+  }
+</script>
 </body>
 </html>

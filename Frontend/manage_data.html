@@ -25,7 +25,7 @@
   .md-action-btn.danger { color:var(--red); border-color:#f3d2ce; }
 </style>
 </head>
-<body>
+<body data-page-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
 <div class="app">
 
   <!-- SIDEBAR -->
@@ -61,7 +61,7 @@
     </a>
 
     <div class="nav-section-label">Admin</div>
-    <a class="nav-item" href="manager_console.html">
+    <a class="nav-item" href="manager_console.html" data-roles="Head Manager">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
       Manager Console
     </a>
@@ -72,13 +72,24 @@
     </a>
 
     <div class="sidebar-foot">
-      <div class="avatar">NT</div>
+      <div class="avatar" id="sidebarAvatar">?</div>
       <div>
-        <div class="who-name">Nguyen Tung</div>
-        <div class="who-role">Fleet Manager · Hanoi</div>
+        <div class="who-name" id="sidebarName">…</div>
+        <div class="who-role" id="sidebarRole">…</div>
       </div>
+      <a href="#" data-action="logout" style="margin-left:auto;font-size:12px;color:var(--muted)">Log out</a>
     </div>
   </aside>
+
+  <script src="assets/auth-guard.js"></script>
+  <script>
+    document.addEventListener('staffReady', (e) => {
+      const me = e.detail;
+      document.getElementById('sidebarName').textContent = me.fullName;
+      document.getElementById('sidebarRole').textContent = me.roleType + (me.depotId ? ' · Depot ' + me.depotId : '');
+      document.getElementById('sidebarAvatar').textContent = me.fullName.split(' ').filter(Boolean).slice(-2).map(w => w[0]).join('').toUpperCase();
+    });
+  </script>
 
   <!-- MAIN -->
   <div class="main">
