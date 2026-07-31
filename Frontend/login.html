@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FleetOps — Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <!-- Header of the login page -->
+        <div class="login-header">
+
+    <h1 class="login-title">
+        FleetOps
+        <span class="login-subtitle">Management Dashboard</span>
+    </h1>
+
+</div>
+
+
+        <form action="auth/login_process.php" method="POST">
+
+            <div class="input-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter username"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required>
+
+            </div>
+
+
+            <button type="submit">
+                Login
+            </button>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

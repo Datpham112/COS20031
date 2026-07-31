@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FleetOps — Manager Console</title>
+<title>FleetOps — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -31,8 +32,8 @@
     <a class="nav-item" href="workshop.html">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/></svg>
       Workshop Hub
-      <span class="dot"></span>
     </a>
+
     <a class="nav-item" href="workload.html">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
       Workload
@@ -48,6 +49,11 @@
     <a class="nav-item active" href="manager_console.html">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
       Manager Console
+    </a>
+    <a class="nav-item" href="manage_data.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+      Manage Data
+      <span class="dot"></span>
     </a>
 
     <div class="sidebar-foot">
@@ -101,151 +107,9 @@
                 <th style="padding: 14px 20px; border-bottom: 1px solid #eee;">Actions</th>
               </tr>
             </thead>
-            <tbody style="font-size: 14px; color: #333;">
-              
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Nguyen Tung</td>
-                <td style="padding: 14px 20px;">Manager</td>
-                <td style="padding: 14px 20px;">Hanoi</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Alan Dương</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">HCMC</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Khoi Sam</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">Hanoi</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Dustin Pham</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">Hanoi</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Hoang Long</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">Da Nang</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #ffebee; color: #c62828; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">On Leave</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Hong Duc</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">Can Tho</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-              
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Hân</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">HCMC</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-              
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Kỳ</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">Hanoi</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">An</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">Da Nang</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #ffebee; color: #c62828; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Inactive</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
-              <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 14px 20px; font-weight: 600;">Minh</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">HCMC</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
-              <tr>
-                <td style="padding: 14px 20px; font-weight: 600;">Anh</td>
-                <td style="padding: 14px 20px;">Mechanic</td>
-                <td style="padding: 14px 20px;">Hanoi</td>
-                <td style="padding: 14px 20px;">
-                  <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span>
-                </td>
-                <td style="padding: 14px 20px;">
-                  <a href="#" style="color: #007bff; text-decoration: none; margin-right: 12px; font-weight: 500;">Edit</a>
-                  <a href="#" style="color: #dc3545; text-decoration: none; font-weight: 500;">Disable</a>
-                </td>
-              </tr>
-
+            
+            <tbody id="staffTableBody" style="font-size: 14px; color: #333;">
+                <!-- Trống trơn, chờ JavaScript bơm data từ Database vào -->
             </tbody>
           </table>
         </div>
@@ -255,7 +119,6 @@
   </div>
 </div>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -268,9 +131,29 @@
             </div>
             <div class="modal-body" style="font-family: 'Inter', sans-serif;">
                 <form id="addUserForm">
+                    <div class="form-group"><label>Staff ID</label><input type="text" id="newStaffId" class="form-control" placeholder="E.g., ST001"></div>
                     <div class="form-group"><label>Full Name</label><input type="text" id="newUserName" class="form-control"></div>
-                    <div class="form-group"><label>Role</label><select id="newUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Manager</option></select></div>
-                    <div class="form-group"><label>Location</label><select id="newUserLocation" class="form-control"><option>Hanoi</option><option>HCMC</option><option>Da Nang</option><option>Can Tho</option></select></div>
+                    <div class="form-group"><label>Username</label><input type="text" id="newUsername" class="form-control"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="newPassword" class="form-control"></div>
+                    <div class="form-group"><label>Contact Info</label><input type="text" id="newContactInfo" class="form-control" placeholder="Email or Phone"></div>
+                    <div class="form-group"><label>Role</label>
+                        <select id="newUserRole" class="form-control">
+                            <option>Mechanic</option>
+                            <option>Driver Manager</option>
+                            <option>Workshop Manager</option>
+                            <option>Depot Manager</option>
+                            <option>Head Manager</option>
+                            <option>Inventory Manager</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Location</label>
+                        <select id="newUserLocation" class="form-control">
+                            <option value="1">Hanoi</option>
+                            <option value="2">HCMC</option>
+                            <option value="3">Da Nang</option>
+                            <option value="4">Can Tho</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -290,9 +173,29 @@
             </div>
             <div class="modal-body" style="font-family: 'Inter', sans-serif;">
                 <form id="editUserForm">
+                    <div class="form-group"><label>Staff ID</label><input type="text" id="editStaffId" class="form-control" readonly style="background: #f4f5f7;"></div>
                     <div class="form-group"><label>Full Name</label><input type="text" id="editUserName" class="form-control"></div>
-                    <div class="form-group"><label>Role</label><select id="editUserRole" class="form-control"><option>Mechanic</option><option>Driver</option><option>Manager</option></select></div>
-                    <div class="form-group"><label>Location</label><select id="editUserLocation" class="form-control"><option>Hanoi</option><option>HCMC</option><option>Da Nang</option><option>Can Tho</option></select></div>
+                    <div class="form-group"><label>Username</label><input type="text" id="editUsername" class="form-control"></div>
+                    <div class="form-group"><label>New Password (Optional)</label><input type="password" id="editPassword" class="form-control" placeholder="Leave blank to keep current"></div>
+                    <div class="form-group"><label>Contact Info</label><input type="text" id="editContactInfo" class="form-control" placeholder="Email or Phone"></div>
+                    <div class="form-group"><label>Role</label>
+                        <select id="editUserRole" class="form-control">
+                            <option>Mechanic</option>
+                            <option>Driver Manager</option>
+                            <option>Workshop Manager</option>
+                            <option>Depot Manager</option>
+                            <option>Head Manager</option>
+                            <option>Inventory Manager</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Location</label>
+                        <select id="editUserLocation" class="form-control">
+                            <option value="1">Hanoi</option>
+                            <option value="2">HCMC</option>
+                            <option value="3">Da Nang</option>
+                            <option value="4">Can Tho</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -306,18 +209,42 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     
+  // ==========================================
+    // 🚀 CODE PHÂN QUYỀN HIỂN THỊ ĐỘNG 
+    // ==========================================
+    // Đổi chữ 'Depot Manager' thành 'Workshop Manager' để test thử quyền
+    let currentRole = 'Depot Manager'; 
+
+    // Cập nhật thẻ hiển thị chức danh góc trên bên phải 
+    let rolePill = document.querySelector('.role-pill');
+    if (rolePill) rolePill.innerText = currentRole.toUpperCase();
+
+    // NẾU LÀ WORKSHOP/DRIVER MANAGER THÌ BỊ KHÓA QUYỀN
+    if (currentRole === 'Workshop Manager' || currentRole === 'Driver Manager') {
+        
+        // 1. Giấu đi nút "+ Add New User"
+        let btnAdd = document.querySelector('[data-target="#addUserModal"]');
+        if (btnAdd) btnAdd.style.display = 'none';
+
+        // 2. Chuyển cột Actions thành Read-only (không cho bấm Edit/Disable)
+        let rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            let actionCell = row.cells[4]; // Cột thứ 5 chứa nút bấm
+            if (actionCell) {
+                actionCell.innerHTML = '<span style="color:#8A93A2; font-size: 13px; font-weight: 500;">Read-only</span>';
+            }
+        });
+    }
+
     // Prevent form reload
     document.querySelectorAll('form').forEach(form => {
         form.addEventListener('submit', function(e) { e.preventDefault(); });
     });
 
-    // ==========================================
     // 1. MODAL SYSTEM
-    // ==========================================
     function openModal(modalId) {
         let m = document.getElementById(modalId);
         if(m) {
-            // Clear old backdrops to prevent freezing
             document.querySelectorAll('.modal-backdrop').forEach(bg => bg.remove());
 
             m.classList.add('show');
@@ -340,9 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.modal-backdrop').forEach(bg => bg.remove());
     }
 
-    // ==========================================
     // 2. SEARCH
-    // ==========================================
     const searchInput = document.getElementById('userSearchInput');
     if(searchInput) {
         searchInput.addEventListener('input', function(e) {
@@ -354,87 +279,165 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ==========================================
-    // 3. EVENT DELEGATION
-    // ==========================================
+    // 3. DEPOT
+    const depotSelect = document.querySelector('.depot-select');
+    if (depotSelect) {
+        depotSelect.addEventListener('change', function(e) {
+            let selectedDepot = e.target.value;
+            
+            document.querySelectorAll('tbody tr').forEach(row => {
+                let location = row.cells[2].innerText.trim(); 
+                if (selectedDepot == 'All depots' || location == selectedDepot) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // 4. EVENT DELEGATION
     let currentRowToEdit = null;
 
     document.body.addEventListener('click', function(e) {
         
-        // --- Close Modals ---
         if (e.target.closest('.closeModalBtn') || e.target.closest('.close') || e.target.closest('[data-dismiss="modal"]')) {
             e.preventDefault();
             closeAllModals();
         }
 
-        // --- Open Add Modal ---
         let btnOpenAdd = e.target.closest('#openAddModalBtn') || e.target.closest('[data-target="#addUserModal"]');
         if (btnOpenAdd) {
             e.preventDefault();
             openModal('addUserModal');
         }
 
-        // --- Confirm Add User ---
         if (e.target.closest('#confirmAddBtn')) {
             e.preventDefault();
             
+            let staffId = document.getElementById('newStaffId').value;
             let name = document.getElementById('newUserName').value;
+            let username = document.getElementById('newUsername').value;
+            let password = document.getElementById('newPassword').value;
+            let contact = document.getElementById('newContactInfo').value;
             let role = document.getElementById('newUserRole').value;
             let loc = document.getElementById('newUserLocation').value;
             
-            if (!name) { alert('Please enter user name!'); return; }
+            if (!staffId || !name || !username || !password) { 
+                alert('Please fill in all required fields!'); 
+                return; 
+            }
 
-            let newTr = document.createElement('tr');
-            newTr.style.borderBottom = '1px solid #eee';
-            newTr.innerHTML = `
-                <td style="padding: 14px 20px; font-weight: 600;">${name}</td>
-                <td style="padding: 14px 20px;">${role}</td>
-                <td style="padding: 14px 20px;">${loc}</td>
-                <td style="padding: 14px 20px;"><span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;">Active</span></td>
-                <td style="padding: 14px 20px;">
-                    <a href="#" class="edit-btn" style="color:#007bff; font-weight:500; text-decoration:none; margin-right:12px;">Edit</a> 
-                    <a href="#" class="disable-btn" style="color:#dc3545; font-weight:500; text-decoration:none;">Disable</a>
-                </td>
-            `;
-            
-            document.querySelector('tbody').prepend(newTr);
-            document.getElementById('addUserForm').reset();
-            closeAllModals();
+            fetch('http://localhost/COS20031/backend/api/staff.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    staff_id: staffId, full_name: name, role_type: role,
+                    contact_info: contact, username: username, password: password, depot_id: loc
+                })
+            })
+            .then(async response => {
+                const data = await response.json();
+                if (response.ok) {
+                    alert('User added successfully!');
+                    closeAllModals();
+                    location.reload(); 
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to add user'));
+                }
+            }).catch(error => console.error('Error:', error));
         }
 
-        // --- Open Edit Modal ---
         if (e.target.closest('.edit-btn')) {
             e.preventDefault();
             currentRowToEdit = e.target.closest('tr');
-            document.getElementById('editUserName').value = currentRowToEdit.cells[0].innerText;
-            document.getElementById('editUserRole').value = currentRowToEdit.cells[1].innerText;
-            document.getElementById('editUserLocation').value = currentRowToEdit.cells[2].innerText;
-            openModal('editUserModal');
+            
+            let staffId = currentRowToEdit.querySelector('.edit-btn').dataset.id;
+            
+            if (!staffId) {
+                alert('Missing Staff ID! Please update script.js to inject data-staffid.');
+                return;
+            }
+
+            fetch(`http://localhost/COS20031/backend/api/staff.php?staff_id=${staffId}`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('editStaffId').value = data.Staff_ID || staffId;
+                document.getElementById('editUserName').value = data.Full_Name || '';
+                document.getElementById('editUsername').value = data.Username || '';
+                document.getElementById('editPassword').value = ''; 
+                document.getElementById('editContactInfo').value = data.Contact_Info || '';
+                document.getElementById('editUserRole').value = data.Role_Type || '';
+                if (data.Depot_ID) document.getElementById('editUserLocation').value = data.Depot_ID;
+                
+                openModal('editUserModal');
+            })
+            .catch(err => console.error(err));
         }
 
-        // --- Save Edit ---
         if (e.target.closest('#saveEditBtn')) {
             e.preventDefault();
-            if(currentRowToEdit) {
-                currentRowToEdit.cells[0].innerText = document.getElementById('editUserName').value;
-                currentRowToEdit.cells[1].innerText = document.getElementById('editUserRole').value;
-                currentRowToEdit.cells[2].innerText = document.getElementById('editUserLocation').value;
-                closeAllModals();
+            
+            let staffId = document.getElementById('editStaffId').value;
+            let name = document.getElementById('editUserName').value;
+            let username = document.getElementById('editUsername').value;
+            let password = document.getElementById('editPassword').value;
+            let contact = document.getElementById('editContactInfo').value;
+            let role = document.getElementById('editUserRole').value;
+            let loc = document.getElementById('editUserLocation').value;
+            
+            if (!staffId || !name || !username) {
+                alert('Please fill in required fields!'); return;
             }
+
+            fetch(`http://localhost/COS20031/backend/api/staff.php?staff_id=${staffId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    full_name: name, role_type: role, contact_info: contact,
+                    username: username, password: password, depot_id: loc
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('User updated successfully!');
+                    closeAllModals();
+                    location.reload(); 
+                } else {
+                    alert('Failed to update user');
+                }
+            });
         }
 
-        // --- Disable User ---
         if (e.target.closest('.disable-btn')) {
             e.preventDefault();
             let tr = e.target.closest('tr');
-            let delName = tr.cells[0].innerText;
-            if(confirm('Are you sure you want to delete ' + delName + '?')) {
-                tr.remove();
+            
+            let staffId = tr.querySelector('.disable-btn').dataset.id;
+            
+            if (!staffId) {
+                alert('Missing Staff ID! Please update script.js');
+                return;
+            }
+            
+            if (confirm(`Are you sure you want to delete user ${staffId}?`)) {
+                fetch(`http://localhost/COS20031/backend/api/staff.php?staff_id=${staffId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('User deleted successfully!');
+                        tr.remove(); 
+                    } else {
+                        alert('Failed to delete user.');
+                    }
+                });
             }
         }
     });
 
 });
 </script>
+<script src="assets/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,31 @@
+-- =====================================================================
+-- Migration 001: Add Severity_Level and Raised_At to Predictive_Alert
+-- =====================================================================
+-- Why: the Dashboard and Workshop Hub UI needs to show an alert's
+-- severity (Low/Medium/High/Critical) and when it was raised, but the
+-- original Predictive_Alert table does not store either. This migration
+-- adds both columns without touching any existing data.
+--
+-- Safe to run once. If you re-run it, MySQL will error that the column
+-- already exists — that's fine, it just means it already applied.
+-- =====================================================================
+
+ALTER TABLE Predictive_Alert
+    ADD COLUMN Severity_Level VARCHAR(20) NOT NULL DEFAULT 'Medium' AFTER Alert_Type,
+    ADD COLUMN Raised_At DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER Action_Taken;
+
+ALTER TABLE Predictive_Alert
+    ADD CONSTRAINT chk_alert_severity
+    CHECK (Severity_Level IN ('Low','Medium','High','Critical'));
+
+-- Optional: backfill a sensible severity for any existing rows based on
+-- alert type, instead of leaving them all as 'Medium'. Safe to run once.
+UPDATE Predictive_Alert
+SET Severity_Level = CASE Alert_Type
+    WHEN 'Engine Fault'          THEN 'Critical'
+    WHEN 'Overheating Risk'      THEN 'Critical'
+    WHEN 'Brake Wear'            THEN 'High'
+    WHEN 'Battery Degradation'   THEN 'High'
+    WHEN 'Tyre Pressure'         THEN 'Medium'
+    ELSE Severity_Level
+END;
