@@ -567,4 +567,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 staffTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">Database connection failed or API error!</td></tr>';
             });
     }
+    /*=========================
+    ROLE-BASED AUTHENTICATION 
+    (SIDEBAR FILTERING)
+=========================*/
+function applyRoleBasedSidebar() {
+  const currentRole = localStorage.getItem("userRole") || "head_manager";
+  
+  const rolePermissions = {
+    "head_manager": ["all"], 
+    "depot_manager": ["menu-dashboard", "menu-driver", "menu-vehicle", "menu-workshop"],
+    "workshop_manager": ["menu-workshop-hub"], // Phân quyền cho Như (chỉ thấy Workshop)
+    "driver_manager": ["menu-safety-command", "menu-driver-manager"],
+    "inventory_manager": ["menu-inventory"],
+    "mechanic": ["menu-mechanic-jobs"],
+    "driver": ["menu-my-profile"]
+  };
+
+  const allowedMenus = rolePermissions[currentRole] || [];
+  const sidebarItems = document.querySelectorAll(".sidebar-item");
+
+  sidebarItems.forEach((item) => {
+    if (currentRole === "head_manager" || allowedMenus.includes("all") || allowedMenus.includes(item.id)) {
+      item.style.display = "block"; // Hiện
+    } else {
+      item.style.display = "none";  // Ẩn
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  applyRoleBasedSidebar();
+});
+
+// Hàm để test nhanh trong Console (F12)
+function mockLogin(role) {
+  localStorage.setItem("userRole", role);
+  location.reload();
+}
 });
