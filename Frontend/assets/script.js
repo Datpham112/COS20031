@@ -448,10 +448,6 @@ function filterWorkload() {
 
 /*=========================
     LOAD LIVE DATA FROM BACKEND
-    Overwrites the demo arrays above with real rows from
-    Backend/api/workshop.php. If the API can't be reached (backend not
-    set up yet, wrong DB credentials, etc.) we log a warning and keep
-    rendering with the demo data so the pages still work.
 =========================*/
 
 async function loadWorkshopDataFromApi() {
@@ -567,7 +563,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 staffTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">Database connection failed or API error!</td></tr>';
             });
     }
-    /*=========================
+}); 
+/*=========================
     ROLE-BASED AUTHENTICATION 
     (SIDEBAR FILTERING)
 =========================*/
@@ -577,7 +574,7 @@ function applyRoleBasedSidebar() {
   const rolePermissions = {
     "head_manager": ["all"], 
     "depot_manager": ["menu-dashboard", "menu-driver", "menu-vehicle", "menu-workshop"],
-    "workshop_manager": ["menu-workshop-hub"], // Phân quyền cho Như (chỉ thấy Workshop)
+    "workshop_manager": ["menu-workshop-hub", "menu-workload"],  
     "driver_manager": ["menu-safety-command", "menu-driver-manager"],
     "inventory_manager": ["menu-inventory"],
     "mechanic": ["menu-mechanic-jobs"],
@@ -589,20 +586,22 @@ function applyRoleBasedSidebar() {
 
   sidebarItems.forEach((item) => {
     if (currentRole === "head_manager" || allowedMenus.includes("all") || allowedMenus.includes(item.id)) {
-      item.style.display = "block"; // Hiện
+      item.style.display = "block"; 
     } else {
-      item.style.display = "none";  // Ẩn
+      item.style.display = "none";  
     }
   });
+
+  if (currentRole.includes('workshop')) {
+      console.log("Logged in as Workshop Manager. Access granted to Workshop Hub and Workload pages.");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   applyRoleBasedSidebar();
 });
 
-// Hàm để test nhanh trong Console (F12)
 function mockLogin(role) {
   localStorage.setItem("userRole", role);
   location.reload();
 }
-});
