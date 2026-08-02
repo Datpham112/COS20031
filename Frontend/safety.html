@@ -85,477 +85,359 @@
   </script>
 
 <!-- ================= MAIN ================= -->
+div class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title">Safety Command Center</div>
+      <div class="page-crumb">FLEETOPS / SAFETY</div>
+    </div>
 
-<div class="main">
+    <div class="topbar-right">
+      <span class="role-pill">MANAGER</span>
+    </div>
+  </div>
 
-<div class="topbar">
+  <div class="content">
+    <div class="tab-row">
 
-<div>
-<div class="page-title">Safety Command Center</div>
-<div class="page-crumb">FLEETOPS / FLEET SAFETY</div>
-</div>
+      <button class="tab-btn active" data-tab="drivers">Drivers</button>
+      
+      <button class="tab-btn" data-tab="incidents">Incidents</button>
+      
+      <button class="tab-btn" data-tab="analytics">Safety Analytics</button>
+      
+      <button class="tab-btn" data-tab="coaching">Coaching & Compliance</button>
 
-<div class="topbar-right">
+    </div>
 
-<div class="search-box">🔍 Search incident, driver...</div>
+    <!-- ================= DRIVERS ================= -->
 
-<select class="depot-select">
-<option>All depots</option>
-<option>Hanoi</option>
-<option>Da Nang</option>
-<option>HCMC</option>
-<option>Can Tho</option>
-</select>
+    <div class="tab-panel active" id="safety-drivers">
 
-<span class="role-pill" id="topRolePill">…</span>
+      <div class="filters">
 
-</div>
+        <select class="filter-select" id="driverDepotFilter">
+          <option>All Depots</option>
+        </select>
 
-</div>
+        <select class="filter-select" id="driverStatusFilter">
+          <option>All Status</option>
+          <option>Active</option>
+          <option>On Leave</option>
+          <option>Suspended</option>
+          <option>Terminated</option>
+        </select>
 
-<div class="content">
+        <select class="filter-select" id="driverCertificationFilter">
+          <option>Certification</option>
+          <option>Valid</option>
+          <option>Expiring</option>
+          <option>Expired</option>
+          <option>None</option>
+        </select>
 
-<!--  Tabs -->
+        <select class="filter-select" id="driverScoreFilter">
+          <option>Safety Score</option>
+          <option>90+</option>
+          <option>75-89</option>
+          <option>Below 75</option>
+        </select>
 
-<div class="tab-row">
+        <input class="filter-search" id="driverSearch" placeholder="Search driver...">
 
-<button class="tab-btn active" onclick="safetyTab('drivers',this)">
-Drivers
-</button>
+      </div>
 
-<button class="tab-btn" onclick="safetyTab('incidents',this)">
-Incidents
-</button>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Driver</th>
+            <th>Depot</th>
+            <th>Status</th>
+            <th>Certification</th>
+            <th>Safety Score</th>
+            <th>Incidents</th>
+            <th></th>
+          </tr>
+        </thead>
 
-<button class="tab-btn" onclick="safetyTab('analytics',this)">
-Safety Analytics
-</button>
+        <tbody id="driverTableBody"></tbody>
 
-<button class="tab-btn" onclick="safetyTab('coaching',this)">
-Coaching & Compliance
-</button>
+      </table>
 
-</div>
+    </div>
 
-<!--  Drivers -->
-
-<div class="tab-panel active" id="safety-drivers">
-
-<div class="filters">
-
-<select class="filter-select">
-<option>All Depots</option>
-<option>Hanoi</option>
-<option>Da Nang</option>
-<option>HCMC</option>
-<option>Can Tho</option>
-</select>
-
-<select class="filter-select">
-<option>All Status</option>
-<option>Active</option>
-<option>Suspended</option>
-<option>Blocked</option>
-</select>
-
-<select class="filter-select">
-<option>Certification</option>
-<option>Valid</option>
-<option>Expiring</option>
-<option>Expired</option>
-</select>
-
-<select class="filter-select">
-<option>Safety Score</option>
-<option>90+</option>
-<option>75-89</option>
-<option>Below 75</option>
-</select>
-
-<input class="filter-search" placeholder="Search driver...">
-
-</div>
-
-<table class="data-table">
-
-<thead>
-
-<tr>
-
-<th>Driver</th>
-<th>Depot</th>
-<th>Status</th>
-<th>Certification</th>
-<th>Safety Score</th>
-<th>Incidents</th>
-<th></th>
-
-</tr>
-
-</thead>
-
-<tbody id="driverTableBody">
-
-</tbody>
-
-</table>
-
-</div>
-
-<!-- Safety incidents -->
+    <!-- ================= INCIDENTS ================= -->
 
 <div class="tab-panel" id="safety-incidents">
 
-<div class="filters">
+  <div class="filters">
 
-<select class="filter-select">
-<option>All Drivers</option>
-</select>
+    <select class="filter-select" id="incidentDriverFilter">
+      <option>All Drivers</option>
+    </select>
 
-<select class="filter-select">
-<option>All Vehicles</option>
-</select>
+    <select class="filter-select" id="incidentVehicleFilter">
+      <option>All Vehicles</option>
+    </select>
 
-<select class="filter-select">
-<option>All Depots</option>
-</select>
+    <select class="filter-select" id="incidentDepotFilter">
+      <option>All Depots</option>
+    </select>
 
-<select class="filter-select">
-<option>Severity</option>
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
-<option>Critical</option>
-</select>
+    <select class="filter-select" id="incidentSeverityFilter">
+      <option>Severity</option>
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+      <option>Critical</option>
+    </select>
 
-<input class="filter-search" placeholder="Search incident...">
+    <input type="date" class="filter-search" id="incidentStartDate" title="Start date">
+    <input class="filter-search" id="incidentSearch" placeholder="Search incident...">
 
-</div>
+  </div>
 
-<table class="data-table">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Driver</th>
+        <th>Vehicle</th>
+        <th>Behaviour</th>
+        <th>Severity</th>
+        <th></th>
+      </tr>
+    </thead>
 
-<thead>
+    <tbody id="incidentTableBody"></tbody>
 
-<tr>
-
-<th>Date</th>
-<th>Driver</th>
-<th>Vehicle</th>
-<th>Behaviour</th>
-<th>Severity</th>
-<th></th>
-
-</tr>
-
-</thead>
-
-<tbody id="incidentTableBody">
-
-</tbody>
-
-</table>
+  </table>
 
 </div>
 
-<!--  Safetty analytics  -->
+<!-- ================= SAFETY ANALYTICS TAB ================= -->
 
 <div class="tab-panel" id="safety-analytics">
 
-<div class="stat-strip">
+  <div class="stat-strip">
 
-<div class="card stat-box">
-<div class="kpi-label">Average Safety Score</div>
-<div class="kpi-val">86</div>
-</div>
+    <div class="card stat-box">
+      <div class="kpi-label">Average Safety Score</div>
+      <div class="kpi-val" id="analyticsAverageScore">—</div>
+    </div>
 
-<div class="card stat-box">
-<div class="kpi-label">Critical Events</div>
-<div class="kpi-val" style="color:var(--red)">8</div>
-</div>
+    <div class="card stat-box">
+      <div class="kpi-label">Critical Events</div>
+      <div class="kpi-val text-alert" id="analyticsCriticalEvents">—</div>
+    </div>
 
-<div class="card stat-box">
-<div class="kpi-label">High Risk Drivers</div>
-<div class="kpi-val">11</div>
-</div>
+    <div class="card stat-box">
+      <div class="kpi-label">High Risk Drivers</div>
+      <div class="kpi-val" id="analyticsHighRiskDrivers">—</div>
+    </div>
 
-<div class="card stat-box">
-<div class="kpi-label">Repeat Offenders</div>
-<div class="kpi-val">4</div>
-</div>
+    <div class="card stat-box">
+      <div class="kpi-label">Repeat Offenders</div>
+      <div class="kpi-val" id="analyticsRepeatOffenders">—</div>
+    </div>
 
-</div>
+  </div>
 
-<div class="split-grid">
+  <div class="split-grid">
 
-<div>
+    <div>
 
-<h3 class="section-heading">Depot Comparison</h3>
+      <h3 class="section-heading">Depot Comparison</h3>
 
-<table class="data-table">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Depot</th>
+            <th>Average Score</th>
+            <th>Critical Events</th>
+          </tr>
+        </thead>
 
-<thead>
-<tr>
-<th>Depot</th>
-<th>Average Score</th>
-<th>Critical Events</th>
-</tr>
-</thead>
+        <tbody id="depotComparisonBody"></tbody>
 
-<tbody>
+      </table>
 
-<tr>
-<td>HCMC</td>
-<td>91</td>
-<td>1</td>
-</tr>
+    </div>
 
-<tr>
-<td>Hanoi</td>
-<td>84</td>
-<td>3</td>
-</tr>
+    <div>
 
-<tr>
-<td>Da Nang</td>
-<td>79</td>
-<td>4</td>
-</tr>
+      <h3 class="section-heading">Repeat Offenders</h3>
 
-<tr>
-<td>Can Tho</td>
-<td>88</td>
-<td>0</td>
-</tr>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Driver</th>
+            <th>Score</th>
+            <th>Events</th>
+          </tr>
+        </thead>
 
-</tbody>
+        <tbody id="repeatOffenderBody"></tbody>
 
-</table>
+      </table>
+
+    </div>
+
+  </div>
 
 </div>
 
-<div>
-
-<h3 class="section-heading">Repeat Offenders</h3>
-
-<table class="data-table">
-
-<thead>
-<tr>
-<th>Driver</th>
-<th>Score</th>
-<th>Events</th>
-</tr>
-</thead>
-
-<tbody>
-<!-- Placeholder data, will be adjusted later -->
-<tr>
-<td>Duc Dao</td>
-<td>49</td>
-<td>5</td>
-</tr>
-
-<tr>
-<td>Duc Dao</td>
-<td>74</td>
-<td>2</td>
-</tr>
-
-<tr>
-<td>Duc Dao</td>
-<td>69</td>
-<td>3</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-<!--  Coaching  -->
+<!-- ================= COACHING ================= -->
 
 <div class="tab-panel" id="safety-coaching">
 
-<div class="split-grid">
+  <div class="split-grid">
 
-<div>
+    <div>
+      <h3 class="section-heading">Drivers Requiring Training</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Driver</th>
+            <th>Score</th>
+            <th>Training Status</th>
+          </tr>
+        </thead>
 
-<h3 class="section-heading">
-Drivers Requiring Training
-</h3>
+        <tbody id="trainingRequiredBody"></tbody>
 
-<table class="data-table">
+      </table>
 
-<thead>
+    </div>
 
-<tr>
-<th>Driver</th>
-<th>Score</th>
-<th>Training Status</th>
-</tr>
+    <div>
 
-</thead>
+      <h3 class="section-heading">Blocked From Assignment</h3>
 
-<tbody>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Driver</th>
+            <th>Reason</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-<tr>
-<td> Duc Dao </td>
-<td>74</td>
-<td>Pending</td>
-</tr>
+        <tbody id="blockedDriversBody"></tbody>
 
-<tr>
-<td>Duc Dao</td>
-<td>69</td>
-<td>Scheduled</td>
-</tr>
+      </table>
 
-<tr>
-<td>Duc Dao</td>
-<td>71</td>
-<td>Completed</td>
-</tr>
+    </div>
 
-</tbody>
-
-</table>
+  </div>
 
 </div>
 
-<div>
-
-<h3 class="section-heading">
-Blocked From Assignment
-</h3>
-
-<table class="data-table">
-
-<thead>
-
-<tr>
-<th>Driver</th>
-<th>Reason</th>
-<th>Status</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-<td>Duc Dao</td>
-<td>Critical Fatigue</td>
-<td><span class="pill crit">Blocked</span></td>
-</tr>
-
-<tr>
-<td>Duc Dao</td>
-<td>Safety Score 42</td>
-<td><span class="pill crit">Blocked</span></td>
-</tr>
-
-</tbody>
-
-</table>
-
+  </div>
+</div>
 </div>
 
-</div>
+<!-- ================= DRAWER FOR DRIVER AND COACHING TABLE ================= -->
 
-</div>
-
-</div>
-
-</div>
-
-<!-- ================= DRAWER ================= -->
-
-<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="overlay" id="overlay"></div>
 
 <div class="drawer" id="drawer">
 
-<div class="drawer-head">
+  <div class="drawer-head">
 
-<div>
+    <div>
 
-<div class="drawer-title" id="drawerTitle">
-Driver Details
-</div>
+      <div class="drawer-title" id="drawerTitle">Driver Details</div>
+      <div class="drawer-sub" id="drawerSub">Fleet Safety Record</div>
 
-<div class="drawer-sub" id="drawerSub">
-Fleet Safety Record
-</div>
+    </div>
 
-</div>
+    <button class="drawer-close">✕</button>
 
-<button class="drawer-close" onclick="closeDrawer()">
-✕
-</button>
+  </div>
 
-</div>
+  <div class="drawer-body">
 
-<div class="drawer-body">
+    <div id="driverDrawerContent">
 
-<h4>Personal Information</h4>
+      <h4>Personal Information</h4>
 
-<p><strong>Name:</strong> Duc Dao </p>
+      <p><strong>Driver ID:</strong> <span id="driverId"></span></p>
+      <p><strong>Name:</strong> <span id="driverName"></span></p>
+      <p><strong>Contact:</strong> <span id="driverContact"></span></p>
+      <p><strong>Emergency Contact:</strong> <span id="driverEmergencyContact"></span></p>
+      <p><strong>License Type:</strong> <span id="driverLicenseType"></span></p>
+      <p><strong>License Expiry:</strong> <span id="driverLicenseExpiry"></span></p>
 
-<p><strong>Depot:</strong> HCMC</p>
+      <hr>
 
-<p><strong>Role:</strong> Driver</p>
+      <h4>Depot Assignment</h4>
 
-<p><strong>Certification:</strong> Heavy Vehicle Licence</p>
+      <p id="driverDepot"></p>
+      <p><strong>Status:</strong> <span id="driverStatus"></span></p>
 
-<hr>
+      <hr>
 
-<h4>Safety Score Trend</h4>
+      <h4>Certification History</h4>
 
-<p>Current Score: <strong>95</strong></p>
+      <div id="driverCertificationHistory"></div>
 
-<p>Improving over the last 6 months.</p>
+      <hr>
 
-<hr>
+      <h4>Safety Score Trend</h4>
 
-<h4>Incident History</h4>
+      <div id="driverScoreTrend"></div>
 
-<ul>
+      <hr>
 
-<li>No critical incidents.</li>
+      <h4>Incident History</h4>
 
-<li>1 speeding warning (2024)</li>
+      <div id="driverIncidentHistory"></div>
 
-<li>Completed Defensive Driving Course</li>
+    </div>
 
-</ul>
+    <div id="incidentDrawerContent">
 
-<hr>
+      <h4>Event Information</h4>
 
-<h4>Coaching Notes</h4>
+      <p><strong>Date:</strong> <span id="incidentDate"></span></p>
+      <p><strong>Driver:</strong> <span id="incidentDriver"></span></p>
+      <p><strong>Vehicle:</strong> <span id="incidentVehicle"></span></p>
+      <p><strong>Vehicle Model:</strong> <span id="incidentVehicleModel"></span></p>
+      <p><strong>Depot:</strong> <span id="incidentDepot"></span></p>
+      <p><strong>Event:</strong> <span id="incidentEvent"></span></p>
+      <p><strong>Severity:</strong> <span class="pill" id="incidentSeverity"></span></p>
+      <p><strong>Odometer:</strong> <span id="incidentOdometer"></span></p>
 
-<textarea placeholder="Add coaching comments..." rows="5"></textarea>
+      <hr>
 
-</div>
+      <h4>Review Comments</h4>
 
-<div class="drawer-actions">
+      <textarea id="reviewCommentsInput" rows="5"></textarea>
 
-<button class="btn-primary">
-Save Notes
-</button>
+      <hr>
 
-<button class="btn-secondary">
-Close
-</button>
+      <h4>Coaching Recommendation</h4>
 
-</div>
+      <textarea id="coachingRecommendationInput" rows="5"></textarea>
+
+      <div>
+
+        <button class="btn-primary">Save Review</button>
+
+      </div>
+
+    </div>
+
+  </div>
+    <div class="drawer-actions">
+    <button class="btn-secondary">Close</button>
+  </div>
 
 </div>
 
 <script src="assets/script.js"></script>
+<script src="assets/safety.js"></script>
 
 </body>
 </html>
