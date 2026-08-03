@@ -137,18 +137,16 @@ VALUES
 -- File: 08_mechanic_data.sql
 INSERT INTO Mechanic
 (
-  Mechanic_ID,
   Workshop_ID,
-  Full_Name,
-  Employment_Status
-)
+  Full_Name
+  )
 VALUES
-(1, 'Nguyen Van Hung', 'Active'),
-(1, 'Tran Van Duc', 'Active'),
-(2, 'Le Thi Mai', 'Active'),
-(3, 'Pham Van Son', 'Active'),
-(3, 'Hoang Thi Lan', 'On Leave'),
-(4, 'Vo Van Tam',  'Active');
+(1, 'Nguyen Van Hung'),
+(1, 'Tran Van Duc'),
+(2, 'Le Thi Mai'),
+(3, 'Pham Van Son'),
+(3, 'Hoang Thi Lan'),
+(4, 'Vo Van Tam');
 
 
 -- File: 09_mechanic_certification_data.sql
