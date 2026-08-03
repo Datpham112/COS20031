@@ -605,3 +605,34 @@ function mockLogin(role) {
   localStorage.setItem("userRole", role);
   location.reload();
 }
+
+/*=========================
+    MOBILE HAMBURGER MENU
+=========================*/
+document.addEventListener('DOMContentLoaded', () => {
+    const topbar = document.querySelector('.topbar');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (topbar && sidebar) {
+        // Tạo cái nút 3 gạch
+        const menuBtn = document.createElement('button');
+        menuBtn.className = 'mobile-menu-btn';
+        menuBtn.innerHTML = '☰'; // Ký hiệu 3 gạch
+        
+        // Nhét nó vào đầu thanh topbar
+        topbar.insertBefore(menuBtn, topbar.firstChild);
+        
+        // Bấm vô nút thì trượt menu ra
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('show');
+        });
+
+        // Bấm ra chỗ khác thì tự động đóng menu
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('show') && !sidebar.contains(e.target)) {
+                sidebar.classList.remove('show');
+            }
+        });
+    }
+});
