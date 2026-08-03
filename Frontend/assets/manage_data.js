@@ -43,6 +43,25 @@ const ENTITY_CONFIG = {
     ],
   },
 
+  driver_certification: {
+    label: 'Driver Certification', endpoint: '../Backend/api/driver_certification.php', idParam: 'cert_key', idColumn: 'Cert_Key',
+    fields: [
+      { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true, pk: true },
+      { name: 'certification_name', column: 'Certification_Name', label: 'Certification Name', type: 'text', required: true, pk: true },
+      { name: 'expiry_date', column: 'Expiry_Date', label: 'Expiry Date', type: 'date', required: true },
+    ],
+  },
+
+  vehicle_driver_assignment: {
+    label: 'Vehicle Assignment', endpoint: '../Backend/api/vehicle_driver_assignment.php', idParam: 'assignment_id', idColumn: 'Assignment_ID',
+    fields: [
+      { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true },
+      { name: 'vin', column: 'VIN', label: 'Vehicle VIN', type: 'text', required: true },
+      { name: 'start_date', column: 'Start_Date', label: 'Start Date', type: 'datetime-local', required: true },
+      { name: 'end_date', column: 'End_Date', label: 'End Date (leave blank if still active)', type: 'datetime-local', required: false },
+    ],
+  },
+
   workshop: {
     label: 'Workshop', endpoint: '../Backend/api/workshop_crud.php', idParam: 'workshop_id', idColumn: 'Workshop_ID',
     fields: [
@@ -248,9 +267,12 @@ function cancelEdit(key) {
   document.getElementById(`submit-btn-${key}`).textContent = 'Create';
   document.getElementById(`cancel-btn-${key}`).style.display = 'none';
 
-  // Re-enable the primary key field (disabled while editing) and clear password requirement note
-  const pk = ENTITY_CONFIG[key].fields.find(f => f.pk);
-  if (pk) document.getElementById(`${key}-${pk.name}`).disabled = false;
+  // Re-enable the primary key field(s) (disabled while editing). Some
+  // tables (e.g. Driver Certification) have a composite primary key,
+  // so every field marked pk:true needs to be re-enabled here.
+  ENTITY_CONFIG[key].fields.filter(f => f.pk).forEach(f => {
+    document.getElementById(`${key}-${f.name}`).disabled = false;
+  });
 }
 
 function startEdit(key, row) {
@@ -268,7 +290,11 @@ function startEdit(key, row) {
     el.required = f.required && f.name !== 'password'; // password becomes optional on edit
   });
 
-  if (pk) document.getElementById(`${key}-${pk.name}`).disabled = true; // don't let PK change on edit
+  // Composite keys (e.g. Driver Certification: Driver_ID + Certification_Name)
+  // must have every pk field locked, not just the first one.
+  cfg.fields.filter(f => f.pk).forEach(f => {
+    document.getElementById(`${key}-${f.name}`).disabled = true;
+  });
 
   document.getElementById(`form-title-${key}`).textContent = `Edit ${cfg.label}`;
   document.getElementById(`submit-btn-${key}`).textContent = 'Save changes';
