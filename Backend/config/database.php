@@ -10,7 +10,7 @@
 
 define('DB_HOST', '127.0.0.1');      // e.g. '127.0.0.1' or 'localhost'
 define('DB_PORT', '3306');
-define('DB_NAME', 'COS20031'); // the schema you ran the DDL/DML into
+define('DB_NAME', 'fleet_management'); // the schema you ran the DDL/DML into
 define('DB_USER', 'root');           // your MySQL username
 define('DB_PASS', '');               // your MySQL password
 
