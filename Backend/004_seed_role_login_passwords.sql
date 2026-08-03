@@ -47,12 +47,11 @@ WHERE Username IN (
     'inventory.manager'
 );
 
-INSERT INTO Staff (Staff_ID, Full_Name, Role_Type, Depot_ID, Linked_Mechanic_ID, Contact_Info, Username, Password_Hash)
+INSERT INTO Staff (Staff_ID, Full_Name, Role_Type, Depot_ID, Contact_Info, Username, Password_Hash)
 VALUES (
     'S-902',
     'Nguyen Van Hung',
     'Mechanic',
-    1,
     1,
     'mechanic.test@fleetops.com',
     'mechanic.test',
