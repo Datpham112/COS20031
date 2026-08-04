@@ -23,7 +23,10 @@
   .md-action-btn { border:1px solid var(--line); background:#fff; border-radius:6px; padding:4px 9px; font-size:11.5px; cursor:pointer; margin-right:4px; }
   .md-action-btn:hover { background:var(--canvas); }
   .md-action-btn.danger { color:var(--red); border-color:#f3d2ce; }
+#entityTabs, #entityPanels {
+  opacity: 0;}
 </style>
+
 </head>
 <body data-page-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
 <div class="app">
@@ -91,34 +94,43 @@
       document.getElementById('sidebarName').textContent = me.fullName;
       document.getElementById('sidebarRole').textContent = me.roleType + (me.depotId ? ' · Depot ' + me.depotId : '');
       document.getElementById('sidebarAvatar').textContent = me.fullName.split(' ').filter(Boolean).slice(-2).map(w => w[0]).join('').toUpperCase();
-      
+      const pill = document.getElementById('topRolePill');
+      if (pill) pill.textContent = me.roleType.toUpperCase();
+
       const role = me.roleType;
       
-      setTimeout(() => {
+      const checkTabs = setInterval(() => {
         const allTabs = document.querySelectorAll('#entityTabs .tab-btn');
-        allTabs.forEach(tab => {
-          const tabName = tab.textContent.trim();
-          let isAllowed = false;
-
-          if (role === 'Head Manager' || role === 'Depot Manager') {
-            isAllowed = true; 
-          } else if (role === 'Workshop Manager') {
-            if (['Mechanic', 'Maintenance Job', 'Predictive Alert'].includes(tabName)) isAllowed = true;
-          } else if (role === 'Driver Manager') {
-            if (['Driver'].includes(tabName)) isAllowed = true;
-          } else if (role === 'Inventory Manager') {
-            if (['Part', 'Supplier'].includes(tabName)) isAllowed = true;
-          }
-
-          if (!isAllowed) {
-            tab.style.display = 'none';
-          }
-        });
         
-        const firstVisibleTab = Array.from(allTabs).find(tab => tab.style.display !== 'none');
-        if(firstVisibleTab) firstVisibleTab.click();
+        if (allTabs.length > 0) {
+          clearInterval(checkTabs); 
+          
+          allTabs.forEach(tab => {
+            const tabName = tab.textContent.trim();
+            let isAllowed = false;
 
-      }, 300);
+            if (role === 'Head Manager' || role === 'Depot Manager') {
+              isAllowed = true;
+            } else if (role === 'Workshop Manager') {
+              if (['Mechanic', 'Maintenance Job', 'Predictive Alert'].includes(tabName)) isAllowed = true;
+            } else if (role === 'Driver Manager') {
+              if (['Driver'].includes(tabName)) isAllowed = true;
+            } else if (role === 'Inventory Manager') {
+              if (['Part', 'Supplier'].includes(tabName)) isAllowed = true;
+            }
+
+            if (!isAllowed) {
+              tab.style.display = 'none';
+            }
+          });
+          
+          const firstVisibleTab = Array.from(allTabs).find(tab => tab.style.display !== 'none');
+          if(firstVisibleTab) firstVisibleTab.click();
+
+          document.getElementById('entityTabs').style.opacity = '1';
+          document.getElementById('entityPanels').style.opacity = '1';
+        }
+      }, 10);
     });
   </script>
 
