@@ -64,6 +64,10 @@ if ($staff['Role_Type'] === 'Driver') {
     $landing = 'workload.html';
 } elseif ($staff['Role_Type'] === 'Driver Manager') {
     $landing = 'manage_data.html';
+ 
+} elseif ($staff['Role_Type'] === 'Inventory Manager') {
+    $landing = 'inventory.html';
+
 }
 
 
