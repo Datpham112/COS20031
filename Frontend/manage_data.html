@@ -38,24 +38,25 @@
       </div>
     </div>
 
-    <div class="nav-section-label" data-roles="Head Manager,Depot Manager,Workshop Manager,Inventory Manager">Overview</div>
-    <a class="nav-item" href="dashboard.html" data-roles="Head Manager,Depot Manager,Workshop Manager,Inventory Manager">
+    <!--<div class="nav-section-label">Overview</div>
+    <a class="nav-item" href="dashboard.html">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
       Dashboard
-    </a>
+    </a>-->
 
-    <div class="nav-section-label" data-roles="Head Manager,Depot Manager,Workshop Manager,Inventory Manager">Workshop</div>
-    <a class="nav-item" href="workshop.html" data-roles="Head Manager,Depot Manager,Workshop Manager,Inventory Manager">
+    <div class="nav-section-label">Workshop</div>
+    <a class="nav-item" href="workshop.html" data-roles="Head Manager,Depot Manager,Workshop Manager,Mechanic">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/></svg>
       Workshop Hub
     </a>
-    <a class="nav-item" href="workload.html" data-roles="Head Manager,Depot Manager,Workshop Manager,Inventory Manager">
+
+    <!--<a class="nav-item active" href="workload.html">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
       Workload
     </a>
 
-    <div class="nav-section-label" data-roles="Head Manager,Depot Manager,Workshop Manager,Inventory Manager">Fleet Safety</div>
-    <a class="nav-item" href="safety.html" data-roles="Head Manager,Depot Manager,Workshop Manager,Inventory Manager">
+    <div class="nav-section-label">Fleet Safety</div>
+    <a class="nav-item" href="safety.html" data-roles="Head Manager,Depot Manager,Driver Manager,Driver">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/></svg>
       Safety Command Center
     </a>
@@ -64,11 +65,12 @@
     <a class="nav-item" href="manager_console.html" data-roles="Head Manager">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
       Manager Console
-    </a>
-    <a class="nav-item active" href="manage_data.html">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+    </a>-->
+
+<a class="nav-item active" href="manage_data.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
       Manage Data
-      <span class="dot"></span>
+      
     </a>
 
     <div class="sidebar-foot">
@@ -82,21 +84,62 @@
   </aside>
 
   <script src="assets/auth-guard.js"></script>
+  
   <script>
     document.addEventListener('staffReady', (e) => {
       const me = e.detail;
       document.getElementById('sidebarName').textContent = me.fullName;
       document.getElementById('sidebarRole').textContent = me.roleType + (me.depotId ? ' · Depot ' + me.depotId : '');
       document.getElementById('sidebarAvatar').textContent = me.fullName.split(' ').filter(Boolean).slice(-2).map(w => w[0]).join('').toUpperCase();
+      
+      const role = me.roleType;
+      
+      setTimeout(() => {
+        const allTabs = document.querySelectorAll('#entityTabs .tab-btn');
+        allTabs.forEach(tab => {
+          const tabName = tab.textContent.trim();
+          let isAllowed = false;
+
+          if (role === 'Head Manager' || role === 'Depot Manager') {
+            isAllowed = true; 
+          } else if (role === 'Workshop Manager') {
+            if (['Mechanic', 'Maintenance Job', 'Predictive Alert'].includes(tabName)) isAllowed = true;
+          } else if (role === 'Driver Manager') {
+            if (['Driver'].includes(tabName)) isAllowed = true;
+          } else if (role === 'Inventory Manager') {
+            if (['Part', 'Supplier'].includes(tabName)) isAllowed = true;
+          }
+
+          if (!isAllowed) {
+            tab.style.display = 'none';
+          }
+        });
+        
+        const firstVisibleTab = Array.from(allTabs).find(tab => tab.style.display !== 'none');
+        if(firstVisibleTab) firstVisibleTab.click();
+
+      }, 300);
     });
   </script>
 
   <!-- MAIN -->
   <div class="main">
     <div class="topbar">
+
       <div>
         <div class="page-title">Manage Data</div>
         <div class="page-crumb">SWINTECH / ADMIN / MANAGE DATA</div>
+      </div>
+      <div class="topbar-right">
+        <input id="globalWorkshopSearch" class="search-box" type="text" placeholder="🔍 Search vehicle, driver, job..." style="border: none; outline: none; background: #f8f9fa; padding: 8px 16px; border-radius: 20px; font-family: 'Space Grotesk', sans-serif;">
+        <select id="topDepotFilter" class="depot-select">
+          <option value="all">All depots</option>
+          <option value="Ha Noi">Ha Noi</option>
+          <option value="Da Nang">Da Nang</option>
+          <option value="Ho Chi Minh City">Ho Chi Minh</option>
+          <option value="Can Tho">Can Tho</option>
+        </select>
+        <span class="role-pill" id="topRolePill">…</span>
       </div>
     </div>
 
@@ -108,5 +151,6 @@
 </div>
 
 <script src="assets/manage_data.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
