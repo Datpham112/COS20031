@@ -62,7 +62,10 @@ if ($staff['Role_Type'] === 'Driver') {
     $landing = 'driver.html';
 } elseif ($staff['Role_Type'] === 'Mechanic') {
     $landing = 'workload.html';
+} elseif ($staff['Role_Type'] === 'Inventory Manager') {
+    $landing = 'inventory.html';
 }
+
 
 header('Location: ../../Frontend/' . $landing);
 exit;
