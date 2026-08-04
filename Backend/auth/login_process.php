@@ -66,6 +66,7 @@ if ($staff['Role_Type'] === 'Driver') {
     $landing = 'manage_data.html';
 }
 
+
 header('Location: ../../Frontend/' . $landing);
 exit;
 
