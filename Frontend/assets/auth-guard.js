@@ -25,6 +25,7 @@
   const ROLE_HOME = {
     Driver: "my_profile.html",
     Mechanic: "workload.html",
+    "Driver Manager": "manage_data.html",
   };
 
   async function guard() {
