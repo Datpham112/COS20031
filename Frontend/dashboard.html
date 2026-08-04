@@ -212,5 +212,19 @@
 
 <script src="assets/script.js"></script>
 <script src="assets/dashboard.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch("../Backend/api/me.php");
+      const me = await res.json();
+      
+      if (me.loggedIn && me.roleType === 'Workshop Manager') {
+        window.location.href = 'workshop.html';
+      }
+    } catch (err) {
+      console.error("Lỗi chuyển hướng:", err);
+    }
+  });
+</script>
 </body>
 </html>
