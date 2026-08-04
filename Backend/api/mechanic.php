@@ -4,6 +4,8 @@
  * ------------------------------------------------------------------
  *   GET    mechanic.php                     -> list mechanics (scoped)
  *   GET    mechanic.php?mechanic_id=XXX     -> one mechanic
+ *   GET    mechanic.php?me=1                -> logged-in mechanic's own
+ *                                               profile + assigned work
  *   POST   mechanic.php                     -> create
  *   PUT    mechanic.php?mechanic_id=XXX     -> update
  *   DELETE mechanic.php?mechanic_id=XXX     -> delete
@@ -14,6 +16,10 @@
  * Permissions: Read/Write = Head Manager (all) / Workshop Manager
  * (their own workshop only -- each depot has exactly one workshop,
  * matched via Workshop.Depot_ID = the manager's Depot_ID).
+ *
+ * A logged-in Mechanic is NOT in TABLE_PERMISSIONS['Mechanic']['read'],
+ * so they can't use the routes above. GET ?me=1 is their own separate
+ * self-service route -- see the block at the top of case 'GET' below.
  * ------------------------------------------------------------------
  */
 
@@ -27,6 +33,141 @@ $method = $_SERVER['REQUEST_METHOD'];
 switch ($method) {
 
     case 'GET':
+        if (isset($_GET['me'])) {
+            $staff = require_login();
+            if ($staff['role_type'] !== 'Mechanic') {
+                json_fail(403, 'This endpoint is for logged-in mechanics only.');
+            }
+
+            $mechanicId = $staff['linked_mechanic_id'];
+            if (!$mechanicId) {
+                $mechanicStmt = $pdo->prepare('SELECT Mechanic_ID FROM Mechanic WHERE Full_Name = ? LIMIT 1');
+                $mechanicStmt->execute([$staff['full_name']]);
+                $mechanicId = $mechanicStmt->fetchColumn();
+                if ($mechanicId !== false) {
+                    $mechanicId = (int) $mechanicId;
+                }
+            }
+            if (!$mechanicId) {
+                json_fail(403, 'This endpoint is for logged-in mechanics only.');
+            }
+
+            $stmt = $pdo->prepare(
+                'SELECT
+                    m.Mechanic_ID AS Mechanic_ID,
+                    m.Workshop_ID AS Workshop_ID,
+                    m.Full_Name AS Full_Name,
+                    w.Depot_ID AS Depot_ID,
+                    d.Location_Name AS Depot_Name,
+                    s.Contact_Info AS Contact_Info
+                 FROM Mechanic m
+                 LEFT JOIN Workshop w ON w.Workshop_ID = m.Workshop_ID
+                 LEFT JOIN Depot d ON d.Depot_ID = w.Depot_ID
+                 LEFT JOIN Staff s ON (
+                     (s.Linked_Mechanic_ID = m.Mechanic_ID)
+                     OR (s.Role_Type = ? AND s.Full_Name = m.Full_Name)
+                 )
+                 WHERE m.Mechanic_ID = ?'
+            );
+            $stmt->execute(['Mechanic', $mechanicId]);
+            $mechanic = $stmt->fetch();
+            if (!$mechanic) {
+                json_response(['error' => 'Mechanic not found'], 404);
+            }
+
+            $mechanic['Employment_Status'] = 'Active';
+            $mechanic['Status'] = 'Active';
+
+            $stmt = $pdo->prepare(
+                'SELECT
+                    ma.Activity_ID AS Activity_ID,
+                    ama.Labour_Hours AS Labour_Hours,
+                    ama.Labour_Hours AS labour_hours,
+                    ma.Job_ID AS Job_ID,
+                    ma.Activity_Type AS Activity_Type,
+                    ma.Diagnostic_Result AS Diagnostic_Result,
+                    ma.Repeat_Fault_Indicator AS Repeat_Fault_Indicator,
+                    ma.Warranty_Indicator AS Warranty_Indicator,
+                    mj.VIN AS VIN,
+                    mj.Workshop_ID AS Workshop_ID,
+                    mj.Date_Opened AS Date_Opened,
+                    mj.Date_Closed AS Date_Closed,
+                    mj.Downtime_Hours AS Downtime_Hours,
+                    mj.Downtime_Hours AS downtime_hours,
+                    mj.Total_Cost AS Total_Cost,
+                    mj.Priority AS Priority,
+                    mj.Priority AS priority
+                 FROM Maintenance_Activity ma
+                 JOIN Maintenance_Job mj ON mj.Job_ID = ma.Job_ID
+                 LEFT JOIN Activity_Mechanic_Assignment ama
+                     ON ama.Activity_ID = ma.Activity_ID
+                    AND ama.Mechanic_ID = ?
+                 WHERE ama.Mechanic_ID = ?
+                 ORDER BY mj.Date_Opened DESC, ma.Activity_ID DESC'
+            );
+            $stmt->execute([$mechanicId, $mechanicId]);
+            $assignedWork = $stmt->fetchAll();
+
+            if (!$assignedWork && !empty($mechanic['Workshop_ID'])) {
+                $stmt = $pdo->prepare(
+                    'SELECT
+                        ma.Activity_ID AS Activity_ID,
+                        NULL AS Labour_Hours,
+                        ma.Job_ID AS Job_ID,
+                        ma.Activity_Type AS Activity_Type,
+                        ma.Diagnostic_Result AS Diagnostic_Result,
+                        ma.Repeat_Fault_Indicator AS Repeat_Fault_Indicator,
+                        ma.Warranty_Indicator AS Warranty_Indicator,
+                        mj.VIN AS VIN,
+                        mj.Workshop_ID AS Workshop_ID,
+                        mj.Date_Opened AS Date_Opened,
+                        mj.Date_Closed AS Date_Closed,
+                        mj.Downtime_Hours AS downtime_hours,
+                        mj.Total_Cost AS total_cost,
+                        mj.Priority AS priority
+                     FROM Maintenance_Activity ma
+                     JOIN Maintenance_Job mj ON mj.Job_ID = ma.Job_ID
+                     WHERE mj.Workshop_ID = ?
+                     ORDER BY mj.Date_Opened DESC, ma.Activity_ID DESC'
+                );
+                $stmt->execute([(int) $mechanic['Workshop_ID']]);
+                $assignedWork = $stmt->fetchAll();
+            }
+
+            $stmt = $pdo->prepare(
+                'SELECT
+                    Certification_Name AS Certification_Name,
+                    Issue_Date AS Issue_Date,
+                    Expiry_Date AS Expiry_Date
+                 FROM Mechanic_Certification
+                 WHERE Mechanic_ID = ?
+                 ORDER BY Expiry_Date'
+            );
+            $stmt->execute([$mechanicId]);
+            $certifications = $stmt->fetchAll();
+
+            $stmt = $pdo->prepare(
+                'SELECT
+                    Certificate_Name AS Certificate_Name,
+                    Issue_Date AS Issue_Date,
+                    Expiry_Date AS Expiry_Date
+                 FROM Mechanic_Cert_History
+                 WHERE Mechanic_ID = ?
+                 ORDER BY Expiry_Date'
+            );
+            $stmt->execute([$mechanicId]);
+            $certHistory = $stmt->fetchAll();
+
+            json_response([
+                'mechanic'        => $mechanic,
+                'assignedWork'    => $assignedWork,
+                'assigned_work'   => $assignedWork,
+                'certifications'  => $certifications,
+                'certHistory'     => $certHistory,
+                'cert_history'    => $certHistory,
+            ]);
+        }
+
         $staff = require_table_permission('Mechanic', 'read');
 
         if (isset($_GET['mechanic_id'])) {
@@ -107,7 +248,6 @@ switch ($method) {
         json_response(['error' => 'Method not allowed'], 405);
 }
 
-/** Returns the Workshop_ID tied to the logged-in manager's own depot. */
 function own_workshop_id(PDO $pdo, array $staff): ?int
 {
     $stmt = $pdo->prepare('SELECT Workshop_ID FROM Workshop WHERE Depot_ID = ?');
