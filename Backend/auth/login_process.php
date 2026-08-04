@@ -59,7 +59,7 @@ $_SESSION['linked_mechanic_id'] = $staff['Linked_Mechanic_ID'] ?? null;
 
 $landing = 'dashboard.html';
 if ($staff['Role_Type'] === 'Driver') {
-    $landing = 'my_profile.html';
+    $landing = 'driver.html';
 } elseif ($staff['Role_Type'] === 'Mechanic') {
     $landing = 'workload.html';
 }

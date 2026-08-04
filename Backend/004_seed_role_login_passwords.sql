@@ -31,6 +31,7 @@
 --   inventory.manager   / Password123   (Inventory Manager, company-wide)
 --   mechanic.test       / mechanic123   (Mechanic, Workshop 1)
 --   driver.test         / driver123     (Driver -- from migration 003)
+--   admin               / admin123
 --
 -- Change these before handing the project in / deploying anywhere real.
 -- =====================================================================
@@ -56,4 +57,27 @@ VALUES (
     'mechanic.test@fleetops.com',
     'mechanic.test',
     '$2b$12$bXYoJj6fM6rHvF/GlNwN4.WY81E3Ft.WJderSI7Nvu3PTseMLeg/e'
-);
+)
+ON DUPLICATE KEY UPDATE
+    Full_Name = VALUES(Full_Name),
+    Role_Type = VALUES(Role_Type),
+    Depot_ID = VALUES(Depot_ID),
+    Contact_Info = VALUES(Contact_Info),
+    Password_Hash = VALUES(Password_Hash);
+
+INSERT INTO Staff (Staff_ID, Full_Name, Role_Type, Depot_ID, Contact_Info, Username, Password_Hash)
+VALUES (
+    'S-009',
+    'System Administrator',
+    'Head Manager',
+    NULL,
+    'admin@fleetops.com',
+    'admin',
+    '$2b$12$zaoWEliUX61UisITW6e2jOIQLR1MoU7Qip30836ufCMx8y4Wl94WW'
+)
+ON DUPLICATE KEY UPDATE
+    Full_Name = VALUES(Full_Name),
+    Role_Type = VALUES(Role_Type),
+    Depot_ID = VALUES(Depot_ID),
+    Contact_Info = VALUES(Contact_Info),
+    Password_Hash = VALUES(Password_Hash);

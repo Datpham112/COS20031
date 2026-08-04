@@ -23,7 +23,7 @@
  */
 (function () {
   const ROLE_HOME = {
-    Driver: "my_profile.html",
+    Driver: "driver.html",
     Mechanic: "workload.html",
   };
 
