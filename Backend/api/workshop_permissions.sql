@@ -9,10 +9,10 @@ GRANT SELECT, INSERT, UPDATE ON Activity_Mechanic_Assignment TO 'workshop_manage
 GRANT SELECT, UPDATE ON Predictive_Alert TO 'workshop_manager';
 
 -- 3. Create login accounts for the 4 depot managers
-CREATE USER 'nhu_depot1'@'localhost' IDENTIFIED BY 'StrongPassword123!';
-CREATE USER 'manager_depot2'@'localhost' IDENTIFIED BY 'StrongPassword123!';
-CREATE USER 'manager_depot3'@'localhost' IDENTIFIED BY 'StrongPassword123!';
-CREATE USER 'manager_depot4'@'localhost' IDENTIFIED BY 'StrongPassword123!';
+CREATE USER 'nhu_depot1'@'localhost' IDENTIFIED BY '123456';
+CREATE USER 'manager_depot2'@'localhost' IDENTIFIED BY '123456';
+CREATE USER 'manager_depot3'@'localhost' IDENTIFIED BY '123456';
+CREATE USER 'manager_depot4'@'localhost' IDENTIFIED BY '123456';
 
 -- 4. Assign the role to all workshop manager accounts
 GRANT 'workshop_manager' TO 'nhu_depot1'@'localhost', 

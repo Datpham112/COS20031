@@ -1,5 +1,5 @@
 SET FOREIGN_KEY_CHECKS = 0;
-INSERT INTO Activity_Mechanic_Assignment
+INSERT IGNORE INTO Activity_Mechanic_Assignment
 (
     Activity_ID,
     Mechanic_ID,
@@ -11,7 +11,7 @@ VALUES
 (3, 3, 6.00),
 (4, 4, 5.00),
 (5, 6, 1.50);
-INSERT INTO Activity_Part
+INSERT IGNORE INTO Activity_Part
 (
     Activity_ID,
     Part_ID,
@@ -26,13 +26,13 @@ VALUES
 (4, 4, 1, 1600000.00, 1600000.00),
 (5, 5, 1, 100000.00, 100000.00),
 (5, 6, 1, 75000.00, 75000.00);
-INSERT INTO Depot (Location_Name)
+INSERT IGNORE INTO Depot (Location_Name)
 VALUES
 ('Ha Noi'),
 ('Da Nang'),
 ('Ho Chi Minh City'),
 ('Can Tho');
-INSERT INTO Driver_Certification
+INSERT IGNORE INTO Driver_Certification
 (
 Driver_ID,
 driver_name,
@@ -49,7 +49,7 @@ VALUES
 ('D-417','Pham Duc Long','Heavy Vehicle Licence','2028-01-15'),
 ('D-417','Pham Duc Long','Standard Licence','2025-08-20');
 
-select * from driver_certification;INSERT INTO Driver (
+select * from driver_certification;INSERT IGNORE INTO Driver (
     Driver_ID,
     Depot_ID,
     Full_Name,
@@ -66,7 +66,7 @@ VALUES
 ('D-417',3,'Pham Duc Long','0904567890','Hoang Van Duc','Heavy Vehicle Licence','2027-11-18','Active'),
 ('D-302',4,'Nguyen Thi Mai','0905678901','Tran Quoc Bao','Standard Licence','2025-08-20','Suspended');
 
-INSERT INTO Driver_Safety_Score
+INSERT IGNORE INTO Driver_Safety_Score
 (
     Driver_ID,
     Month,
@@ -84,7 +84,7 @@ VALUES
 ('D-204', 2, 2026, 85),
 ('D-331', 2, 2026, 70),
 ('D-417', 2, 2026, 40),
-('D-302', 2, 2026, 58);INSERT INTO Event_Penalty
+('D-302', 2, 2026, 58);INSERT IGNORE INTO Event_Penalty
 (Event_Type, Penalty_Points)
 VALUES
 ('Speeding', 10),
@@ -97,7 +97,7 @@ VALUES
 ('Collision Warning', 25),
 ('Unsafe Following Distance', 8),
 ('Engine Overspeed', 6);
-INSERT INTO Maintenance_Activity
+INSERT IGNORE INTO Maintenance_Activity
 (
     Job_ID,
     Activity_Type,
@@ -111,7 +111,7 @@ VALUES
 (3, 'Battery Replacement', 'Battery degraded below 70 percent capacity, replaced under warranty', TRUE, TRUE),
 (4, 'Cooling System Repair', 'Radiator leak found and repaired', FALSE, FALSE),
 (5, 'General Inspection', 'Routine service inspection, no issues found', FALSE, FALSE);
-INSERT INTO Maintenance_Job
+INSERT IGNORE INTO Maintenance_Job
 (
     VIN,
     Workshop_ID,
@@ -128,7 +128,7 @@ VALUES
 ('VIN00000000000003', 2, 3, '2026-01-20', '2026-01-25', 40.00, 8500000.00, 'High'),
 ('VIN00000000000004', 3, 4, '2025-12-10', '2025-12-15', 30.00, 6200000.00, 'High'),
 ('VIN00000000000005', 4, NULL, '2026-04-01', '2026-04-02', 5.00, 500000.00, 'Low');
-INSERT INTO Mechanic_Certification
+INSERT IGNORE INTO Mechanic_Certification
 (
   Mechanic_ID,
   Certification_Name,
@@ -143,7 +143,7 @@ VALUES
 (4, 'Standard Automotive Mechanic', '2021-05-05', '2025-05-05'),
 (5, 'Standard Automotive Mechanic', '2023-07-07', '2027-07-07'),
 (6, 'Standard Automotive Mechanic', '2022-09-09', '2026-09-09');
-INSERT INTO Mechanic_Cert_History
+INSERT IGNORE INTO Mechanic_Cert_History
 (
   Cert_ID,
   Mechanic_ID,
@@ -157,7 +157,7 @@ VALUES
 (3, 3, 'HV Battery Service Certificate', '2024-05-20', '2027-05-20'),
 (4, 4, 'Heavy Vehicle Inspection Certificate', '2024-07-08', '2027-07-08'),
 (5, 5, 'Air Conditioning Repair Certificate', '2024-09-12', '2027-09-12');
-INSERT INTO Mechanic
+INSERT IGNORE INTO Mechanic
 (
   Workshop_ID,
   Full_Name,
@@ -171,7 +171,7 @@ VALUES
 (3, 'Pham Van Son',    'Full-Time',  'Active'),
 (3, 'Hoang Thi Lan',   'Contractor', 'On Leave'),
 (4, 'Vo Van Tam',      'Apprentice', 'Active');
-INSERT INTO Part
+INSERT IGNORE INTO Part
 (
   Part_Name,
   Part_Category,
@@ -186,7 +186,7 @@ VALUES
 ('Radiator Assembly', 'Cooling System', 'Denso', 1800000.00, 3),
 ('Engine Oil Filter', 'Engine', 'Mann Filter', 120000.00, 20),
 ('Cabin Air Filter', 'General', 'Mann Filter', 90000.00, 15);
-INSERT INTO Part_Supplier
+INSERT IGNORE INTO Part_Supplier
 (
   Part_ID,
   Supplier_ID,
@@ -202,7 +202,7 @@ VALUES
 (4, 3, 'Primary', 1600000.00, 5),
 (5, 1, 'Primary', 100000.00, 2),
 (6, 1, 'Primary', 75000.00, 2);
-INSERT INTO Predictive_Alert
+INSERT IGNORE INTO Predictive_Alert
 (
   VIN,
   Depot_ID,
@@ -235,7 +235,7 @@ ALTER TABLE Predictive_Alert
                 'Tyre Pressure'
             )
         );
-INSERT INTO Safety_Event
+INSERT IGNORE INTO Safety_Event
 (
     Event_ID,
     Driver_ID,
@@ -252,7 +252,7 @@ VALUES
 (2, 'D-204', 'VIN00000000000002', 1, '2026-01-18 16:42:00', 'Speeding', 'High', 120884.70, 'Vehicle exceeded the speed limit on a suburban route.'),
 (3, 'D-331', 'VIN00000000000003', 2, '2026-02-03 11:05:00', 'Lane Departure', 'Low', 12412.90, 'Brief lane drift detected during heavy traffic conditions.'),
 (4, 'D-417', 'VIN00000000000004', 3, '2026-02-11 19:27:00', 'Sharp Cornering', 'Medium', 112942.10, 'Cornering speed was higher than expected for road conditions.'),
-(5, 'D-302', 'VIN00000000000005', 4, '2026-02-19 07:50:00', 'Sudden Acceleration', 'High', 5488.60, 'Rapid acceleration observed during morning departure from depot.');INSERT INTO Staff (
+(5, 'D-302', 'VIN00000000000005', 4, '2026-02-19 07:50:00', 'Sudden Acceleration', 'High', 5488.60, 'Rapid acceleration observed during morning departure from depot.');INSERT IGNORE INTO Staff (
     Staff_ID,
     Full_Name,
     Role_Type,
@@ -269,7 +269,7 @@ VALUES
 ('S-005','Vu Ngoc Anh','Depot Manager',4,'0901000005 | depot.manager.ct@fleetops.com','depot.manager.ct',NULL),
 ('S-006','Hoang Gia Bao','Workshop Manager',1,'0901000006 | workshop.manager.hn@fleetops.com','workshop.manager.hn',NULL),
 ('S-007','Doan Minh Tuan','Driver Manager',2,'0901000007 | driver.manager.dn@fleetops.com','driver.manager.dn',NULL),
-('S-008','Nguyen Thuy Linh','Inventory Manager',NULL,'0901000008 | inventory.manager@fleetops.com','inventory.manager',NULL);INSERT INTO Supplier
+('S-008','Nguyen Thuy Linh','Inventory Manager',NULL,'0901000008 | inventory.manager@fleetops.com','inventory.manager',NULL);INSERT IGNORE INTO Supplier
 (
   Supplier_Name,
   Contact_Name,
@@ -283,7 +283,7 @@ VALUES
 ('EV Components Asia', 'Tran Minh', '0282345678', 'sales@evcomponents.asia', '45 Le Loi, Da Nang', NULL),
 ('Cool Truck Supplies', 'Le Hoa', '0283456789', 'info@coolsupplies.vn', '78 Tran Hung Dao, Ha Noi', NULL),
 ('National Auto Distributors', 'Pham Long', '0284567890', 'orders@natauto.vn', '12 Vo Van Kiet, Can Tho', NULL);
-INSERT INTO Vehicle
+INSERT IGNORE INTO Vehicle
 (
 VIN,
 Depot_ID,
@@ -300,7 +300,7 @@ VALUES
 ('VIN00000000000003',2,'43E45678','Electric Van','BYD T3',2023,12300.00,'Under Maintenance'),
 ('VIN00000000000004',3,'51C78901','Refrigerated Truck','Hino 500',2020,112480.40,'Out of Service'),
 ('VIN00000000000005',4,'65A11223','Service Vehicle','Ford Ranger',2024,5200.80,'Awaiting Inspection');
-INSERT INTO Vehicle_Driver_Assignment
+INSERT IGNORE INTO Vehicle_Driver_Assignment
 (
     Driver_ID,
     VIN,
@@ -313,7 +313,7 @@ VALUES
 ('D-331','VIN00000000000003','2026-02-10 07:30:00',NULL),
 ('D-417','VIN00000000000004','2026-01-15 09:00:00','2026-05-15 18:00:00'),
 ('D-302','VIN00000000000005','2026-03-01 08:00:00',NULL);
-INSERT INTO Warranty_Claims
+INSERT IGNORE INTO Warranty_Claims
 (
   Activity_ID,
   Part_ID,
