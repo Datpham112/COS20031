@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetOps — Driver Profile Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body data-page-roles="Driver">
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">F</div>
+            <div>
+                <div class="brand-name">FleetOps</div>
+                <div class="brand-sub">SMART FLEET SYSTEM</div>
+            </div>
+        </div>
+
+        <div class="nav-section-label">Overview</div>
+        <a class="nav-item" href="driver.html" data-roles="Driver">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+            My Driver Profile
+        </a>
+
+        <div class="sidebar-foot">
+            <div class="avatar" id="sidebarAvatar">?</div>
+            <div>
+                <div class="who-name" id="sidebarName">…</div>
+                <div class="who-role" id="sidebarRole">…</div>
+            </div>
+            <a href="#" data-action="logout" style="margin-left:auto;font-size:12px;color:var(--muted)">Log out</a>
+        </div>
+    </aside>
+
+    <script src="assets/auth-guard.js"></script>
+    <script>
+        document.addEventListener('staffReady', (e) => {
+            const me = e.detail;
+            document.getElementById('sidebarName').textContent = me.fullName;
+            document.getElementById('sidebarRole').textContent = me.roleType;
+            document.getElementById('sidebarAvatar').textContent = me.fullName.split(' ').filter(Boolean).slice(-2).map(w => w[0]).join('').toUpperCase();
+        });
+    </script>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">My Profile</div>
+        <div class="page-crumb">FLEETOPS / DRIVER</div>
+      </div>
+      <div class="topbar-right">
+        <span class="role-pill">DRIVER</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- TABS -->
+      <div class="tab-row">
+        <button class="tab-btn active" data-tab="profile">My Profile</button>
+        <button class="tab-btn" data-tab="safety">My Safety</button>
+      </div>
+
+      <div class="tab-panel active" id="profile">
+        <div class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">Personal Information</div>
+          </div>
+          <div class="kv-grid">
+            <div>
+              <div class="kv-label">Driver ID</div>
+              <div class="kv-val" id="driverId">—</div>
+            </div>
+            <div>
+              <div class="kv-label">Full Name</div>
+              <div class="kv-val" id="driverName">—</div>
+            </div>
+            <div>
+              <div class="kv-label">Depot</div>
+              <div class="kv-val" id="driverDepot">—</div>
+            </div>
+            <div>
+              <div class="kv-label">Employment Status</div>
+              <div class="kv-val" id="driverStatus">—</div>
+            </div>
+            <div>
+              <div class="kv-label">Contact Information</div>
+              <div class="kv-val" id="driverContact">—</div>
+            </div>
+            <div>
+              <div class="kv-label">Emergency Contact</div>
+              <div class="kv-val" id="driverEmergency">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">Licence Information</div>
+          </div>
+          <div class="kv-grid">
+            <div>
+              <div class="kv-label">Licence Type</div>
+              <div class="kv-val" id="driverLicenceType">—</div>
+            </div>
+            <div>
+              <div class="kv-label">Licence Expiry</div>
+              <div class="kv-val" id="driverLicenceExpiry">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">Driver Certifications</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Certification</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="certificationTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">Current Vehicle Assignment</div>
+          </div>
+          <div class="kv-grid">
+            <div>
+              <div class="kv-label">Registration Number</div>
+              <div class="kv-val" id="vehicleRegistration">—</div>
+            </div>
+            <div>
+              <div class="kv-label">Vehicle</div>
+              <div class="kv-val" id="vehicleModel">—</div>
+            </div>
+            <div>
+              <div class="kv-label">VIN</div>
+              <div class="kv-val mono" id="vehicleVIN">—</div>
+            </div>
+            <div>
+              <div class="kv-label">Assigned Since</div>
+              <div class="kv-val" id="assignmentDate">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="safety">
+        <div class="stat-strip">
+          <div class="card stat-box">
+            <div class="kpi-label">Current Safety Score</div>
+            <div class="kpi-val" id="currentSafetyScore">—</div>
+          </div>
+        </div>
+
+        <div class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">Safety Events</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Vehicle</th>
+                <th>Event</th>
+                <th>Severity</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="safetyEventTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">Safety Score History</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Year</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="scoreHistoryTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAWER -->
+  <div class="overlay" id="overlay"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <div>
+        <div class="drawer-title">Safety Event</div>
+        <div class="drawer-sub">Event Details</div>
+      </div>
+      <button class="drawer-close">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-sec">
+        <div class="drawer-sec-title">Event Information</div>
+        <div class="kv-grid">
+          <div>
+            <div class="kv-label">Date</div>
+            <div class="kv-val" id="drawerDate">—</div>
+          </div>
+          <div>
+            <div class="kv-label">Vehicle</div>
+            <div class="kv-val" id="drawerVehicle">—</div>
+          </div>
+          <div>
+            <div class="kv-label">VIN</div>
+            <div class="kv-val mono" id="drawerVIN">—</div>
+          </div>
+          <div>
+            <div class="kv-label">Severity</div>
+            <div class="kv-val" id="drawerSeverity">—</div>
+          </div>
+          <div>
+            <div class="kv-label">Odometer</div>
+            <div class="kv-val" id="drawerOdometer">—</div>
+          </div>
+          <div>
+            <div class="kv-label">Event Type</div>
+            <div class="kv-val" id="drawerEvent">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="drawer-sec">
+        <div class="drawer-sec-title">Review Comments</div>
+        <p id="drawerComments">No review comments available.</p>
+      </div>
+    </div>
+    <div class="drawer-actions">
+      <button class="btn-secondary" id="closeDrawer">Close</button>
+    </div>
+  </div>
+
+  <script src="assets/script.js"></script>
+  <script src="assets/driver.js"></script>
+  
+</body>
+</html>
