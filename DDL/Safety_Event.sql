@@ -22,5 +22,6 @@ CREATE TABLE Safety_Event (
         REFERENCES Depot(Depot_ID),
 
     CONSTRAINT chk_severity
-        CHECK (Severity_Level IN ('Low','Medium','High','Critical'))
+        CHECK (Severity_Level IN ('Low','Medium','High','Critical')),
+    INDEX idx_safety_vin_depot_ts (VIN, Depot_ID, Timestamp)
 );

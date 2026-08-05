@@ -40,5 +40,7 @@ CREATE TABLE Predictive_Alert (
                 'Emergency Repair',
                 'Resolved'
             )
-        )
+        ),
+    INDEX idx_predictive_vin_raised (VIN, Raised_At),
+    INDEX idx_predictive_depot (Depot_ID)
 );

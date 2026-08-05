@@ -21,5 +21,6 @@ CREATE TABLE Maintenance_Activity (
                 'Electrical Repair',
                 'General Inspection'
             )
-        )
+        ),
+    INDEX idx_activity_job (Job_ID)
 );

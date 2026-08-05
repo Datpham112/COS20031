@@ -22,5 +22,6 @@ create table Vehicle (
         check (Current_Odometer >= 0),
 
     constraint chk_operational_status
-        check (Operational_Status in ('Active','Available','Under Maintenance','Awaiting Inspection','Out of Service','Retired'))
+        check (Operational_Status in ('Active','Available','Under Maintenance','Awaiting Inspection','Out of Service','Retired')),
+    INDEX idx_vehicle_depot (Depot_ID)
 );

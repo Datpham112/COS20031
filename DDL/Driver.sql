@@ -13,5 +13,6 @@ CREATE TABLE Driver (
         REFERENCES Depot(Depot_ID),
 	
 	CONSTRAINT chk_employment_status
-        CHECK (Employment_Status IN ('Active','On Leave','Suspended','Terminated'))
+        CHECK (Employment_Status IN ('Active','On Leave','Suspended','Terminated')),
+    INDEX idx_driver_depot (Depot_ID)
 );

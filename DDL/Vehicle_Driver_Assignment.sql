@@ -14,5 +14,6 @@ CREATE TABLE Vehicle_Driver_Assignment (
         REFERENCES Vehicle(VIN),
 
     CONSTRAINT chk_assignment_dates
-        CHECK (End_Date IS NULL OR End_Date >= Start_Date)
+        CHECK (End_Date IS NULL OR End_Date >= Start_Date),
+    INDEX idx_vda_vin (VIN)
 );

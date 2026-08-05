@@ -27,5 +27,7 @@ CREATE TABLE Maintenance_Job (
         CHECK (Total_Cost >= 0),
  
     CONSTRAINT chk_job_dates
-        CHECK (Date_Closed IS NULL OR Date_Closed >= Date_Opened)
+        CHECK (Date_Closed IS NULL OR Date_Closed >= Date_Opened),
+    INDEX idx_job_vin (VIN),
+    INDEX idx_job_linked_alert (Linked_Alert_ID)
 );

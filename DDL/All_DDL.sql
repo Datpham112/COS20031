@@ -43,7 +43,8 @@ create table Vehicle (
         check (Current_Odometer >= 0),
 
     constraint chk_operational_status
-        check (Operational_Status in ('Active','Available','Under Maintenance','Awaiting Inspection','Out of Service','Retired'))
+        check (Operational_Status in ('Active','Available','Under Maintenance','Awaiting Inspection','Out of Service','Retired')),
+    INDEX idx_vehicle_depot (Depot_ID)
 );
 
 
@@ -63,7 +64,8 @@ CREATE TABLE Driver (
         REFERENCES Depot(Depot_ID),
 	
 	CONSTRAINT chk_employment_status
-        CHECK (Employment_Status IN ('Active','On Leave','Suspended','Terminated'))
+        CHECK (Employment_Status IN ('Active','On Leave','Suspended','Terminated')),
+    INDEX idx_driver_depot (Depot_ID)
 );
 
 
@@ -237,7 +239,9 @@ CREATE TABLE Predictive_Alert (
                 'Emergency Repair',
                 'Resolved'
             )
-        )
+        ),
+    INDEX idx_predictive_vin_raised (VIN, Raised_At),
+    INDEX idx_predictive_depot (Depot_ID)
 );
 
 
@@ -267,7 +271,8 @@ CREATE TABLE Safety_Event (
         REFERENCES Depot(Depot_ID),
 
     CONSTRAINT chk_severity
-        CHECK (Severity_Level IN ('Low','Medium','High','Critical'))
+        CHECK (Severity_Level IN ('Low','Medium','High','Critical')),
+    INDEX idx_safety_vin_depot_ts (VIN, Depot_ID, Timestamp)
 );
 
 
@@ -304,7 +309,8 @@ CREATE TABLE Driver_Safety_Score (
         CHECK (Month BETWEEN 1 AND 12),
 
     CONSTRAINT chk_score
-        CHECK (Score BETWEEN 0 AND 100)
+        CHECK (Score BETWEEN 0 AND 100),
+    INDEX idx_score_driver_month_year (Driver_ID, Year, Month)
 );
 
 -- File: 15_Vehicle_Driver_Assignment.sql
@@ -324,7 +330,8 @@ CREATE TABLE Vehicle_Driver_Assignment (
         REFERENCES Vehicle(VIN),
 
     CONSTRAINT chk_assignment_dates
-        CHECK (End_Date IS NULL OR End_Date >= Start_Date)
+        CHECK (End_Date IS NULL OR End_Date >= Start_Date),
+    INDEX idx_vda_vin (VIN)
 );
 
 
@@ -358,7 +365,9 @@ CREATE TABLE Maintenance_Job (
         CHECK (Total_Cost >= 0),
  
     CONSTRAINT chk_job_dates
-        CHECK (Date_Closed IS NULL OR Date_Closed >= Date_Opened)
+        CHECK (Date_Closed IS NULL OR Date_Closed >= Date_Opened),
+    INDEX idx_job_vin (VIN),
+    INDEX idx_job_linked_alert (Linked_Alert_ID)
 );
 
 
@@ -386,7 +395,8 @@ CREATE TABLE Maintenance_Activity (
                 'Electrical Repair',
                 'General Inspection'
             )
-        )
+        ),
+    INDEX idx_activity_job (Job_ID)
 );
 
 

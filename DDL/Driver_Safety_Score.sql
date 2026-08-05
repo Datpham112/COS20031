@@ -13,5 +13,6 @@ CREATE TABLE Driver_Safety_Score (
         CHECK (Month BETWEEN 1 AND 12),
 
     CONSTRAINT chk_score
-        CHECK (Score BETWEEN 0 AND 100)
+        CHECK (Score BETWEEN 0 AND 100),
+    INDEX idx_score_driver_month_year (Driver_ID, Year, Month)
 );
