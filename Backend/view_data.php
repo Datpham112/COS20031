@@ -1,19 +1,4 @@
 <?php
-/**
- * Backend/user.php
- * ------------------------------------------------------------------
- * Shows only the tables that feed the Workshop Hub and Dashboard
- * pages, so you can check that data entered/generated through the
- * web app actually landed in MySQL correctly.
- *
- * (If you want a dump of literally every table in the database
- * instead, Backend/view_data.php already does that.)
- *
- * Open in browser:
- *   http://localhost/<your-project-folder>/Backend/user.php
- * ------------------------------------------------------------------
- */
-
 require_once __DIR__ . '/config/database.php';
 $pdo = get_db_connection();
 

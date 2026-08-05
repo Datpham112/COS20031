@@ -1,7 +1,3 @@
-/**
- * mechanic.js
- * Takes PHP backend and connects to mechanic.html.
- */
 
 const API_URL = "../Backend/api/mechanic.php";
 

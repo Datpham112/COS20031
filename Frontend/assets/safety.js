@@ -1,7 +1,4 @@
-/**
- * safety.js
- * Takes PHP backend and connect to safety.html
- */
+
 
 const API_URL = "../Backend/api/safety.php";
 

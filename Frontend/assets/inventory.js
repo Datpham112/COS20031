@@ -1,7 +1,3 @@
-/**
- * inventory.js
- * Connects frontend inventory.html to backend API (part.php, supplier.php)
- */
 
 const PART_API_URL = "../Backend/api/part.php";
 const SUPPLIER_API_URL = "../Backend/api/supplier.php";
