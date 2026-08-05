@@ -1,4 +1,14 @@
-
+/**
+ * Frontend/assets/manage_data.js
+ * ------------------------------------------------------------------
+ * Generic CRUD UI. Instead of hand-writing 9 nearly-identical forms +
+ * tables, each entity is described once in ENTITY_CONFIG and the form/
+ * table/edit/delete logic is built from that description.
+ *
+ * To add a 10th table later: just add one more entry to ENTITY_CONFIG,
+ * nothing else needs to change.
+ * ------------------------------------------------------------------
+ */
 
 const ENTITY_CONFIG = {
 
@@ -134,18 +144,6 @@ const ENTITY_CONFIG = {
 
 };
 
-const ROLE_ENTITY_ACCESS = {
-  'Head Manager': Object.keys(ENTITY_CONFIG),
-  'Depot Manager': ['vehicle', 'driver', 'driver_certification', 'vehicle_driver_assignment', 'workshop', 'staff'],
-  'Driver Manager': ['vehicle', 'driver', 'driver_certification', 'vehicle_driver_assignment'],
-  'Workshop Manager': ['workshop', 'mechanic', 'maintenance_job', 'alert', 'part', 'staff'],
-  'Inventory Manager': ['part', 'supplier', 'staff'],
-};
-
-function getVisibleEntityKeys(roleType) {
-  return ROLE_ENTITY_ACCESS[roleType] || [];
-}
-
 let currentEditId = {}; // tracks which row (if any) is being edited, per entity key
 
 /* ============ BUILD TABS + PANELS ============ */
@@ -153,13 +151,7 @@ let currentEditId = {}; // tracks which row (if any) is being edited, per entity
 function buildUI() {
   const tabsBox = document.getElementById('entityTabs');
   const panelsBox = document.getElementById('entityPanels');
-  const keys = getVisibleEntityKeys(window.currentStaff.roleType);
-
-  if (keys.length === 0) {
-    tabsBox.innerHTML = '<div class="empty-state">Bạn không có quyền xem phần này.</div>';
-    panelsBox.innerHTML = '';
-    return;
-  }
+  const keys = Object.keys(ENTITY_CONFIG);
 
   keys.forEach((key, i) => {
     const cfg = ENTITY_CONFIG[key];
@@ -360,10 +352,4 @@ async function loadEntity(key) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.currentStaff) {
-    buildUI();
-  } else {
-    document.addEventListener('staffReady', buildUI, { once: true });
-  }
-});
+document.addEventListener('DOMContentLoaded', buildUI);

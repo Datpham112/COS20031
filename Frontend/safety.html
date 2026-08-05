@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 
-<body data-page-roles="Head Manager,Depot Manager,Driver">
+<body data-page-roles="Head Manager,Depot Manager,Driver Manager,Driver">
 
 <div class="app">
 
@@ -39,8 +39,25 @@
 Dashboard
 </a>
 
+<div class="nav-section-label">Workshop</div>
+
+<a class="nav-item" href="workshop.html" data-roles="Head Manager,Depot Manager,Workshop Manager,Mechanic">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+<path d="M14 2 5 12h5l-1 10 9-11h-5l1-9z"/>
+</svg>
+Workshop Hub
+</a>
+
+<a class="nav-item" href="workload.html" data-roles="Head Manager,Workshop Manager,Mechanic">
+<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+<rect x="3" y="4" width="18" height="17" rx="2"/>
+<path d="M3 9h18M8 2v4M16 2v4"/>
+</svg>
+Workload
+</a>
+
 <div class="nav-section-label">Fleet Safety</div>
-<a class="nav-item active" href="safety.html">
+<a class="nav-item active" href="safety.html" data-roles="Head Manager,Depot Manager,Driver Manager,Workshop Manager,Inventory Manager,Driver">
 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
 <path d="M12 2 4 5v6c0 5 3.4 8.6 8 11 4.6-2.4 8-6 8-11V5l-8-3z"/>
 </svg>
