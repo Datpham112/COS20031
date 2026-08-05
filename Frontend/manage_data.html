@@ -114,7 +114,7 @@
             } else if (role === 'Workshop Manager') {
               if (['Mechanic', 'Maintenance Job', 'Predictive Alert'].includes(tabName)) isAllowed = true;
             } else if (role === 'Driver Manager') {
-              if (['Driver'].includes(tabName)) isAllowed = true;
+              if ([,'Driver', 'Driver Certification', 'Vehicle Assignment'].includes(tabName)) isAllowed = true;
             } else if (role === 'Inventory Manager') {
               if (['Part', 'Supplier'].includes(tabName)) isAllowed = true;
             }
