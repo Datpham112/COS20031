@@ -144,6 +144,18 @@ const ENTITY_CONFIG = {
 
 };
 
+const ROLE_ENTITY_ACCESS = {
+  'Head Manager': Object.keys(ENTITY_CONFIG),
+  'Depot Manager': ['vehicle', 'driver', 'driver_certification', 'vehicle_driver_assignment', 'workshop', 'staff'],
+  'Driver Manager': ['vehicle', 'driver', 'driver_certification', 'vehicle_driver_assignment'],
+  'Workshop Manager': ['workshop', 'mechanic', 'maintenance_job', 'alert', 'part', 'staff'],
+  'Inventory Manager': ['part', 'supplier', 'staff'],
+};
+
+function getVisibleEntityKeys(roleType) {
+  return ROLE_ENTITY_ACCESS[roleType] || [];
+}
+
 let currentEditId = {}; // tracks which row (if any) is being edited, per entity key
 
 /* ============ BUILD TABS + PANELS ============ */
@@ -151,7 +163,13 @@ let currentEditId = {}; // tracks which row (if any) is being edited, per entity
 function buildUI() {
   const tabsBox = document.getElementById('entityTabs');
   const panelsBox = document.getElementById('entityPanels');
-  const keys = Object.keys(ENTITY_CONFIG);
+  const keys = getVisibleEntityKeys(window.currentStaff.roleType);
+
+  if (keys.length === 0) {
+    tabsBox.innerHTML = '<div class="empty-state">Bạn không có quyền xem phần này.</div>';
+    panelsBox.innerHTML = '';
+    return;
+  }
 
   keys.forEach((key, i) => {
     const cfg = ENTITY_CONFIG[key];
@@ -352,4 +370,10 @@ async function loadEntity(key) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', buildUI);
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.currentStaff) {
+    buildUI();
+  } else {
+    document.addEventListener('staffReady', buildUI, { once: true });
+  }
+});
