@@ -1,6 +1,4 @@
-/*=========================
-    GLOBAL SEARCH
-=========================*/
+
 
 const searchInput = document.getElementById("dashboardSearch");
 const searchResults = document.getElementById("searchResults");

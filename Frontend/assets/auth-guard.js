@@ -1,26 +1,4 @@
-/**
- * auth-guard.js
- * ------------------------------------------------------------------
- * Include this on every protected Frontend/*.html page (near the top
- * of <body>, before other scripts that need window.currentStaff).
- *
- * What it does:
- *  1. Calls Backend/api/me.php. If nobody is logged in, redirects to
- *     login.html immediately.
- *  2. Stores the result on window.currentStaff for other scripts to use.
- *  3. Hides any element with a data-roles="Role A,Role B" attribute
- *     unless the logged-in role is in that list.
- *  4. Wires up any element with data-action="logout" to go to
- *     Backend/auth/logout.php (which clears the session first).
- *
- * Optional: set data-page-roles="Role A,Role B" on <body> to restrict
- * the WHOLE page -- anyone else gets redirected to their own role's
- * home page instead of seeing a half-hidden page (see ROLE_HOME below;
- * this must match the redirect logic in Backend/auth/login_process.php,
- * otherwise a role that isn't allowed on dashboard.html could bounce
- * back and forth forever).
- * ------------------------------------------------------------------
- */
+
 (function () {
   const ROLE_HOME = {
     Driver: "driver.html",

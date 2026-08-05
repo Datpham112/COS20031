@@ -1,8 +1,4 @@
-/**
- * dashboard.js
- * Fetches Backend/api/dashboard.php and fills in the hero stats, KPI
- * cards, and the 5 panels on dashboard.html. Loaded after script.js.
- */
+
 (function () {
   const API_URL = "../Backend/api/dashboard.php";
 

@@ -1,21 +1,4 @@
 <?php
-/**
- * GET /Backend/api/me.php
- * ------------------------------------------------------------------
- * Tells the frontend who is currently logged in (if anyone), so pages
- * can show/hide sidebar items and filter data by role/depot without
- * needing a full page reload per role.
- *
- * Response when logged in (200):
- *   { "loggedIn": true, "staffId": "S-001", "fullName": "...",
- *     "roleType": "Depot Manager", "depotId": 2, "linkedDriverId": null,
- *     "isManagement": true, "isField": false }
- *
- * Response when not logged in (200 -- this is a normal, expected
- * state, not an error):
- *   { "loggedIn": false }
- * ------------------------------------------------------------------
- */
 
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../auth/auth_check.php';

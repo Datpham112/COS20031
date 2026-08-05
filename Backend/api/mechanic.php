@@ -1,27 +1,4 @@
 <?php
-/**
- * Backend/api/mechanic.php
- * ------------------------------------------------------------------
- *   GET    mechanic.php                     -> list mechanics (scoped)
- *   GET    mechanic.php?mechanic_id=XXX     -> one mechanic
- *   GET    mechanic.php?me=1                -> logged-in mechanic's own
- *                                               profile + assigned work
- *   POST   mechanic.php                     -> create
- *   PUT    mechanic.php?mechanic_id=XXX     -> update
- *   DELETE mechanic.php?mechanic_id=XXX     -> delete
- *
- * Required fields for POST: workshop_id, full_name
- * (Mechanic_ID is AUTO_INCREMENT, don't send it)
- *
- * Permissions: Read/Write = Head Manager (all) / Workshop Manager
- * (their own workshop only -- each depot has exactly one workshop,
- * matched via Workshop.Depot_ID = the manager's Depot_ID).
- *
- * A logged-in Mechanic is NOT in TABLE_PERMISSIONS['Mechanic']['read'],
- * so they can't use the routes above. GET ?me=1 is their own separate
- * self-service route -- see the block at the top of case 'GET' below.
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';
