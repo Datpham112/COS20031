@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<style id="anti-flash">
+  body { visibility: hidden; }
+</style>
 </head>
 <body data-page-roles="Head Manager,Depot Manager,Workshop Manager,Inventory Manager">
 <div class="app">
@@ -219,10 +222,15 @@
       const me = await res.json();
       
       if (me.loggedIn && me.roleType === 'Workshop Manager') {
-        window.location.href = 'workshop.html';
+        window.location.replace('workshop.html');
+      } else {
+        const flashStyle = document.getElementById('anti-flash');
+        if(flashStyle) flashStyle.remove();
       }
     } catch (err) {
       console.error("Lỗi chuyển hướng:", err);
+      const flashStyle = document.getElementById('anti-flash');
+      if(flashStyle) flashStyle.remove();
     }
   });
 </script>
