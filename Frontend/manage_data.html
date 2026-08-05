@@ -109,15 +109,23 @@
             const tabName = tab.textContent.trim();
             let isAllowed = false;
 
-            if (role === 'Head Manager' || role === 'Depot Manager') {
-              isAllowed = true;
-            } else if (role === 'Workshop Manager') {
-              if (['Mechanic', 'Maintenance Job', 'Predictive Alert'].includes(tabName)) isAllowed = true;
-            } else if (role === 'Driver Manager') {
-              if ([,'Driver', 'Driver Certification', 'Vehicle Assignment'].includes(tabName)) isAllowed = true;
-            } else if (role === 'Inventory Manager') {
-              if (['Part', 'Supplier'].includes(tabName)) isAllowed = true;
-            }
+            // Kept in sync with Backend/auth/auth_check.php -> TABLE_PERMISSIONS['read'].
+            // Each tab name maps to the roles the backend actually allows to read that table.
+            const TAB_READ_ROLES = {
+              'Vehicle':               ['Head Manager', 'Depot Manager',],
+              'Driver':                ['Head Manager', 'Depot Manager', 'Driver Manager'],
+              'Driver Certification':  ['Head Manager', 'Depot Manager', 'Driver Manager'],
+              'Vehicle Assignment':    ['Head Manager', 'Depot Manager', 'Driver Manager'],
+              'Workshop':              ['Head Manager', 'Depot Manager', ],
+              'Mechanic':              ['Head Manager', 'Workshop Manager'],
+              'Maintenance Job':       ['Head Manager', 'Workshop Manager'],
+              'Predictive Alert':      ['Head Manager', 'Workshop Manager'],
+              'Part':                  ['Head Manager', 'Inventory Manager'],
+              'Supplier':              ['Head Manager', 'Inventory Manager'],
+              'Staff':                 ['Head Manager', 'Depot Manager', 'Inventory Manager'],
+            };
+
+            isAllowed = (TAB_READ_ROLES[tabName] || []).includes(role);
 
             if (!isAllowed) {
               tab.style.display = 'none';
