@@ -23,6 +23,10 @@
   .md-action-btn { border:1px solid var(--line); background:#fff; border-radius:6px; padding:4px 9px; font-size:11.5px; cursor:pointer; margin-right:4px; }
   .md-action-btn:hover { background:var(--canvas); }
   .md-action-btn.danger { color:var(--red); border-color:#f3d2ce; }
+  .md-locked-field {
+    font-size:13px; padding:8px 10px; border-radius:7px; background:var(--canvas);
+    border:1px dashed var(--line); color:var(--text-soft); font-weight:600;
+  }
 #entityTabs, #entityPanels {
   opacity: 0;}
 </style>
@@ -116,6 +120,8 @@
               'Driver':                ['Head Manager', 'Depot Manager', 'Driver Manager'],
               'Driver Certification':  ['Head Manager', 'Depot Manager', 'Driver Manager'],
               'Vehicle Assignment':    ['Head Manager', 'Depot Manager', 'Driver Manager'],
+              'Safety Event':          ['Head Manager', 'Driver Manager'],
+              'Driver Safety Score':   ['Head Manager', 'Driver Manager'],
               'Workshop':              ['Head Manager', 'Depot Manager', ],
               'Mechanic':              ['Head Manager', 'Workshop Manager'],
               'Maintenance Job':       ['Head Manager', 'Workshop Manager'],
