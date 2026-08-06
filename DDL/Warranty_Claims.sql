@@ -9,6 +9,8 @@ CREATE TABLE Warranty_Claims (
     CONSTRAINT fk_warranty_claims_activity
         FOREIGN KEY (Activity_ID)
         REFERENCES Maintenance_Activity(Activity_ID),
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     CONSTRAINT fk_warranty_claims_part
         FOREIGN KEY (Part_ID)

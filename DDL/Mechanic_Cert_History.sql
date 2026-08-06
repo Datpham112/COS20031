@@ -8,4 +8,6 @@ CREATE TABLE Mechanic_Cert_History (
     CONSTRAINT fk_mechanic_cert_history_mechanic
         FOREIGN KEY (Mechanic_ID)
         REFERENCES Mechanic(Mechanic_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );

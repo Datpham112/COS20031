@@ -167,7 +167,9 @@ CREATE TABLE Mechanic_Certification (
  
     CONSTRAINT fk_mechanic_certification
         FOREIGN KEY (Mechanic_ID)
-        REFERENCES Mechanic(Mechanic_ID),
+        REFERENCES Mechanic(Mechanic_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
  
     CONSTRAINT chk_mechanic_certificate
         CHECK (
@@ -194,6 +196,8 @@ CREATE TABLE Mechanic_Cert_History (
     CONSTRAINT fk_mechanic_cert_history_mechanic
         FOREIGN KEY (Mechanic_ID)
         REFERENCES Mechanic(Mechanic_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 -- File: 11_Predictive_Alert.sql
@@ -412,7 +416,9 @@ CREATE TABLE Activity_Part (
 
     CONSTRAINT fk_activity_part_activity
         FOREIGN KEY (Activity_ID)
-        REFERENCES Maintenance_Activity(Activity_ID),
+        REFERENCES Maintenance_Activity(Activity_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     CONSTRAINT fk_activity_part_part
         FOREIGN KEY (Part_ID)
@@ -433,7 +439,9 @@ CREATE TABLE Activity_Mechanic_Assignment (
  
     CONSTRAINT fk_assignment_mechanic
         FOREIGN KEY (Mechanic_ID)
-        REFERENCES Mechanic(Mechanic_ID),
+        REFERENCES Mechanic(Mechanic_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
  
     CONSTRAINT chk_labour_hours
         CHECK (Labour_Hours >= 0)
@@ -451,7 +459,9 @@ CREATE TABLE Warranty_Claims (
 
     CONSTRAINT fk_warranty_claims_activity
         FOREIGN KEY (Activity_ID)
-        REFERENCES Maintenance_Activity(Activity_ID),
+        REFERENCES Maintenance_Activity(Activity_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     CONSTRAINT fk_warranty_claims_part
         FOREIGN KEY (Part_ID)

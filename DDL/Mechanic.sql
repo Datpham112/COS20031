@@ -6,4 +6,6 @@ CREATE TABLE Mechanic (
     CONSTRAINT fk_mechanic_workshop
         FOREIGN KEY (Workshop_ID)
         REFERENCES Workshop(Workshop_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );

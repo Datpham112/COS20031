@@ -9,7 +9,9 @@ CREATE TABLE Activity_Part (
 
     CONSTRAINT fk_activity_part_activity
         FOREIGN KEY (Activity_ID)
-        REFERENCES Maintenance_Activity(Activity_ID),
+        REFERENCES Maintenance_Activity(Activity_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 
     CONSTRAINT fk_activity_part_part
         FOREIGN KEY (Part_ID)

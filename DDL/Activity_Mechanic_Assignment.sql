@@ -11,7 +11,9 @@ CREATE TABLE Activity_Mechanic_Assignment (
  
     CONSTRAINT fk_assignment_mechanic
         FOREIGN KEY (Mechanic_ID)
-        REFERENCES Mechanic(Mechanic_ID),
+        REFERENCES Mechanic(Mechanic_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
  
     CONSTRAINT chk_labour_hours
         CHECK (Labour_Hours >= 0)
