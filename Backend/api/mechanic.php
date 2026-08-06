@@ -241,3 +241,6 @@ function mechanic_in_own_workshop(PDO $pdo, string $mechanicId, array $staff): b
     $workshopId = $stmt->fetchColumn();
     return $workshopId !== false && (int) $workshopId === own_workshop_id($pdo, $staff);
 }
+
+
+

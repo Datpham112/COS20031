@@ -1,24 +1,4 @@
 <?php
-/**
- * Backend/api/driver.php
- * ------------------------------------------------------------------
- *   GET    driver.php                 -> list drivers (scoped by role)
- *   GET    driver.php?driver_id=XXX   -> one driver
- *   GET    driver.php?action=profile  -> current driver's portal data
- *   POST   driver.php                 -> create
- *   PUT    driver.php?driver_id=XXX   -> update
- *   DELETE driver.php?driver_id=XXX   -> delete
- *
- * Required fields for POST: driver_id, depot_id, full_name,
- * contact_information, emergency_contact, license_type,
- * license_expiry_date, employment_status
- *
- * Permissions:
- *   Read:  Head Manager (all), Depot Manager (own depot),
- *          Driver Manager (own depot), Driver (own record only)
- *   Write: Driver Manager (own depot only)
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';

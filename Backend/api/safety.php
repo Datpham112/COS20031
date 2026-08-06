@@ -1,29 +1,4 @@
 <?php
-/**
- * GET /Backend/api/safety.php
- * ------------------------------------------------------------------
- * Loading the Safety Command Center page with the database from 
- MySQL database, of drivers, safety, safety incidents and coaching.
- *
- * Response shape:
- * {
- *   "success": true,
- *   "drivers": [{ "driverId", "name", "depot", "employmentStatus", "certificationStatus", "safetyScore", "incidentCount" }, ...],
- *   "incidents": [{ "eventId", "driverName", "registrationNumber", "eventType", "severity", "timestamp" }, ...],
- *   "analytics": {
- *     "averageSafetyScore": n,
- *     "criticalEvents": n,
- *     "highRiskDrivers": n,
- *     "repeatOffenders": n,
- *     "depotComparison": [{ "depot", "averageScore", "criticalEvents" }, ...],
- *     "repeatOffenderList": [{ "name", "score", "events" }, ...]
- *   },
- *   "coaching": {
- *     "trainingRequired": [{ "name", "score", "trainingStatus" }, ...],
- *     "blockedDrivers": [{ "name", "reason", "status" }, ...]
- *   }
- * }
- */
 
 header('Content-Type: application/json; charset=utf-8');
 

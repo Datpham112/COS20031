@@ -1,18 +1,4 @@
 <?php
-/**
- * Backend/auth/login_process.php
- * ------------------------------------------------------------------
- * Handles the POST from Frontend/login.html.
- *
- * Rewritten from the original version, which had two bugs:
- *  1. Used mysqli ($conn->prepare) but config/database.php only
- *     provides a PDO connection (get_db_connection()) -- $conn never
- *     existed, so every login attempt fatally errored.
- *  2. Queried a `users` table with plaintext passwords -- the real
- *     table is `Staff`, with `Password_Hash` (bcrypt via
- *     password_hash()), not a `users` table with plaintext.
- * ------------------------------------------------------------------
- */
 
 session_start();
 
@@ -28,11 +14,7 @@ if ($username === '' || $password === '') {
 try {
     $pdo = open_db_connection();
 } catch (PDOException $e) {
-    // Show the real reason on the login page instead of a raw JSON
-    // error page -- this is almost always a local setup problem
-    // (MySQL not running, wrong DB_NAME/DB_USER/DB_PASS in
-    // Backend/config/database.php, or the schema/tables not imported
-    // yet), not a bug in the login form itself.
+
     redirect_with_error('Database connection failed: ' . $e->getMessage());
 }
 
@@ -48,8 +30,7 @@ if ($staff['Password_Hash'] === null || !password_verify($password, $staff['Pass
     redirect_with_error('Incorrect password.');
 }
 
-// Login OK -- store only what the frontend needs to know "who is this
-// and what can they see". Never store the password hash in session.
+
 $_SESSION['staff_id']         = $staff['Staff_ID'];
 $_SESSION['full_name']        = $staff['Full_Name'];
 $_SESSION['role_type']        = $staff['Role_Type'];

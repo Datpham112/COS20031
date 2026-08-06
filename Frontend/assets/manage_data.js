@@ -1,14 +1,4 @@
-/**
- * Frontend/assets/manage_data.js
- * ------------------------------------------------------------------
- * Generic CRUD UI. Instead of hand-writing 9 nearly-identical forms +
- * tables, each entity is described once in ENTITY_CONFIG and the form/
- * table/edit/delete logic is built from that description.
- *
- * To add a 10th table later: just add one more entry to ENTITY_CONFIG,
- * nothing else needs to change.
- * ------------------------------------------------------------------
- */
+
 
 const ENTITY_CONFIG = {
 

@@ -1,27 +1,4 @@
 <?php
-/**
- * GET /Backend/api/dashboard.php
- * ------------------------------------------------------------------
- * Feeds the Dashboard overview page: hero band, 4 KPI cards, and the
- * 5 panels (key alerts, high-risk drivers, vehicles by depot, open
- * maintenance jobs, certifications expiring soon).
- *
- * Response shape:
- * {
- *   "hero": { "vehiclesReady": n, "inMaintenance": n, "criticalAlerts": n },
- *   "kpis": {
- *     "totalVehicles": n,
- *     "avgSafetyScore": n,
- *     "driversNeedingTraining": n,
- *     "maintenanceCostThisMonth": n
- *   },
- *   "keyAlerts":        [{ "title", "meta", "raised" }, ...],
- *   "highRiskDrivers":  [{ "name", "depot", "score", "status" }, ...],
- *   "vehiclesByDepot":  [{ "depot", "ready", "total" }, ...],
- *   "openJobs":         [{ "job", "workshop", "status" }, ...],
- *   "certsExpiring":    [{ "driver", "type", "daysLeft" }, ...]
- * }
- */
 
 header('Content-Type: application/json; charset=utf-8');
 

@@ -1,22 +1,4 @@
 <?php
-/**
- * Backend/api/maintenance_job.php
- * ------------------------------------------------------------------
- *   GET    maintenance_job.php               -> list jobs (scoped by role)
- *   GET    maintenance_job.php?job_id=XXX     -> one job
- *   POST   maintenance_job.php                -> create
- *   PUT    maintenance_job.php?job_id=XXX      -> update
- *   DELETE maintenance_job.php?job_id=XXX      -> delete
- *
- * Required fields for POST: vin, workshop_id, date_opened
- * Optional: linked_alert_id, date_closed, downtime_hours, total_cost
- *
- * Permissions:
- *   Read:  Head Manager (all), Workshop Manager (own workshop),
- *          Mechanic (jobs they have an assignment on)
- *   Write: Workshop Manager (own workshop only)
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';

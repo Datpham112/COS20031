@@ -1,5 +1,3 @@
-
-
 INSERT INTO Staff (Staff_ID, Full_Name, Role_Type, Depot_ID, Linked_Driver_ID, Contact_Info, Username, Password_Hash)
 VALUES (
     'S-901',
