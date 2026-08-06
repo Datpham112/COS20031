@@ -1,24 +1,4 @@
 <?php
-/**
- * GET /Backend/api/my_profile.php
- * ------------------------------------------------------------------
- * For a logged-in Driver account: bundles everything on the "Driver"
- * row of the permissions matrix (View personal profile, vehicle
- * assignments, certifications, safety score and incident history)
- * into one response, always scoped to THEIR OWN Driver_ID -- never
- * takes a driver_id from the request, so there's no way to fetch
- * someone else's data through this endpoint.
- *
- * Response:
- * {
- *   "profile": {...Driver row...},
- *   "vehicleAssignments": [...],
- *   "certifications": [...],
- *   "safetyScores": [...],
- *   "incidents": [...Safety_Event rows...]
- * }
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';

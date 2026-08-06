@@ -1,13 +1,4 @@
 <?php
-/**
- * GET /Backend/api/audit_log.php
- * ------------------------------------------------------------------
- * Returns the audit trail (who created/updated/deleted what, and
- * when) for the History page. Management roles only.
- *
- * Optional filters: ?table=Vehicle  ?staff_id=S-001  ?action=CREATE
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';

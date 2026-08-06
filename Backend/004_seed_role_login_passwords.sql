@@ -10,8 +10,6 @@
 --   inventory.manager   / Password123   (Inventory Manager, company-wide)
 --   mechanic.test       / mechanic123   (Mechanic, Workshop 1)
 --   driver.test         / driver123     (Driver -- from migration 003)
---   admin               / admin123
---
 
 
 UPDATE Staff SET Password_Hash = '$2b$12$zaoWEliUX61UisITW6e2jOIQLR1MoU7Qip30836ufCMx8y4Wl94WW'

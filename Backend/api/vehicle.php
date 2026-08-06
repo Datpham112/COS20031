@@ -1,25 +1,4 @@
 <?php
-/**
- * Backend/api/vehicle.php
- * ------------------------------------------------------------------
- * Full CRUD for the Vehicle table.
- *
- *   GET    vehicle.php            -> list vehicles (scoped by role)
- *   GET    vehicle.php?vin=XXX    -> one vehicle
- *   POST   vehicle.php            -> create (body: JSON or form fields below)
- *   PUT    vehicle.php?vin=XXX    -> update
- *   DELETE vehicle.php?vin=XXX    -> delete
- *
- * Required fields for POST: vin, depot_id, registration_number,
- * vehicle_category, manufacturer_and_model, year_of_manufacture,
- * operational_status. (current_odometer is optional, defaults to 0)
- *
- * Permissions (see Backend/auth/auth_check.php TABLE_PERMISSIONS):
- *   Read:  Head Manager (all depots), Depot Manager (own depot),
- *          Workshop Manager (own depot)
- *   Write: Depot Manager (own depot only)
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';

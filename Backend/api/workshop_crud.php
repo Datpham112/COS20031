@@ -1,20 +1,4 @@
 <?php
-/**
- * Backend/api/workshop_crud.php
- * ------------------------------------------------------------------
- * NOTE: named "_crud" to avoid clashing with the existing
- * Backend/api/workshop.php (which powers the Workshop Hub dashboard view).
- *
- *   GET    workshop_crud.php                    -> list every workshop
- *   GET    workshop_crud.php?workshop_id=XXX     -> one workshop
- *   POST   workshop_crud.php                     -> create (one per depot)
- *   PUT    workshop_crud.php?workshop_id=XXX      -> update (change depot)
- *   DELETE workshop_crud.php?workshop_id=XXX      -> delete
- *
- * Required fields for POST: depot_id
- * (Workshop_ID is AUTO_INCREMENT, don't send it)
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';
