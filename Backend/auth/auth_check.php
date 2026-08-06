@@ -95,7 +95,7 @@ function json_fail(int $status, string $message): void
  */
 const TABLE_PERMISSIONS = [
     'Vehicle' => [
-        'read'  => ['Head Manager', 'Depot Manager', 'Workshop Manager'],
+        'read'  => ['Head Manager', 'Depot Manager', 'Workshop Manager', 'Driver Manager'],
         'write' => ['Depot Manager'],
         'scope' => 'depot',
     ],

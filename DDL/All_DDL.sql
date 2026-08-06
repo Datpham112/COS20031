@@ -503,7 +503,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON Driver TO 'driver_manager';
 GRANT SELECT, INSERT, UPDATE ON Driver_Certification TO 'driver_manager';
 GRANT SELECT, INSERT, UPDATE ON Vehicle_Driver_Assignment TO 'driver_manager';
 GRANT SELECT, INSERT, UPDATE ON Driver_Safety_Score TO 'driver_manager';
-GRANT SELECT, UPDATE ON Safety_Event TO 'driver_manager';
+GRANT SELECT, INSERT, UPDATE ON Safety_Event TO 'driver_manager';
+GRANT SELECT ON Vehicle TO 'driver_manager';
 
 -- [Inventory Manager]
 GRANT SELECT, INSERT, UPDATE, DELETE ON Part TO 'inventory_manager';

@@ -16,7 +16,7 @@ const ENTITY_CONFIG = {
     label: 'Vehicle', endpoint: '../Backend/api/vehicle.php', idParam: 'vin', idColumn: 'Vin',
     fields: [
       { name: 'vin', column: 'Vin', label: 'VIN', type: 'text', required: true, pk: true },
-      { name: 'depot_id', column: 'Depot_ID', label: 'Depot ID', type: 'number', required: true },
+      { name: 'depot_id', column: 'Depot_ID', label: 'Depot', type: 'number', required: true, autoFill: 'depot' },
       { name: 'registration_number', column: 'Registration_Number', label: 'Registration No.', type: 'text', required: true },
       { name: 'vehicle_category', column: 'Vehicle_Category', label: 'Category', type: 'select', required: true,
         options: ['Delivery Van', 'Refrigerated Truck', 'Electric Van', 'Service Vehicle', 'Heavy Transport Truck'] },
@@ -32,7 +32,7 @@ const ENTITY_CONFIG = {
     label: 'Driver', endpoint: '../Backend/api/driver.php', idParam: 'driver_id', idColumn: 'Driver_ID',
     fields: [
       { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true, pk: true },
-      { name: 'depot_id', column: 'Depot_ID', label: 'Depot ID', type: 'number', required: true },
+      { name: 'depot_id', column: 'Depot_ID', label: 'Depot', type: 'number', required: true, autoFill: 'depot' },
       { name: 'full_name', column: 'Full_Name', label: 'Full Name', type: 'text', required: true },
       { name: 'contact_information', column: 'Contact_Information', label: 'Contact Info', type: 'text', required: true },
       { name: 'emergency_contact', column: 'Emergency_Contact', label: 'Emergency Contact', type: 'text', required: true },
@@ -40,13 +40,18 @@ const ENTITY_CONFIG = {
       { name: 'license_expiry_date', column: 'License_Expiry_Date', label: 'License Expiry', type: 'date', required: true },
       { name: 'employment_status', column: 'Employment_Status', label: 'Employment Status', type: 'select', required: true,
         options: ['Active', 'On Leave', 'Suspended', 'Terminated'] },
+      // Login account, created together with the Driver row - only shown/sent when creating, not editing.
+      { name: 'login_staff_id', column: null, label: 'Login Staff ID (e.g. S011)', type: 'text', required: true, createOnly: true },
+      { name: 'login_username', column: null, label: 'Login Username', type: 'text', required: true, createOnly: true },
+      { name: 'login_password', column: null, label: 'Login Password', type: 'password', required: true, createOnly: true },
     ],
   },
 
   driver_certification: {
     label: 'Driver Certification', endpoint: '../Backend/api/driver_certification.php', idParam: 'cert_key', idColumn: 'Cert_Key',
     fields: [
-      { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true, pk: true },
+      { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true, pk: true,
+        dynamicOptions: { endpoint: '../Backend/api/driver.php', value: 'Driver_ID', label: r => `${r.Driver_ID} — ${r.Full_Name}` } },
       { name: 'certification_name', column: 'Certification_Name', label: 'Certification Name', type: 'text', required: true, pk: true },
       { name: 'expiry_date', column: 'Expiry_Date', label: 'Expiry Date', type: 'date', required: true },
     ],
@@ -55,10 +60,42 @@ const ENTITY_CONFIG = {
   vehicle_driver_assignment: {
     label: 'Vehicle Assignment', endpoint: '../Backend/api/vehicle_driver_assignment.php', idParam: 'assignment_id', idColumn: 'Assignment_ID',
     fields: [
-      { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true },
-      { name: 'vin', column: 'VIN', label: 'Vehicle VIN', type: 'text', required: true },
+      { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true,
+        dynamicOptions: { endpoint: '../Backend/api/driver.php', value: 'Driver_ID', label: r => `${r.Driver_ID} — ${r.Full_Name}` } },
+      { name: 'vin', column: 'VIN', label: 'Vehicle VIN', type: 'text', required: true,
+        dynamicOptions: { endpoint: '../Backend/api/vehicle.php', value: 'Vin', label: r => `${r.Vin} — ${r.Registration_Number} (${r.Vehicle_Category})` } },
       { name: 'start_date', column: 'Start_Date', label: 'Start Date', type: 'datetime-local', required: true },
       { name: 'end_date', column: 'End_Date', label: 'End Date (leave blank if still active)', type: 'datetime-local', required: false },
+    ],
+  },
+
+  safety_event: {
+    label: 'Safety Event', endpoint: '../Backend/api/safety_event.php', idParam: 'event_id', idColumn: 'Event_ID',
+    fields: [
+      { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true,
+        dynamicOptions: { endpoint: '../Backend/api/driver.php', value: 'Driver_ID', label: r => `${r.Driver_ID} — ${r.Full_Name}` } },
+      { name: 'vin', column: 'VIN', label: 'Vehicle VIN', type: 'text', required: true,
+        dynamicOptions: { endpoint: '../Backend/api/vehicle.php', value: 'Vin', label: r => `${r.Vin} — ${r.Registration_Number} (${r.Vehicle_Category})` } },
+      { name: 'timestamp', column: 'Timestamp', label: 'Date/Time', type: 'datetime-local', required: true },
+      { name: 'event_type', column: 'Event_Type', label: 'Event Type', type: 'text', required: true,
+        dynamicOptions: { endpoint: '../Backend/api/event_penalty.php', value: 'Event_Type', label: r => `${r.Event_Type} (-${r.Penalty_Points} pts)` } },
+      { name: 'severity_level', column: 'Severity_Level', label: 'Severity', type: 'select', required: true,
+        options: ['Low', 'Medium', 'High', 'Critical'] },
+      { name: 'odometer_at_event', column: 'Odometer_At_Event', label: 'Odometer at Event (km)', type: 'number', required: true },
+      { name: 'review_comments', column: 'Review_Comments', label: 'Review Comments', type: 'text', required: false },
+    ],
+  },
+
+  driver_safety_score: {
+    label: 'Driver Safety Score', endpoint: '../Backend/api/driver_safety_score.php', idParam: 'score_id', idColumn: 'Score_ID',
+    readOnly: true, // auto-calculated by UpdateMonthlySafetyScores() from Safety_Event + Event_Penalty -- see recalcEndpoint below
+    recalcEndpoint: '../Backend/api/recalculate_safety_scores.php',
+    recalcLabel: 'Recalculate Scores',
+    fields: [
+      { name: 'driver_id', column: 'Driver_ID', label: 'Driver ID', type: 'text', required: true },
+      { name: 'month', column: 'Month', label: 'Month', type: 'number', required: true },
+      { name: 'year', column: 'Year', label: 'Year', type: 'number', required: true },
+      { name: 'score', column: 'Score', label: 'Score', type: 'number', required: true },
     ],
   },
 
@@ -145,6 +182,23 @@ const ENTITY_CONFIG = {
 };
 
 let currentEditId = {}; // tracks which row (if any) is being edited, per entity key
+let currentUser = null; // filled by fetchCurrentUser() before the UI is built
+
+/**
+ * Loads the logged-in staff's own session info (depot, role, etc.) so
+ * depot-scoped forms (Vehicle, Driver) can auto-fill + lock the Depot
+ * field instead of making the user type a raw depot number.
+ */
+async function fetchCurrentUser() {
+  try {
+    const res = await fetch('../Backend/api/me.php');
+    const me = await res.json();
+    currentUser = me.loggedIn ? me : null;
+  } catch (err) {
+    console.warn('Could not load current user session:', err);
+    currentUser = null;
+  }
+}
 
 /* ============ BUILD TABS + PANELS ============ */
 
@@ -165,6 +219,31 @@ function buildUI() {
     const panel = document.createElement('div');
     panel.className = 'tab-panel' + (i === 0 ? ' active' : '');
     panel.id = 'panel-' + key;
+
+    if (cfg.readOnly) {
+      // Derived data (e.g. Driver Safety Score, computed by a stored
+      // procedure from Safety_Event + Event_Penalty) -- no add/edit
+      // form, just the table plus an optional action to recompute it.
+      panel.innerHTML = `
+        <div class="card" style="margin-bottom:16px; padding:16px 20px;">
+          <div class="panel-title" style="margin-bottom:8px;">${cfg.label} (auto-calculated)</div>
+          ${cfg.recalcEndpoint ? `
+            <button type="button" class="btn-primary" id="recalc-btn-${key}">${cfg.recalcLabel || 'Recalculate'}</button>
+            <span class="md-status" id="status-${key}"></span>
+          ` : ''}
+        </div>
+        <div class="card md-table-wrap">
+          <table class="data-table" id="table-${key}"></table>
+        </div>
+      `;
+      panelsBox.appendChild(panel);
+      if (cfg.recalcEndpoint) {
+        document.getElementById(`recalc-btn-${key}`).addEventListener('click', () => runRecalc(key));
+      }
+      loadEntity(key);
+      return;
+    }
+
     panel.innerHTML = `
       <div class="card" style="margin-bottom:16px;">
         <div class="panel-head" style="padding:16px 20px 0;">
@@ -180,6 +259,7 @@ function buildUI() {
 
     buildForm(key);
     document.getElementById(`form-${key}`).addEventListener('submit', (e) => submitForm(key, e));
+    cfg.fields.filter(f => f.dynamicOptions).forEach(f => populateDynamicSelect(key, f));
     loadEntity(key);
   });
 }
@@ -200,14 +280,33 @@ function buildForm(key) {
   const fieldsHtml = cfg.fields.map(f => {
     const inputId = `${key}-${f.name}`;
     let input;
-    if (f.type === 'select') {
+
+    if (f.autoFill === 'depot') {
+      // Locked to the logged-in manager's own depot - no manual picker,
+      // just a read-only line plus a hidden input that still submits.
+      const depotId = currentUser?.depotId ?? '';
+      const depotLabel = depotId !== '' ? `Depot #${depotId} (your depot)` : '— not scoped to a depot —';
+      input = `
+        <div class="md-locked-field">${depotLabel}</div>
+        <input id="${inputId}" name="${f.name}" type="hidden" value="${depotId}">
+      `;
+    } else if (f.dynamicOptions) {
+      // Populated from a live API call after the form renders (see
+      // populateDynamicSelect) so the picker only ever offers IDs the
+      // logged-in user is actually allowed to use (their own depot).
+      input = `<select id="${inputId}" name="${f.name}" ${f.required ? 'required' : ''}><option value="">Loading…</option></select>`;
+    } else if (f.type === 'select') {
       const opts = ['<option value="">— select —</option>']
         .concat(f.options.map(o => `<option value="${o}">${o}</option>`));
       input = `<select id="${inputId}" name="${f.name}" ${f.required ? 'required' : ''}>${opts.join('')}</select>`;
     } else {
       input = `<input id="${inputId}" name="${f.name}" type="${f.type}" step="${f.type === 'number' ? 'any' : ''}" ${f.required ? 'required' : ''}>`;
     }
-    return `<div class="md-field"><label>${f.label}${f.required ? ' *' : ''}</label>${input}</div>`;
+
+    const fieldHtml = `<div class="md-field"><label>${f.label}${f.required && !f.autoFill ? ' *' : ''}</label>${input}</div>`;
+
+    // create-only fields (e.g. login account) get wrapped so they can be hidden while editing
+    return f.createOnly ? `<div class="md-create-only" data-field="${f.name}">${fieldHtml}</div>` : fieldHtml;
   }).join('');
 
   form.innerHTML = fieldsHtml + `
@@ -219,6 +318,67 @@ function buildForm(key) {
   `;
 }
 
+/**
+ * Fetches the option list for a dynamicOptions field (e.g. every Driver
+ * or Vehicle the logged-in user can see - the backend already scopes
+ * this to their own depot) and fills in the <select>. If the field
+ * already has a value set (e.g. startEdit ran first), that value is
+ * restored after the options load.
+ */
+async function populateDynamicSelect(key, f) {
+  const select = document.getElementById(`${key}-${f.name}`);
+  if (!select) return;
+  const previousValue = select.value;
+
+  try {
+    const res = await fetch(f.dynamicOptions.endpoint);
+    const rows = await res.json();
+
+    if (!Array.isArray(rows)) {
+      select.innerHTML = `<option value="">Could not load options</option>`;
+      return;
+    }
+
+    const opts = ['<option value="">— select —</option>']
+      .concat(rows.map(r => {
+        const val = r[f.dynamicOptions.value];
+        return `<option value="${val}">${f.dynamicOptions.label(r)}</option>`;
+      }));
+    select.innerHTML = opts.join('');
+
+    if (previousValue) select.value = previousValue;
+  } catch (err) {
+    select.innerHTML = `<option value="">Network error loading options</option>`;
+  }
+}
+
+async function runRecalc(key) {
+  const cfg = ENTITY_CONFIG[key];
+  const statusEl = document.getElementById(`status-${key}`);
+  const btn = document.getElementById(`recalc-btn-${key}`);
+  btn.disabled = true;
+  statusEl.textContent = 'Recalculating…';
+  statusEl.className = 'md-status';
+
+  try {
+    const res = await fetch(cfg.recalcEndpoint, { method: 'POST' });
+    const data = await res.json();
+    if (res.ok) {
+      statusEl.textContent = data.message || 'Done';
+      statusEl.classList.add('ok');
+      loadEntity(key);
+    } else {
+      statusEl.textContent = (data.error || 'Error') + (data.detail ? ' — ' + data.detail : '');
+      statusEl.classList.add('err');
+    }
+  } catch (err) {
+    statusEl.textContent = 'Network error: ' + err.message;
+    statusEl.classList.add('err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 async function submitForm(key, event) {
   event.preventDefault();
   const cfg = ENTITY_CONFIG[key];
@@ -226,14 +386,16 @@ async function submitForm(key, event) {
   statusEl.textContent = '';
   statusEl.className = 'md-status';
 
+  const isEdit = currentEditId[key] != null;
+
   const body = {};
   cfg.fields.forEach(f => {
+    if (isEdit && f.createOnly) return; // login account fields only apply on create
     const val = document.getElementById(`${key}-${f.name}`).value;
     // Skip empty optional fields and blank password on edit (keeps existing one)
     if (val !== '') body[f.name] = val;
   });
 
-  const isEdit = currentEditId[key] != null;
   const url = isEdit ? `${cfg.endpoint}?${cfg.idParam}=${encodeURIComponent(currentEditId[key])}` : cfg.endpoint;
   const method = isEdit ? 'PUT' : 'POST';
 
@@ -273,6 +435,11 @@ function cancelEdit(key) {
   ENTITY_CONFIG[key].fields.filter(f => f.pk).forEach(f => {
     document.getElementById(`${key}-${f.name}`).disabled = false;
   });
+
+  // Bring back the login-account fields (they only apply when creating)
+  document.querySelectorAll(`#form-${key} .md-create-only`).forEach(el => {
+    el.style.display = '';
+  });
 }
 
 function startEdit(key, row) {
@@ -281,6 +448,7 @@ function startEdit(key, row) {
   currentEditId[key] = idValue;
 
   cfg.fields.forEach(f => {
+    if (f.createOnly) return; // these have no meaningful "current value" to show on edit
     const el = document.getElementById(`${key}-${f.name}`);
     if (f.column && row[f.column] !== undefined && row[f.column] !== null) {
       el.value = row[f.column];
@@ -294,6 +462,11 @@ function startEdit(key, row) {
   // must have every pk field locked, not just the first one.
   cfg.fields.filter(f => f.pk).forEach(f => {
     document.getElementById(`${key}-${f.name}`).disabled = true;
+  });
+
+  // Login-account fields only make sense when CREATING a driver, hide them on edit.
+  document.querySelectorAll(`#form-${key} .md-create-only`).forEach(el => {
+    el.style.display = 'none';
   });
 
   document.getElementById(`form-title-${key}`).textContent = `Edit ${cfg.label}`;
@@ -333,18 +506,20 @@ async function loadEntity(key) {
     }
 
     const displayCols = cfg.fields.filter(f => f.column); // skip password (column:null)
-    const headHtml = '<tr>' + displayCols.map(f => `<th>${f.label.split(' (')[0]}</th>`).join('') + '<th>Actions</th></tr>';
+    const showActions = !cfg.readOnly;
+    const headHtml = '<tr>' + displayCols.map(f => `<th>${f.label.split(' (')[0]}</th>`).join('') + (showActions ? '<th>Actions</th>' : '') + '</tr>';
 
     const bodyHtml = rows.length
       ? rows.map(row => {
           const idValue = row[cfg.idColumn];
           const cells = displayCols.map(f => `<td>${row[f.column] ?? ''}</td>`).join('');
-          return `<tr>${cells}<td>
+          const actionsHtml = showActions ? `<td>
             <button class="md-action-btn" onclick='startEdit("${key}", ${JSON.stringify(row).replace(/'/g, "&#39;")})'>Edit</button>
             <button class="md-action-btn danger" onclick="deleteRow('${key}', '${idValue}')">Delete</button>
-          </td></tr>`;
+          </td>` : '';
+          return `<tr>${cells}${actionsHtml}</tr>`;
         }).join('')
-      : `<tr><td colspan="${displayCols.length + 1}">No records yet.</td></tr>`;
+      : `<tr><td colspan="${displayCols.length + (showActions ? 1 : 0)}">No records yet.</td></tr>`;
 
     table.innerHTML = `<thead>${headHtml}</thead><tbody>${bodyHtml}</tbody>`;
   } catch (err) {
@@ -352,4 +527,7 @@ async function loadEntity(key) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', buildUI);
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchCurrentUser();
+  buildUI();
+});

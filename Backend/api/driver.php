@@ -11,7 +11,12 @@
  *
  * Required fields for POST: driver_id, depot_id, full_name,
  * contact_information, emergency_contact, license_type,
- * license_expiry_date, employment_status
+ * license_expiry_date, employment_status, login_staff_id,
+ * login_username, login_password
+ *
+ * POST also creates a linked Staff login account (Role_Type = 'Driver')
+ * in the same transaction, so the driver can log in right away. If
+ * either insert fails (e.g. duplicate username), both are rolled back.
  *
  * Permissions:
  *   Read:  Head Manager (all), Depot Manager (own depot),
@@ -107,7 +112,11 @@ switch ($method) {
     case 'POST':
         $staff = require_table_permission('Driver', 'write');
         $data = get_request_body();
-        $required = ['driver_id', 'depot_id', 'full_name', 'contact_information', 'emergency_contact', 'license_type', 'license_expiry_date', 'employment_status'];
+        $required = [
+            'driver_id', 'depot_id', 'full_name', 'contact_information', 'emergency_contact',
+            'license_type', 'license_expiry_date', 'employment_status',
+            'login_staff_id', 'login_username', 'login_password',
+        ];
         $missing = missing_fields($data, $required);
         if ($missing) {
             json_response(['error' => 'Missing fields', 'fields' => $missing], 422);
@@ -116,21 +125,36 @@ switch ($method) {
             json_fail(403, 'You can only add drivers to your own depot.');
         }
 
-        run_write($pdo, '
-            INSERT INTO Driver (Driver_ID, Depot_ID, Full_Name, Contact_Information, Emergency_Contact, License_Type, License_Expiry_Date, Employment_Status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ', [
-            $data['driver_id'],
-            $data['depot_id'],
-            $data['full_name'],
-            $data['contact_information'],
-            $data['emergency_contact'],
-            $data['license_type'],
-            $data['license_expiry_date'],
-            $data['employment_status'],
-        ], 'Driver created', 201, [
+        run_multi_write($pdo, function (PDO $pdo) use ($data) {
+            // 1) The operational Driver record (license, employment status, etc.)
+            $stmt = $pdo->prepare('
+                INSERT INTO Driver (Driver_ID, Depot_ID, Full_Name, Contact_Information, Emergency_Contact, License_Type, License_Expiry_Date, Employment_Status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ');
+            $stmt->execute([
+                $data['driver_id'], $data['depot_id'], $data['full_name'], $data['contact_information'],
+                $data['emergency_contact'], $data['license_type'], $data['license_expiry_date'], $data['employment_status'],
+            ]);
+
+            // 2) Their login account (Staff row), linked back via Linked_Driver_ID,
+            //    so their session later knows "this driver's own record is X".
+            $stmt = $pdo->prepare('
+                INSERT INTO Staff (Staff_ID, Full_Name, Role_Type, Depot_ID, Linked_Driver_ID, Contact_Info, Username, Password_Hash)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ');
+            $stmt->execute([
+                $data['login_staff_id'],
+                $data['full_name'],
+                'Driver',
+                $data['depot_id'],
+                $data['driver_id'],
+                $data['contact_information'],
+                $data['login_username'],
+                password_hash($data['login_password'], PASSWORD_DEFAULT),
+            ]);
+        }, 'Driver created with login account', 201, [
             'staff_id' => $staff['staff_id'], 'table' => 'Driver', 'action' => 'CREATE',
-            'summary' => $data['full_name'],
+            'summary' => $data['full_name'] . ' (+ login account ' . $data['login_username'] . ')',
         ]);
         break;
 
