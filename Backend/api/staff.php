@@ -1,26 +1,4 @@
 <?php
-/**
- * Backend/api/staff.php
- * ------------------------------------------------------------------
- *   GET    staff.php                -> list every staff member (no password hash returned)
- *   GET    staff.php?staff_id=XXX   -> one staff member
- *   POST   staff.php                -> create
- *   PUT    staff.php?staff_id=XXX   -> update
- *   DELETE staff.php?staff_id=XXX   -> delete
- *
- * Required fields for POST: staff_id, full_name, role_type, contact_info, username, password
- * depot_id is required UNLESS role_type is 'Head Manager' or 'Inventory Manager'
- * (matches the chk_staff_depot_scope constraint in the DDL)
- *
- * Optional field: linked_driver_id -- set this when role_type = 'Driver'
- * so that account's session knows which Driver row is "their own".
- *
- * The plain "password" field you send is hashed with PHP's password_hash()
- * before being stored - the database never stores or returns plain text.
- *
- * Permissions: read = any of the 5 manager roles. write = Head Manager only.
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';

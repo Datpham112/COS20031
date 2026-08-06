@@ -1,21 +1,4 @@
 <?php
-/**
- * GET /Backend/api/workshop.php
- * ------------------------------------------------------------------
- * Feeds the Workshop Hub page (Vehicles / Alerts / Jobs tabs).
- * Filtering/searching still happens client-side in script.js, so this
- * endpoint simply returns the full current dataset in the exact shape
- * the frontend's `workshopData` object already expects.
- *
- * Response shape:
- * {
- *   "depots":    [{ "id": 1, "name": "Ha Noi" }, ...],
- *   "workshops": [{ "id": 1, "depotId": 1, "name": "Workshop HN-01" }, ...],
- *   "vehicles":  [{ "plate", "vin", "category", "depot", "status", "odometer", "alerts" }, ...],
- *   "alerts":    [{ "title", "vehicle", "severity", "depot", "raised", "action" }, ...],
- *   "jobs":      [{ "job", "vehicle", "workshop", "opened", "closed", "downtime", "cost", "status" }, ...]
- * }
- */
 
 header('Content-Type: application/json; charset=utf-8');
 

@@ -27,9 +27,6 @@
       const allowed = pageRoles.split(",").map((r) => r.trim());
       if (!allowed.includes(me.roleType)) {
         const home = ROLE_HOME[me.roleType] || "dashboard.html";
-        // Guard against redirecting to the page we're already on
-        // (would otherwise be an infinite loop if ROLE_HOME is ever
-        // out of sync with a page's own data-page-roles).
         if (!window.location.pathname.endsWith(home)) {
           window.location.href = home;
         }

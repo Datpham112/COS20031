@@ -1,26 +1,4 @@
 <?php
-/**
- * Backend/api/alert.php
- * ------------------------------------------------------------------
- *   GET    alert.php               -> list alerts (scoped by role)
- *   GET    alert.php?alert_id=XXX  -> one alert
- *   POST   alert.php               -> create
- *   PUT    alert.php?alert_id=XXX  -> update
- *   DELETE alert.php?alert_id=XXX  -> delete
- *
- * Required fields for POST: vin, depot_id, alert_type, action_taken
- * Optional: severity_level (defaults to 'Medium'), raised_at (defaults to now)
- * alert_type must be one of: Brake Wear, Overheating Risk,
- *   Battery Degradation, Engine Fault, Tyre Pressure
- * action_taken must be one of: Acknowledged, Scheduled Repair,
- *   Emergency Repair, Resolved
- * severity_level must be one of: Low, Medium, High, Critical
- *
- * Permissions: Read/Write = Head Manager (all) / Workshop Manager
- * (own depot's alerts only).
- * ------------------------------------------------------------------
- */
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';
 require_once __DIR__ . '/../auth/auth_check.php';

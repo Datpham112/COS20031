@@ -1,29 +1,4 @@
 <?php
-/**
- * Backend/api/driver_certification.php
- * ------------------------------------------------------------------
- *   GET    driver_certification.php                          -> list (scoped by role)
- *   GET    driver_certification.php?cert_key=DR001|Defensive+Driving  -> one record
- *   POST   driver_certification.php                           -> create
- *   PUT    driver_certification.php?cert_key=XXX               -> update (Expiry_Date only)
- *   DELETE driver_certification.php?cert_key=XXX               -> delete
- *
- * Driver_Certification has a composite primary key (Driver_ID,
- * Certification_Name). To keep this consistent with the rest of the
- * Manage Data API (one ID per row), the pair is exposed to the
- * frontend as a single "cert_key" string: "<Driver_ID>|<Certification_Name>".
- *
- * Required fields for POST: driver_id, certification_name, expiry_date
- * Driver_Name is filled in automatically from the Driver table -- it
- * is not accepted from the frontend, so it can never drift out of
- * sync with the actual driver record.
- *
- * Permissions:
- *   Read:  Head Manager (all), Depot Manager (own depot),
- *          Driver Manager (own depot), Driver (own record only)
- *   Write: Driver Manager (own depot only)
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';

@@ -1,25 +1,4 @@
 <?php
-/**
- * Backend/api/vehicle_driver_assignment.php
- * ------------------------------------------------------------------
- *   GET    vehicle_driver_assignment.php                    -> list (scoped by role)
- *   GET    vehicle_driver_assignment.php?assignment_id=XXX  -> one record
- *   POST   vehicle_driver_assignment.php                    -> create
- *   PUT    vehicle_driver_assignment.php?assignment_id=XXX  -> update
- *   DELETE vehicle_driver_assignment.php?assignment_id=XXX  -> delete
- *
- * Required fields for POST: driver_id, vin, start_date
- * (end_date is optional -- leave blank while the assignment is active;
- * Assignment_ID is AUTO_INCREMENT, don't send it)
- *
- * Permissions:
- *   Read:  Head Manager (all), Depot Manager (own depot),
- *          Driver Manager (own depot), Driver (own record only)
- *   Write: Driver Manager (own depot only) -- both the driver and the
- *          vehicle must belong to the manager's own depot.
- * ------------------------------------------------------------------
- */
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';
 require_once __DIR__ . '/../auth/auth_check.php';

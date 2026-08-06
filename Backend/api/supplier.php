@@ -1,17 +1,4 @@
 <?php
-/**
- * Backend/api/supplier.php
- * ------------------------------------------------------------------
- *   GET    supplier.php                  -> list every supplier
- *   GET    supplier.php?supplier_id=XXX  -> one supplier
- *   POST   supplier.php                  -> create
- *   PUT    supplier.php?supplier_id=XXX  -> update
- *   DELETE supplier.php?supplier_id=XXX  -> delete
- *
- * Required fields for POST: supplier_name, phone_number
- * Optional: contact_name, email_address, address, delivery_time
- * ------------------------------------------------------------------
- */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../lib/api_helpers.php';
