@@ -1,23 +1,41 @@
 # 🚚 Fleet Management Database System
 
-When you access the Our Website, you will see the first page which is login, and this is the list of each account adn password for to login.
+## Login Guide
 
---   head.manager        / Password123   (Head Manager, company-wide, read-only, this page see every maintain of the depot, it will show all of data from 4 depot including vehicles and maintain of driver)
+When you open the Fleet Management Database System, the first page displayed is the **Login Page**.
 
---   depot.manager.hn    / Password123   (Depot Manager, Depot 1)
+Use one of the following accounts to access the system based on the user role.
 
---   depot.manager.dn    / Password123   (Depot Manager, Depot 2)
+| Username | Password | Role | Description |
+|----------|----------|------|-------------|
+| **head.manager** | Password123 | Head Manager | Company-wide, read-only access. Can view data from all four depots, including vehicles, drivers, and maintenance records. |
+| **depot.manager.hn** | Password123 | Depot Manager (Depot 1) | Manages vehicles and drivers assigned to Depot 1. |
+| **depot.manager.dn** | Password123 | Depot Manager (Depot 2) | Manages vehicles and drivers assigned to Depot 2. |
+| **depot.manager.hcm** | Password123 | Depot Manager (Depot 3) | Manages vehicles and drivers assigned to Depot 3. |
+| **depot.manager.ct** | Password123 | Depot Manager (Depot 4) | Manages vehicles and drivers assigned to Depot 4. |
+| **workshop.manager.hn** | Password123 | Workshop Manager (Depot 1) | Manages mechanics, maintenance jobs, and workshop operations. Can create, edit, and delete records in the **Manage Data** page. |
+| **driver.manager.dn** | Password123 | Driver Manager (Depot 2) | Manages driver information, assignments, and related records. Can create, edit, and delete records in the **Manage Data** page. |
+| **inventory.manager** | Password123 | Inventory Manager | Company-wide management of parts inventory and stock information. |
+| **mechanic.test** | mechanic123 | Mechanic | Allows mechanics to view their assigned maintenance jobs and personal work information. |
+| **driver.test** | driver123 | Driver | Allows drivers to view their personal information, assigned vehicle, and current safety score. |
 
---   depot.manager.hcm   / Password123   (Depot Manager, Depot 3)
+---
 
---   depot.manager.ct    / Password123   (Depot Manager, Depot 4)
+## Notes
 
---   workshop.manager.hn / Password123   (Workshop Manager, Depot 1, you can you it to control every information of mechanic and maintainment of them, besides that, you can create, edit or delete any information in manage data page)
+- User permissions are restricted based on their assigned role.
+- Managers have access only to the functions relevant to their responsibilities.
+- Drivers and mechanics have read-only access to their own information.
 
---   driver.manager.dn   / Password123   (Driver Manager, Depot 2, you can you it to control every information of driver and maintainment of them, besides that, you can create, edit or delete any information in this page)
 
---   inventory.manager   / Password123   (Inventory Manager, company-wide)
+## How to Run the Project
 
---   mechanic.test       / mechanic123   (Mechanic, Workshop 1, this page is only use for mechanic to check information and their works)
+1. Install XAMPP.
+2. Start Apache and MySQL.
+3. Import the SQL database into phpMyAdmin.
+4. Copy the project folder into the `htdocs` directory.
+5. Open your browser and navigate to:
 
---   driver.test         / driver123     (Driver, this page show the information of driver and see their safety score)
+http://localhost/Fleet_Management/
+
+6. Log in using one of the accounts listed above.
