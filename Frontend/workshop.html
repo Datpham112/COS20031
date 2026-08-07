@@ -215,12 +215,55 @@
     <button class="drawer-close" onclick="closeDrawer()">✕</button>
   </div>
   <div class="drawer-body" id="drawerBody"></div>
-  <div class="drawer-actions">
+  <div class="drawer-actions" id="drawerActions">
     <button class="btn-primary">Schedule repair</button>
     <button class="btn-secondary">View full history</button>
   </div>
 </div>
 
 <script src="assets/script.js"></script>
+<script>
+  setTimeout(() => {
+    const originalRender = window.renderWorkshopPage;
+    
+    window.renderWorkshopPage = function() {
+      try {
+        if (typeof originalRender === 'function') {
+            originalRender();
+        }
+      } catch (error) {
+        console.warn("Đã chặn được 1 lỗi từ file script gốc của nhóm!");
+      }
+      
+      if (typeof workshopData !== 'undefined' && workshopData.jobs) {
+        workshopData.jobs.forEach(job => {
+           if (!job.status || job.status === "null") {
+               job.status = job.closed ? 'Closed' : 'Open';
+           }
+        });
+
+        const jobBody = document.getElementById("jobTableBody");
+        if (jobBody) {
+          jobBody.innerHTML = workshopData.jobs.map((job) => {
+            const chipClass = (job.status === "Open") ? "pill warn" : "pill neutral";
+            return `
+              <tr>
+                <td class="mono">${job.job || ''}</td>
+                <td class="mono">${job.vehicle || ''}</td>
+                <td>${job.workshop || ''}</td>
+                <td class="mono">${job.opened || ''}</td>
+                <td>${job.downtime || '0.00h'}</td>
+                <td>${job.cost || '0 VND'}</td>
+                <td><span class="${chipClass}">${job.status}</span></td>
+              </tr>
+            `;
+          }).join("");
+        }
+      }
+    };
+    
+    window.renderWorkshopPage();
+  }, 500);
+</script>
 </body>
 </html>
